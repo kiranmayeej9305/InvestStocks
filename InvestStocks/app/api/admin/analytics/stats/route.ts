@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     
     // Calculate usage statistics
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const usageCollection = db.collection('usage')
 
     const endDate = new Date()

@@ -34,12 +34,12 @@ export default function PrivacyPolicy() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              Welcome to InvestStocks. We respect your privacy and are committed to protecting your personal data. 
+              Welcome to StokAlert. We respect your privacy and are committed to protecting your personal data. 
               This privacy policy will inform you about how we look after your personal data when you visit our 
               platform and tell you about your privacy rights and how the law protects you.
             </p>
             <p>
-              InvestStocks (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the InvestStocks platform. This page informs you of 
+              StokAlert (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the StokAlert platform. This page informs you of 
               our policies regarding the collection, use, and disclosure of personal data when you use our Service 
               and the choices you have associated with that data.
             </p>
@@ -183,7 +183,7 @@ export default function PrivacyPolicy() {
             <div>
               <h3 className="font-semibold text-foreground mb-2">Business Transfers</h3>
               <p>
-                If InvestStocks is involved in a merger, acquisition, or asset sale, your personal data may be 
+                If StokAlert is involved in a merger, acquisition, or asset sale, your personal data may be 
                 transferred. We will provide notice before your personal data is transferred and becomes subject 
                 to a different privacy policy.
               </p>
@@ -212,8 +212,8 @@ export default function PrivacyPolicy() {
             </ul>
             <p className="pt-2">
               To exercise any of these rights, please contact us at{' '}
-              <a href="mailto:privacy@investstocks.com" className="text-primary hover:underline">
-                privacy@investstocks.com
+              <a href="mailto:privacy@StokAlert.com" className="text-primary hover:underline">
+                privacy@StokAlert.com
               </a>
             </p>
           </CardContent>
@@ -289,14 +289,14 @@ export default function PrivacyPolicy() {
             <div className="space-y-2 pt-2">
               <p>
                 <strong className="text-foreground">Email:</strong>{' '}
-                <a href="mailto:privacy@investstocks.com" className="text-primary hover:underline">
-                  privacy@investstocks.com
+                <a href="mailto:privacy@StokAlert.com" className="text-primary hover:underline">
+                  privacy@StokAlert.com
                 </a>
               </p>
               <p>
                 <strong className="text-foreground">Website:</strong>{' '}
-                <a href="https://investstocks.com" className="text-primary hover:underline">
-                  www.investstocks.com
+                <a href="https://StokAlert.com" className="text-primary hover:underline">
+                  www.StokAlert.com
                 </a>
               </p>
             </div>

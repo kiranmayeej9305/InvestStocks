@@ -9,8 +9,8 @@ export async function generateMetadata() {
         ? new URL(`https://${process.env.VERCEL_URL}`)
         : undefined,
       title: {
-        default: settings.metaTitle || settings.siteName || 'InvestStocks',
-        template: `%s - ${settings.siteName || 'InvestStocks'}`
+        default: settings.metaTitle || settings.siteName || 'StokAlert',
+        template: `%s - ${settings.siteName || 'StokAlert'}`
       },
       description: settings.metaDescription || settings.siteDescription,
       keywords: settings.metaKeywords?.split(',').map(k => k.trim()),
@@ -37,8 +37,8 @@ export async function generateMetadata() {
     // Fallback to defaults
     return {
       title: {
-        default: 'InvestStocks - Smart Investing Made Simple',
-        template: '%s - InvestStocks'
+        default: 'StokAlert - Smart Investing Made Simple',
+        template: '%s - StokAlert'
       },
       description: 'Lightning Fast AI Chatbot that Responds With Live Interactive Stock Charts, Financials, News, Screeners, and More.',
     }

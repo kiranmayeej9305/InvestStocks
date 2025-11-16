@@ -1,6 +1,6 @@
-# InvestStocks Documentation
+# StokAlert Documentation
 
-Welcome to the InvestStocks comprehensive documentation!
+Welcome to the StokAlert comprehensive documentation!
 
 ## Quick Start
 
@@ -69,9 +69,9 @@ You can customize the documentation by:
 
 ## License
 
-This documentation is part of the InvestStocks CodeCanyon product.
+This documentation is part of the StokAlert CodeCanyon product.
 
 ---
 
-Built with ❤️ for InvestStocks
+Built with ❤️ for StokAlert
 

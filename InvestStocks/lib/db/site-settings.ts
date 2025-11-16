@@ -44,13 +44,13 @@ export interface SiteSettings {
 }
 
 const DEFAULT_SETTINGS: Omit<SiteSettings, '_id' | 'createdAt' | 'updatedAt'> = {
-  siteName: 'InvestStocks',
+  siteName: 'StokAlert',
   siteDescription: 'AI-powered stock market analysis and investment platform',
   siteLogo: '',
   siteFavicon: '',
-  contactEmail: 'contact@investstocks.com',
-  supportEmail: 'support@investstocks.com',
-  metaTitle: 'InvestStocks - AI-Powered Stock Market Analysis',
+  contactEmail: 'contact@StokAlert.com',
+  supportEmail: 'support@StokAlert.com',
+  metaTitle: 'StokAlert - AI-Powered Stock Market Analysis',
   metaDescription: 'Get AI-powered stock market analysis, real-time data, and investment insights',
   metaKeywords: 'stocks, investing, stock market, AI analysis, trading',
   ogImage: '',
@@ -68,13 +68,13 @@ const DEFAULT_SETTINGS: Omit<SiteSettings, '_id' | 'createdAt' | 'updatedAt'> = 
   googleTagManagerId: '',
   primaryColor: '#FF4618',
   secondaryColor: '#FF6B35',
-  footerText: '© 2024 InvestStocks. All rights reserved.',
+  footerText: '© 2024 StokAlert. All rights reserved.',
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('site_settings')
     
     let settings = await collection.findOne({})
@@ -107,7 +107,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 export async function updateSiteSettings(updates: Partial<SiteSettings>): Promise<SiteSettings> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('site_settings')
     
     const updateDoc = {

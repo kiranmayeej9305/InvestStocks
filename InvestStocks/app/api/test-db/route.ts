@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     // Test MongoDB connection
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     
     // Test basic database operations
     const collection = db.collection('users')
@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'MongoDB connection successful',
-      database: 'investstocks',
+      database: 'StokAlert',
       userCount,
       timestamp: new Date().toISOString()
     })

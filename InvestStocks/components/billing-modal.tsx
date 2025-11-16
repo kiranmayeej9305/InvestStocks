@@ -165,7 +165,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
         // Refresh user session to get updated plan
         const refreshUserSession = async () => {
           try {
-            const savedUser = localStorage.getItem('investstocks_user')
+            const savedUser = localStorage.getItem('StokAlert_user')
             const emailToRefresh = emailParam || (savedUser ? JSON.parse(savedUser).email : null)
             
             if (emailToRefresh) {
@@ -183,9 +183,9 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                 const updatedUser = result.user
                 
                 // Update localStorage with fresh user data
-                localStorage.setItem('investstocks_user', JSON.stringify(updatedUser))
-                localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
-                localStorage.setItem('investstocks_authenticated', 'true')
+                localStorage.setItem('StokAlert_user', JSON.stringify(updatedUser))
+                localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
+                localStorage.setItem('StokAlert_authenticated', 'true')
                 
                 // Dispatch event to refresh user state in header
                 window.dispatchEvent(new CustomEvent('userPlanUpdated', { 
@@ -204,8 +204,8 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           } catch (error) {
             console.error('Error refreshing user session:', error)
             // Even if refresh fails, ensure authentication flags are set
-            localStorage.setItem('investstocks_authenticated', 'true')
-            localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+            localStorage.setItem('StokAlert_authenticated', 'true')
+            localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
           }
         }
         
@@ -658,7 +658,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
             <div className="grid md:grid-cols-1 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">Questions about billing?</p>
-                <p className="font-medium">Contact: billing@investstocks.com</p>
+                <p className="font-medium">Contact: billing@StokAlert.com</p>
               </div>
             </div>
           </div>

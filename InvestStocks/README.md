@@ -1,4 +1,4 @@
-# InvestStocks - AI-Powered Stock Market Investment Platform
+# StokAlert - AI-Powered Stock Market Investment Platform
 
 A comprehensive, production-ready stock market investment platform with AI assistance, real-time data, portfolio management, and complete admin panel.
 

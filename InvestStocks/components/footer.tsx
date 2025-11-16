@@ -17,7 +17,7 @@ export function FooterText({ className, ...props }: React.ComponentProps<'p'>) {
           {/* Site Info */}
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-4">
-              {settings?.siteName || 'InvestStocks'}
+              {settings?.siteName || 'StokAlert'}
             </h3>
             <p className="text-sm text-muted-foreground">
               {settings?.siteDescription || 'AI-powered stock market analysis and investment platform'}

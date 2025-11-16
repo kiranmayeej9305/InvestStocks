@@ -1,5 +1,5 @@
 {
-  "name": "investstocks",
+  "name": "StokAlert",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",

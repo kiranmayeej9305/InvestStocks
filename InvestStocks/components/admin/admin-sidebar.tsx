@@ -97,7 +97,7 @@ export function AdminSidebar() {
               </div>
               <div className="ml-3">
                 <span className="text-xl font-bold text-foreground block">Admin Panel</span>
-                <span className="text-xs text-muted-foreground">InvestStocks</span>
+                <span className="text-xs text-muted-foreground">StokAlert</span>
               </div>
             </div>
           </div>

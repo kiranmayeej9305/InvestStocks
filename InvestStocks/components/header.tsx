@@ -21,7 +21,7 @@ import { BillingModal } from '@/components/billing-modal'
 
 function UserOrLogin() {
   const settings = useSiteSettings()
-  const siteName = settings?.siteName || 'InvestStocks'
+  const siteName = settings?.siteName || 'StokAlert'
   const siteLogo = settings?.siteLogo
   const primaryColor = settings?.primaryColor || '#ff4618'
 
@@ -82,7 +82,7 @@ export function Header() {
     const handleUserPlanUpdate = (event: CustomEvent) => {
       if (event.detail?.user) {
         setUser(event.detail.user)
-        localStorage.setItem('investstocks_user', JSON.stringify(event.detail.user))
+        localStorage.setItem('StokAlert_user', JSON.stringify(event.detail.user))
       }
     }
 
@@ -100,16 +100,16 @@ export function Header() {
           setUser(data.user)
           setIsAuthenticated(true)
           // Update localStorage with current user data
-          localStorage.setItem('investstocks_user', JSON.stringify(data.user))
-          localStorage.setItem('investstocks_authenticated', 'true')
-          localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+          localStorage.setItem('StokAlert_user', JSON.stringify(data.user))
+          localStorage.setItem('StokAlert_authenticated', 'true')
+          localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
           return
         }
 
         // Fallback: check localStorage for backwards compatibility
-        const savedUser = localStorage.getItem('investstocks_user')
-        const savedAuth = localStorage.getItem('investstocks_authenticated')
-        const sessionTimestamp = localStorage.getItem('investstocks_session_timestamp')
+        const savedUser = localStorage.getItem('StokAlert_user')
+        const savedAuth = localStorage.getItem('StokAlert_authenticated')
+        const sessionTimestamp = localStorage.getItem('StokAlert_session_timestamp')
         
         const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
         const isSessionExpired = sessionTimestamp ? 
@@ -150,23 +150,23 @@ export function Header() {
               console.log('Session validated and restored from localStorage:', validateData.user)
             } else {
               console.log('Session validation failed, clearing localStorage')
-              localStorage.removeItem('investstocks_user')
-              localStorage.removeItem('investstocks_authenticated')
-              localStorage.removeItem('investstocks_session_timestamp')
+              localStorage.removeItem('StokAlert_user')
+              localStorage.removeItem('StokAlert_authenticated')
+              localStorage.removeItem('StokAlert_session_timestamp')
               setIsAuthenticated(false)
             }
           } catch (error) {
             console.error('Error parsing localStorage data:', error)
-            localStorage.removeItem('investstocks_user')
-            localStorage.removeItem('investstocks_authenticated')
-            localStorage.removeItem('investstocks_session_timestamp')
+            localStorage.removeItem('StokAlert_user')
+            localStorage.removeItem('StokAlert_authenticated')
+            localStorage.removeItem('StokAlert_session_timestamp')
           }
         } else if (isSessionExpired) {
           // Clear expired session
           console.log('Session expired, clearing session')
-          localStorage.removeItem('investstocks_user')
-          localStorage.removeItem('investstocks_authenticated')
-          localStorage.removeItem('investstocks_session_timestamp')
+          localStorage.removeItem('StokAlert_user')
+          localStorage.removeItem('StokAlert_authenticated')
+          localStorage.removeItem('StokAlert_session_timestamp')
         }
       } catch (error) {
         console.error('Auth status check error:', error)
@@ -210,9 +210,9 @@ export function Header() {
     setUser(userInfo)
     
     // Save user session to localStorage with timestamp
-    localStorage.setItem('investstocks_user', JSON.stringify(userInfo))
-    localStorage.setItem('investstocks_authenticated', 'true')
-    localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+    localStorage.setItem('StokAlert_user', JSON.stringify(userInfo))
+    localStorage.setItem('StokAlert_authenticated', 'true')
+    localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
     
     setAuthModalOpen(false)
   }
@@ -240,15 +240,15 @@ export function Header() {
     })
     
     // Clear user session from localStorage
-    localStorage.removeItem('investstocks_user')
-    localStorage.removeItem('investstocks_authenticated')
-    localStorage.removeItem('investstocks_session_timestamp')
+    localStorage.removeItem('StokAlert_user')
+    localStorage.removeItem('StokAlert_authenticated')
+    localStorage.removeItem('StokAlert_session_timestamp')
   }
 
   const handleOpenProfile = () => {
     // Refresh session timestamp when user is active
     if (isAuthenticated) {
-      localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+      localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
     }
     setProfileModalOpen(true)
   }
@@ -257,8 +257,8 @@ export function Header() {
     setUser(userData)
     
     // Update user session in localStorage and refresh timestamp
-    localStorage.setItem('investstocks_user', JSON.stringify(userData))
-    localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+    localStorage.setItem('StokAlert_user', JSON.stringify(userData))
+    localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
     
     setProfileModalOpen(false)
   }

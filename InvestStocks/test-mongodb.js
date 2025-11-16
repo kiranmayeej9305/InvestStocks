@@ -24,7 +24,7 @@ async function testMongoDBConnection() {
     console.log('✅ Successfully connected to MongoDB!');
 
     console.log('\n📊 Testing database operations:');
-    const db = client.db('investstocks');
+    const db = client.db('StokAlert');
     
     // List collections
     const collections = await db.listCollections().toArray();

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Privacy Policy | InvestStocks',
-  description: 'Learn how InvestStocks collects, uses, and protects your personal data.',
+  title: 'Privacy Policy | StokAlert',
+  description: 'Learn how StokAlert collects, uses, and protects your personal data.',
 }
 
 export default function PrivacyLayout({

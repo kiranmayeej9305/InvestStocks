@@ -24,7 +24,7 @@ export interface DailyUsage {
 export async function getUserUsage(email: string, date: string): Promise<DailyUsage> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('usage')
     
     const usageRecords = await collection.find({ 
@@ -85,7 +85,7 @@ export async function incrementUsage(
 ): Promise<boolean> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('usage')
     
     const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
@@ -124,7 +124,7 @@ export async function incrementUsage(
 export async function resetDailyUsage(email: string): Promise<boolean> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('usage')
     
     const today = new Date().toISOString().split('T')[0]
@@ -147,7 +147,7 @@ export async function getUserUsageHistory(
 ): Promise<UsageRecord[]> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('usage')
     
     const endDate = new Date()

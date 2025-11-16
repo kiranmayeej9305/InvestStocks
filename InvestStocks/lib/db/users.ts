@@ -23,7 +23,7 @@ export interface User {
 export async function findUserByEmail(email: string): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     const user = await collection.findOne({ email: email.toLowerCase() })
@@ -37,7 +37,7 @@ export async function findUserByEmail(email: string): Promise<User | null> {
 export async function findUserById(userId: string): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     const user = await collection.findOne({ _id: new ObjectId(userId) })
@@ -51,7 +51,7 @@ export async function findUserById(userId: string): Promise<User | null> {
 export async function createUser(userData: Omit<User, '_id' | 'createdAt' | 'updatedAt'>): Promise<User> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     const now = new Date().toISOString()
@@ -73,7 +73,7 @@ export async function createUser(userData: Omit<User, '_id' | 'createdAt' | 'upd
 export async function updateUser(userId: string, updateData: Partial<User>): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     console.log(`[DB updateUser] Updating user ${userId} with data:`, updateData)
@@ -168,7 +168,7 @@ export async function updateUser(userId: string, updateData: Partial<User>): Pro
 export async function updateUserPlan(userId: string, plan: 'free' | 'pro' | 'enterprise'): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     const result = await collection.findOneAndUpdate(
@@ -192,7 +192,7 @@ export async function updateUserPlan(userId: string, plan: 'free' | 'pro' | 'ent
 export async function deleteUser(userId: string): Promise<boolean> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     const result = await collection.deleteOne({ _id: new ObjectId(userId) })
@@ -206,7 +206,7 @@ export async function deleteUser(userId: string): Promise<boolean> {
 export async function getAllUsers(): Promise<User[]> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     console.log('[DB] Connecting to MongoDB and fetching users...')
@@ -224,7 +224,7 @@ export async function getAllUsers(): Promise<User[]> {
 export async function updateUserPassword(userId: string, newPassword: string): Promise<boolean> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+    const db = client.db('StokAlert')
     const collection = db.collection('users')
     
     if (!ObjectId.isValid(userId)) {
