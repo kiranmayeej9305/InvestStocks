@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ChartCandlestick, TrendingDown } from 'lucide-react'
-import { MdAttachMoney, MdShowChart, MdPeople, MdShoppingCart, MdChartCandlestick } from 'react-icons/md'
+import { MdAttachMoney, MdShowChart, MdPeople, MdShoppingCart } from 'react-icons/md'
 import { RiLineChartLine } from 'react-icons/ri'
 
 interface StatsCardProps {
@@ -49,7 +49,7 @@ export function StatsCard({
       case 'cart':
         return <MdShoppingCart className="w-6 h-6" />
       case 'trend':
-        return <MdChartCandlestick className="w-6 h-6" />
+        return <ChartCandlestick className="w-6 h-6" />
       default:
         return <MdShowChart className="w-6 h-6" />
     }
