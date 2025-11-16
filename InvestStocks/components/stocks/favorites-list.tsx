@@ -65,16 +65,16 @@ export function FavoritesList({ stocks, title = 'My Favorite', onStockClick, sel
 
             <div className="text-right flex-shrink-0">
               <p className="font-semibold text-foreground">
-                ${stock.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ${(stock.price ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </p>
               <Badge 
                 className={`text-xs ${
-                  stock.change >= 0 
+                  (stock.change ?? 0) >= 0 
                     ? 'bg-success/10 text-success border-success/20' 
                     : 'bg-destructive/10 text-destructive border-destructive/20'
                 }`}
               >
-                {stock.change >= 0 ? '+' : ''}{typeof stock.changePercent === 'number' ? stock.changePercent.toFixed(2) : parseFloat(stock.changePercent || '0').toFixed(2)}%
+                {(stock.change ?? 0) >= 0 ? '+' : ''}{((typeof stock.changePercent === 'number' ? stock.changePercent : parseFloat(stock.changePercent || '0')) ?? 0).toFixed(2)}%
               </Badge>
             </div>
           </div>

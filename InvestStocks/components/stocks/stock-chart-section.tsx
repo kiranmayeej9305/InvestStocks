@@ -109,7 +109,7 @@ export function StockChartSection({
               {/* Price and Change */}
               <div className="mt-3 flex items-end gap-4 flex-wrap">
                 <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                  ${currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ${(currentPrice ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </div>
                 <div className="flex items-center gap-2 mb-1">
                   {isPositive ? (
@@ -118,7 +118,7 @@ export function StockChartSection({
                     <TrendingDown className="w-5 h-5 text-red-500" />
                   )}
                   <span className={`text-lg font-semibold ${isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
-                    {isPositive ? '+' : ''}{change.toFixed(2)} ({isPositive ? '+' : ''}{changePercent.toFixed(2)}%)
+                    {isPositive ? '+' : ''}{(change ?? 0).toFixed(2)} ({isPositive ? '+' : ''}{(changePercent ?? 0).toFixed(2)}%)
                   </span>
                 </div>
               </div>

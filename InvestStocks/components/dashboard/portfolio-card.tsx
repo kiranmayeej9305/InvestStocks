@@ -101,7 +101,7 @@ export function PortfolioCard({
               {formatCurrency(totalReturn)}
             </p>
             <p className={`text-xs sm:text-sm ${getTrendColor()}`}>
-              {returnPercentage > 0 ? '+' : ''}{returnPercentage.toFixed(2)}%
+              {(returnPercentage ?? 0) > 0 ? '+' : ''}{(returnPercentage ?? 0).toFixed(2)}%
             </p>
           </div>
         </div>

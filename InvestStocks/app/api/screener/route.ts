@@ -51,6 +51,10 @@ export async function POST(request: NextRequest) {
       limit
     })
 
+    if (!Array.isArray(realStocks)) {
+      return realStocks // Return error response if getRealStockData returned an error
+    }
+
     return NextResponse.json({
       stocks: realStocks,
       count: realStocks.length,

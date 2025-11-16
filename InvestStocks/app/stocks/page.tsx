@@ -313,14 +313,14 @@ function StockMarketContent() {
                               </td>
                               <td className="py-4 px-4 text-right">
                                 <p className={`font-medium ${isPositive ? 'text-success' : 'text-destructive'}`}>
-                                  {price > 0 ? `${isPositive ? '+' : ''}${change.toFixed(2)}` : '-'}
+                                  {price > 0 ? `${isPositive ? '+' : ''}${(change ?? 0).toFixed(2)}` : '-'}
                                 </p>
                               </td>
                               <td className="py-4 px-4 text-right">
                                 <p className={`font-medium flex items-center justify-end gap-1 ${isPositive ? 'text-success' : 'text-destructive'}`}>
                                   {price > 0 ? (
                                     <>
-                                      {isPositive ? '+' : ''}{changePercent.toFixed(2)}%
+                                      {isPositive ? '+' : ''}{(changePercent ?? 0).toFixed(2)}%
                                       <span className="text-xs">{isPositive ? '▲' : '▼'}</span>
                                     </>
                                   ) : '-'}
@@ -482,7 +482,7 @@ function StockMarketContent() {
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-foreground truncate">{symbol}</p>
                           <p className="text-xs text-muted-foreground">
-                            {quote?.currentPrice ? `$${quote.currentPrice.toFixed(2)}` : 'Loading...'}
+                            {quote?.currentPrice ? `$${(quote.currentPrice ?? 0).toFixed(2)}` : 'Loading...'}
                           </p>
           </div>
         </div>

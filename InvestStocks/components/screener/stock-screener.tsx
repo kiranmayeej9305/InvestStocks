@@ -117,7 +117,8 @@ export function StockScreener() {
     runScreener()
   }, [runScreener])
 
-  const formatMarketCap = (marketCap: number) => {
+  const formatMarketCap = (marketCap: number | undefined) => {
+    if (!marketCap || marketCap <= 0) return '$0'
     if (marketCap >= 1e12) {
       return `$${(marketCap / 1e12).toFixed(2)}T`
     } else if (marketCap >= 1e9) {
@@ -129,7 +130,8 @@ export function StockScreener() {
     }
   }
 
-  const formatVolume = (volume: number) => {
+  const formatVolume = (volume: number | undefined) => {
+    if (!volume || volume <= 0) return '0'
     if (volume >= 1e6) {
       return `${(volume / 1e6).toFixed(2)}M`
     } else if (volume >= 1e3) {

@@ -230,7 +230,7 @@ export function AlertDashboard() {
                       <div className="flex-1">
                         <p className="font-medium">{log.alertType.replace(/_/g, ' ')}</p>
                         <p className="text-muted-foreground">
-                          ${log.actualValue.toFixed(2)} • {new Date(log.triggeredAt).toLocaleTimeString()}
+                          ${(log.actualValue ?? 0).toFixed(2)} • {new Date(log.triggeredAt).toLocaleTimeString()}
                         </p>
                       </div>
                     </div>
