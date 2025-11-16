@@ -25,10 +25,10 @@ interface Plan {
 
 const plans: Plan[] = [
   {
-    name: 'Starter',
-    price: '$0',
-    period: '/month',
-    description: 'Perfect for individual investors',
+    name: 'Explorer',
+    price: 'Free',
+    period: ' forever',
+    description: 'Perfect for market curious',
     planType: 'free',
     features: [
       '5 AI conversations per day',
@@ -40,10 +40,10 @@ const plans: Plan[] = [
     popular: false,
   },
   {
-    name: 'Investor',
-    price: '$19',
+    name: 'Alpha Hunter',
+    price: '$4.99',
     period: '/month',
-    description: 'For active investors and traders',
+    description: 'For profit-focused traders',
     planType: 'pro',
     features: [
       'Unlimited AI conversations',
@@ -57,13 +57,13 @@ const plans: Plan[] = [
     popular: true,
   },
   {
-    name: 'Professional',
-    price: '$49',
+    name: 'Market Master',
+    price: '$9.99',
     period: '/month',
-    description: 'For financial professionals',
+    description: 'For wealth builders',
     planType: 'enterprise',
     features: [
-      'Everything in Investor',
+      'Everything in Alpha Hunter',
       'Unlimited symbol comparisons',
       'Advanced analytics',
       'Custom integrations',
@@ -202,7 +202,7 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
                     onClick={() => handleSelectPlan(plan.planType, plan.name)}
                     disabled={loading !== null}
                   >
-                    {loading === plan.planType ? 'Processing...' : (plan.name === 'Starter' ? 'Current Plan' : 'Upgrade Now')}
+                    {loading === plan.planType ? 'Processing...' : (plan.name === 'Explorer' ? 'Current Plan' : 'Upgrade Now')}
                   </Button>
                 </CardContent>
               </Card>
