@@ -64,7 +64,7 @@ export async function validateUsageLimit(
     return {
       allowed: false,
       reason: `You've reached your daily limit for ${feature}`,
-      upgradeMessage: limit.limit === -1 ? '' : `Upgrade to Pro for unlimited ${feature}`
+      upgradeMessage: limit.limit === -1 ? '' : `Upgrade to Alpha Hunter for unlimited ${feature}`
     };
   }
 

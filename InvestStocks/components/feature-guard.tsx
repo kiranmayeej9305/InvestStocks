@@ -93,7 +93,7 @@ export function FeatureGuard({
           onClick={onUpgrade}
           className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
         >
-          Upgrade to Pro - $19/month
+          Upgrade to Alpha Hunter - $4.99/month
         </Button>
 
         <p className="text-xs text-slate-500">
