@@ -36,10 +36,10 @@ interface BillingModalProps {
 const plans = [
   {
     id: 'free',
-    name: 'Starter',
-    price: '$0',
-    period: '/month',
-    description: 'Perfect for individual investors and students',
+    name: 'Explorer',
+    price: 'Free',
+    period: ' forever',
+    description: 'Perfect for market curious',
     features: [
       '5 AI conversations per day',
       'Basic stock charts (1 symbol)',
@@ -64,10 +64,10 @@ const plans = [
   },
   {
     id: 'pro',
-    name: 'Investor',
-    price: '$19',
+    name: 'Alpha Hunter',
+    price: '$4.99',
     period: '/month',
-    description: 'For active investors and day traders',
+    description: 'For profit-focused traders',
     features: [
       'Unlimited AI conversations',
       'Advanced stock charts (5 symbols)',
@@ -84,15 +84,15 @@ const plans = [
     ],
     limitations: [],
     popular: true,
-    cta: 'Upgrade to Pro',
+    cta: 'Start Trial',
     disabled: false
   },
   {
     id: 'enterprise',
-    name: 'Professional',
-    price: '$49',
+    name: 'Market Master',
+    price: '$9.99',
     period: '/month',
-    description: 'For financial institutions and professionals',
+    description: 'For wealth builders',
     features: [
       'Everything in Pro Plan',
       'Unlimited symbol comparisons',
@@ -104,7 +104,7 @@ const plans = [
     ],
     limitations: [],
     popular: false,
-    cta: 'Upgrade to Enterprise',
+    cta: 'Start Trial',
     disabled: false
   }
 ]
@@ -440,9 +440,9 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                       <div>
                         <p className="font-medium">Plan</p>
                         <p className="text-sm text-muted-foreground">
-                          {userPlan === 'free' ? 'Starter (Free)' : 
-                           userPlan === 'pro' ? 'Investor Pro' : 
-                           userPlan === 'enterprise' ? 'Professional Enterprise' : 'Unknown Plan'}
+                          {userPlan === 'free' ? 'Explorer (Free)' : 
+                           userPlan === 'pro' ? 'Alpha Hunter Pro' : 
+                           userPlan === 'enterprise' ? 'Market Master Elite' : 'Unknown Plan'}
                         </p>
                       </div>
                       <Badge variant={userPlan === 'free' ? 'secondary' : 'default'} className="capitalize">
@@ -479,9 +479,9 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                   <div>
                     <h3 className="font-semibold">Current Plan</h3>
                     <p className="text-sm text-muted-foreground">
-                      {userPlan === 'free' ? 'Starter (Free)' : 
-                       userPlan === 'pro' ? 'Investor Pro - $19/month' : 
-                       userPlan === 'enterprise' ? 'Professional Enterprise - $49/month' : 
+                      {userPlan === 'free' ? 'Explorer (Free)' : 
+                       userPlan === 'pro' ? 'Alpha Hunter Pro - $4.99/month' : 
+                       userPlan === 'enterprise' ? 'Market Master Elite - $9.99/month' : 
                        'Unknown Plan'}
                     </p>
                   </div>
