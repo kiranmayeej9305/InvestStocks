@@ -41,7 +41,8 @@ yarn-error.*
 # Backup environment files
 .env.backup
 .env.old
-
+seed.mjs
+make-admin.mjs
 # typescript
 *.tsbuildinfo
 __MACOSX/
