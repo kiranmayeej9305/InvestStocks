@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -36,11 +36,7 @@ export function EarningsCalendar() {
   const [searchSymbol, setSearchSymbol] = useState('')
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
 
-  useEffect(() => {
-    loadEarnings()
-  }, [selectedDate])
-
-  const loadEarnings = async () => {
+  const loadEarnings = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
@@ -69,7 +65,11 @@ export function EarningsCalendar() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedDate])
+
+  useEffect(() => {
+    loadEarnings()
+  }, [loadEarnings])
 
   const filteredEarnings = earnings.filter(earning =>
     !searchSymbol || earning.symbol.toLowerCase().includes(searchSymbol.toLowerCase()) ||

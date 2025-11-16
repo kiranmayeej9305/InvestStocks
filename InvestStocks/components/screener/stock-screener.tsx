@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -80,7 +80,7 @@ export function StockScreener() {
   const [sortBy, setSortBy] = useState('marketCap')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
-  const runScreener = async () => {
+  const runScreener = useCallback(async () => {
     try {
       setLoading(true)
       
@@ -110,12 +110,12 @@ export function StockScreener() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [filters, sortBy, sortOrder])
 
   useEffect(() => {
     // Run initial screen with default filters
     runScreener()
-  }, [])
+  }, [runScreener])
 
   const formatMarketCap = (marketCap: number) => {
     if (marketCap >= 1e12) {
