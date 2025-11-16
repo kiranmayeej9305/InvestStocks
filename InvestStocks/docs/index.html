@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="InvestStocks - Complete Documentation for AI-Powered Stock Market Platform">
+    <meta name="author" content="InvestStocks">
+    <title>InvestStocks - Documentation</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>InvestStocks</span>
+            </div>
+            <button class="close-btn" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search documentation...">
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="#introduction" class="active"><i class="fas fa-home"></i> Introduction</a></li>
+            <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+            <li><a href="#requirements"><i class="fas fa-clipboard-check"></i> Requirements</a></li>
+            <li><a href="#installation"><i class="fas fa-download"></i> Installation</a></li>
+            <li><a href="#configuration"><i class="fas fa-cog"></i> Configuration</a></li>
+            <li><a href="#database"><i class="fas fa-database"></i> Database Setup</a></li>
+            <li><a href="#api-keys"><i class="fas fa-key"></i> API Keys</a></li>
+            <li><a href="#stripe"><i class="fas fa-credit-card"></i> Stripe Setup</a></li>
+            <li><a href="#admin-panel"><i class="fas fa-shield-alt"></i> Admin Panel</a></li>
+            <li><a href="#deployment"><i class="fas fa-rocket"></i> Deployment</a></li>
+            <li><a href="#usage"><i class="fas fa-book-open"></i> Usage Guide</a></li>
+            <li><a href="#customization"><i class="fas fa-palette"></i> Customization</a></li>
+            <li><a href="#troubleshooting"><i class="fas fa-wrench"></i> Troubleshooting</a></li>
+            <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            <li><a href="#support"><i class="fas fa-life-ring"></i> Support</a></li>
+            <li><a href="#credits"><i class="fas fa-heart"></i> Credits</a></li>
+            <li><a href="#changelog"><i class="fas fa-history"></i> Changelog</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="version-info">
+                <span class="version">v1.1.0</span>
+                <span class="date">Last Updated: October 31, 2025</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-right">
+                <a href="https://github.com" target="_blank" class="btn btn-outline">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content Container -->
+        <div class="content-container">
+            <!-- Introduction Section -->
+            <section id="introduction" class="doc-section">
+                <div class="section-header">
+                    <h1 class="gradient-text">Welcome to InvestStocks</h1>
+                    <p class="lead">AI-Powered Stock Market Investment Platform with Real-Time Data & Analytics</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2><i class="fas fa-info-circle"></i> What is InvestStocks?</h2>
+                        <p>InvestStocks is a comprehensive, modern stock market platform built with <strong>Next.js 14</strong>, <strong>React</strong>, and <strong>TypeScript</strong>. It combines AI-powered chat assistance with real-time market data to help investors make informed decisions.</p>
+                        
+                        <div class="info-box info">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>Perfect For:</strong> Developers looking to launch their own stock market platform, fintech startups, or investment communities.
+                            </div>
+                        </div>
+
+                        <h3>Key Highlights</h3>
+                        <div class="highlight-grid">
+                            <div class="highlight-item">
+                                <i class="fas fa-bolt"></i>
+                                <h4>Lightning Fast</h4>
+                                <p>Built on Next.js 14 with Turbo for blazing performance</p>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-robot"></i>
+                                <h4>AI-Powered</h4>
+                                <p>Groq LLaMA 3 integration for intelligent chat</p>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <h4>Real-Time Data</h4>
+                                <p>Live market data from Finnhub & Alpha Vantage</p>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-credit-card"></i>
+                                <h4>Monetization Ready</h4>
+                                <p>Complete Stripe integration with 3 pricing tiers</p>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <h4>Admin Panel</h4>
+                                <p>Complete admin management system included</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="doc-section">
+                <h1><i class="fas fa-star"></i> Features</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Complete Feature Set</h2>
+                        
+                        <div class="feature-category">
+                            <h3><i class="fas fa-comments"></i> AI Chat Features</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> AI-powered chat assistant using Groq LLaMA 3 70B model</li>
+                                <li><i class="fas fa-check"></i> Context-aware responses with live data integration</li>
+                                <li><i class="fas fa-check"></i> Natural language processing for stock queries</li>
+                                <li><i class="fas fa-check"></i> Usage limits based on subscription plans</li>
+                                <li><i class="fas fa-check"></i> Chat history and session management</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-chart-line"></i> Market Data & Analytics</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Real-time stock quotes from Finnhub API</li>
+                                <li><i class="fas fa-check"></i> Interactive TradingView charts with 15+ indicators</li>
+                                <li><i class="fas fa-check"></i> Stock screener with advanced filters</li>
+                                <li><i class="fas fa-check"></i> Market heatmaps (Stocks & ETFs)</li>
+                                <li><i class="fas fa-check"></i> Market overview with major indices</li>
+                                <li><i class="fas fa-check"></i> Trending stocks (Gainers, Losers, Active)</li>
+                                <li><i class="fas fa-check"></i> Stock sentiment analysis from Alpha Vantage</li>
+                                <li><i class="fas fa-check"></i> Fear & Greed Index integration</li>
+                                <li><i class="fas fa-check"></i> Company financial metrics & ratios</li>
+                                <li><i class="fas fa-check"></i> Stock news and events</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-briefcase"></i> Portfolio Management</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Create and manage multiple portfolios</li>
+                                <li><i class="fas fa-check"></i> Real-time portfolio value tracking</li>
+                                <li><i class="fas fa-check"></i> Gain/Loss calculations</li>
+                                <li><i class="fas fa-check"></i> Performance charts and analytics</li>
+                                <li><i class="fas fa-check"></i> Watchlist functionality</li>
+                                <li><i class="fas fa-check"></i> Transaction history</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-user-shield"></i> Authentication & User Management</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> JWT-based authentication</li>
+                                <li><i class="fas fa-check"></i> Secure password hashing with bcrypt</li>
+                                <li><i class="fas fa-check"></i> User profile management</li>
+                                <li><i class="fas fa-check"></i> Session management with cookies</li>
+                                <li><i class="fas fa-check"></i> Protected routes and API endpoints</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-dollar-sign"></i> Monetization</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Stripe payment integration</li>
+                                <li><i class="fas fa-check"></i> Three pricing tiers (Starter, Investor, Professional)</li>
+                                <li><i class="fas fa-check"></i> Subscription management</li>
+                                <li><i class="fas fa-check"></i> Usage tracking and limits</li>
+                                <li><i class="fas fa-check"></i> Webhook handling for payment events</li>
+                                <li><i class="fas fa-check"></i> Billing portal integration</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-mobile-alt"></i> UI/UX Features</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Modern glass morphism design</li>
+                                <li><i class="fas fa-check"></i> Dark/Light theme support</li>
+                                <li><i class="fas fa-check"></i> Fully responsive (Mobile, Tablet, Desktop)</li>
+                                <li><i class="fas fa-check"></i> Loading animations with Lottie</li>
+                                <li><i class="fas fa-check"></i> Toast notifications with Sonner</li>
+                                <li><i class="fas fa-check"></i> Beautiful gradient effects</li>
+                                <li><i class="fas fa-check"></i> Stock logo integration with fallbacks</li>
+                                <li><i class="fas fa-check"></i> Smooth animations with Framer Motion</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-shield-alt"></i> Admin Panel System</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Complete admin dashboard with overview statistics</li>
+                                <li><i class="fas fa-check"></i> User management (view, edit, delete, suspend)</li>
+                                <li><i class="fas fa-check"></i> Subscription management (change plans, update subscriptions)</li>
+                                <li><i class="fas fa-check"></i> Plan management (configure limits, pricing, features)</li>
+                                <li><i class="fas fa-check"></i> Site settings (branding, SEO, maintenance mode, registration control)</li>
+                                <li><i class="fas fa-check"></i> Analytics dashboard (usage statistics, user trends)</li>
+                                <li><i class="fas fa-check"></i> Audit logs (complete action history with before/after changes)</li>
+                                <li><i class="fas fa-check"></i> API key management (view and monitor API keys)</li>
+                                <li><i class="fas fa-check"></i> Read-only demo mode (perfect for CodeCanyon demos)</li>
+                                <li><i class="fas fa-check"></i> Role-based access control</li>
+                                <li><i class="fas fa-check"></i> Maintenance mode with admin bypass</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Requirements Section -->
+            <section id="requirements" class="doc-section">
+                <h1><i class="fas fa-clipboard-check"></i> Requirements</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>System Requirements</h2>
+                        
+                        <div class="requirements-grid">
+                            <div class="req-item">
+                                <i class="fab fa-node-js"></i>
+                                <h4>Node.js</h4>
+                                <p>Version 18.0 or higher</p>
+                            </div>
+                            <div class="req-item">
+                                <i class="fas fa-box"></i>
+                                <h4>Package Manager</h4>
+                                <p>npm, pnpm, or yarn</p>
+                            </div>
+                            <div class="req-item">
+                                <i class="fas fa-database"></i>
+                                <h4>MongoDB</h4>
+                                <p>Version 4.4 or higher</p>
+                            </div>
+                            <div class="req-item">
+                                <i class="fas fa-code"></i>
+                                <h4>Text Editor</h4>
+                                <p>VS Code (recommended)</p>
+                            </div>
+                        </div>
+
+                        <h3>Required API Keys (All Free Tiers Available)</h3>
+                        <div class="api-requirements">
+                            <div class="api-item">
+                                <i class="fas fa-robot"></i>
+                                <div>
+                                    <h4>Groq API</h4>
+                                    <p>For AI chat functionality</p>
+                                    <a href="https://console.groq.com/keys" target="_blank" class="link">Get API Key <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                            <div class="api-item">
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <h4>Finnhub API</h4>
+                                    <p>For real-time stock data</p>
+                                    <a href="https://finnhub.io/register" target="_blank" class="link">Get API Key <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                            <div class="api-item">
+                                <i class="fas fa-newspaper"></i>
+                                <div>
+                                    <h4>Alpha Vantage API</h4>
+                                    <p>For sentiment & news data</p>
+                                    <a href="https://www.alphavantage.co/support/#api-key" target="_blank" class="link">Get API Key <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                            <div class="api-item">
+                                <i class="fas fa-credit-card"></i>
+                                <div>
+                                    <h4>Stripe</h4>
+                                    <p>For payment processing</p>
+                                    <a href="https://dashboard.stripe.com/apikeys" target="_blank" class="link">Get API Keys <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installation Section -->
+            <section id="installation" class="doc-section">
+                <h1><i class="fas fa-download"></i> Installation</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Step-by-Step Installation Guide</h2>
+
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Extract the Files</h3>
+                                <p>Extract the downloaded ZIP file to your desired location.</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>unzip investstocks.zip
+cd investstocks</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Install Dependencies</h3>
+                                <p>Install all required npm packages using your preferred package manager.</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code># Using npm
+npm install
+
+# Using pnpm (recommended for faster installation)
+pnpm install
+
+# Using yarn
+yarn install</code></pre>
+                                </div>
+                                <div class="info-box tip">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div>
+                                        <strong>Tip:</strong> We recommend using <code>pnpm</code> for faster installation and better disk space efficiency.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Configure Environment Variables</h3>
+                                <p>Copy the example environment file and configure your settings.</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>cp .env.example .env.local</code></pre>
+                                </div>
+                                <p>Then edit <code>.env.local</code> with your actual values. See the <a href="#configuration">Configuration</a> section for details.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Run Development Server</h3>
+                                <p>Start the development server to test your installation.</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code># Using npm
+npm run dev
+
+# Using pnpm
+pnpm dev
+
+# Using yarn
+yarn dev</code></pre>
+                                </div>
+                                <p>Open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> in your browser to see the application.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3>Set Up Admin Access (Optional)</h3>
+                                <p>To access the admin panel, grant admin access to a user account:</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>node scripts/make-admin.mjs your-email@example.com</code></pre>
+                                </div>
+                                <p>Then log out and log back in with that account. Navigate to <code>/admin</code> to access the admin panel.</p>
+                                <div class="info-box info">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div>
+                                        <strong>See Admin Panel section:</strong> For detailed admin panel setup instructions, see the <a href="#admin-panel">Admin Panel</a> section below.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box success">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Success!</strong> If you see the InvestStocks landing page, your installation is complete. Continue to the Configuration section to set up your API keys.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Configuration Section -->
+            <section id="configuration" class="doc-section">
+                <h1><i class="fas fa-cog"></i> Configuration</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Environment Variables Configuration</h2>
+                        <p>All configuration is done through environment variables in the <code>.env.local</code> file.</p>
+
+                        <div class="config-category">
+                            <h3><i class="fas fa-robot"></i> Groq API Configuration</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>.env.local</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code># Get your free API key from: https://console.groq.com/keys
+GROQ_API_KEY=gsk_your_groq_api_key_here</code></pre>
+                            </div>
+                            <div class="info-box info">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Required:</strong> This key is essential for AI chat functionality. The free tier provides generous limits for development and small-scale production.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-category">
+                            <h3><i class="fas fa-database"></i> MongoDB Configuration</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>.env.local</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code># MongoDB Atlas connection string
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/investstocks?retryWrites=true&w=majority</code></pre>
+                            </div>
+                            <p>Replace <code>username</code>, <code>password</code>, and <code>cluster</code> with your actual MongoDB credentials.</p>
+                        </div>
+
+                        <div class="config-category">
+                            <h3><i class="fas fa-lock"></i> JWT Secret</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>.env.local</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code># Generate with: openssl rand -base64 32
+JWT_SECRET=your_super_secret_jwt_key_minimum_32_characters</code></pre>
+                            </div>
+                            <div class="info-box warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <strong>Security:</strong> Use a strong, random string (minimum 32 characters) for production. Never share this key publicly.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-category">
+                            <h3><i class="fas fa-chart-line"></i> Stock Market APIs</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>.env.local</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code># Finnhub API - Real-time stock data
+# Free tier: 60 API calls/minute
+FINNHUB_API_KEY=your_finnhub_api_key
+
+# Alpha Vantage API - Sentiment & news data
+# Free tier: 500 calls/day
+ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="config-category">
+                            <h3><i class="fas fa-credit-card"></i> Stripe Configuration</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>.env.local</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code># Stripe Keys (use test keys for development)
+STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
+STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
+
+# Product Price IDs (create in Stripe Dashboard)
+STRIPE_PRICE_PRO=price_your_pro_plan_id
+STRIPE_PRICE_ENTERPRISE=price_your_professional_plan_id
+
+# Webhook Secret (for payment events)
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="config-category">
+                            <h3><i class="fas fa-shield-alt"></i> Admin Panel (Optional)</h3>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>.env.local</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code># Enable read-only demo mode (for CodeCanyon demos)
+# Set to 'true' to enable demo mode, 'false' or omit for production
+ADMIN_DEMO_MODE=false</code></pre>
+                            </div>
+                            <div class="info-box info">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <strong>Demo Mode:</strong> When set to <code>true</code>, the admin panel operates in read-only mode, perfect for CodeCanyon demos. All viewing features work, but edit/delete/add operations are disabled.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box success">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Complete Example:</strong> See the included <code>.env.example</code> file for a complete configuration template with all required variables.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database Section -->
+            <section id="database" class="doc-section">
+                <h1><i class="fas fa-database"></i> Database Setup</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>MongoDB Atlas Setup</h2>
+
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Create MongoDB Atlas Account</h3>
+                                <p>Go to <a href="https://cloud.mongodb.com/" target="_blank">MongoDB Atlas</a> and create a free account.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Create a Cluster</h3>
+                                <p>Create a new cluster (M0 free tier is sufficient for development).</p>
+                                <ul>
+                                    <li>Choose your cloud provider (AWS, Google Cloud, or Azure)</li>
+                                    <li>Select your preferred region</li>
+                                    <li>Name your cluster (e.g., "InvestStocks")</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Create Database User</h3>
+                                <p>Navigate to "Database Access" and create a new database user:</p>
+                                <ul>
+                                    <li>Choose "Password" authentication</li>
+                                    <li>Set a username and strong password</li>
+                                    <li>Grant "Read and Write to any database" permission</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Configure Network Access</h3>
+                                <p>Navigate to "Network Access" and add your IP address:</p>
+                                <ul>
+                                    <li>Click "Add IP Address"</li>
+                                    <li>For development: Select "Allow Access from Anywhere" (0.0.0.0/0)</li>
+                                    <li>For production: Add specific IP addresses</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3>Get Connection String</h3>
+                                <p>Click "Connect" on your cluster and choose "Connect your application":</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Connection String</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>mongodb+srv://&lt;username&gt;:&lt;password&gt;@cluster.mongodb.net/investstocks?retryWrites=true&w=majority</code></pre>
+                                </div>
+                                <p>Replace <code>&lt;username&gt;</code> and <code>&lt;password&gt;</code> with your database credentials.</p>
+                            </div>
+                        </div>
+
+                        <h3>Database Collections</h3>
+                        <p>The application will automatically create the following collections:</p>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Collection</th>
+                                        <th>Purpose</th>
+                                        <th>Auto-Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>users</code></td>
+                                        <td>User accounts and authentication</td>
+                                        <td><i class="fas fa-check text-success"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>portfolios</code></td>
+                                        <td>User portfolio holdings</td>
+                                        <td><i class="fas fa-check text-success"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>watchlists</code></td>
+                                        <td>User watchlists</td>
+                                        <td><i class="fas fa-check text-success"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>usage</code></td>
+                                        <td>API usage tracking</td>
+                                        <td><i class="fas fa-check text-success"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Keys Section -->
+            <section id="api-keys" class="doc-section">
+                <h1><i class="fas fa-key"></i> API Keys Setup</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Obtaining Required API Keys</h2>
+
+                        <div class="api-guide">
+                            <div class="api-card">
+                                <div class="api-header">
+                                    <i class="fas fa-robot"></i>
+                                    <h3>Groq API</h3>
+                                </div>
+                                <div class="api-body">
+                                    <p><strong>Purpose:</strong> AI chat functionality using LLaMA 3 70B model</p>
+                                    <p><strong>Free Tier:</strong> Generous limits for development and production</p>
+                                    
+                                    <h4>How to Get:</h4>
+                                    <ol>
+                                        <li>Visit <a href="https://console.groq.com" target="_blank">console.groq.com</a></li>
+                                        <li>Sign up for a free account</li>
+                                        <li>Navigate to "API Keys"</li>
+                                        <li>Click "Create API Key"</li>
+                                        <li>Copy the key (starts with <code>gsk_</code>)</li>
+                                    </ol>
+
+                                    <div class="info-box info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>The free tier is sufficient for most applications. Groq offers incredibly fast inference speeds.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="api-card">
+                                <div class="api-header">
+                                    <i class="fas fa-chart-line"></i>
+                                    <h3>Finnhub API</h3>
+                                </div>
+                                <div class="api-body">
+                                    <p><strong>Purpose:</strong> Real-time stock quotes and market data</p>
+                                    <p><strong>Free Tier:</strong> 60 API calls per minute</p>
+                                    
+                                    <h4>How to Get:</h4>
+                                    <ol>
+                                        <li>Visit <a href="https://finnhub.io/register" target="_blank">finnhub.io/register</a></li>
+                                        <li>Create a free account</li>
+                                        <li>Your API key will be displayed on the dashboard</li>
+                                        <li>Copy the key</li>
+                                    </ol>
+
+                                    <div class="info-box info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>60 calls/minute is sufficient for most use cases. Consider upgrading for high-traffic applications.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="api-card">
+                                <div class="api-header">
+                                    <i class="fas fa-newspaper"></i>
+                                    <h3>Alpha Vantage API</h3>
+                                </div>
+                                <div class="api-body">
+                                    <p><strong>Purpose:</strong> Stock sentiment analysis and news data</p>
+                                    <p><strong>Free Tier:</strong> 500 API calls per day</p>
+                                    
+                                    <h4>How to Get:</h4>
+                                    <ol>
+                                        <li>Visit <a href="https://www.alphavantage.co/support/#api-key" target="_blank">alphavantage.co</a></li>
+                                        <li>Enter your email and name</li>
+                                        <li>Your API key will be sent via email</li>
+                                        <li>Copy the key</li>
+                                    </ol>
+
+                                    <div class="info-box info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>500 calls/day is adequate for development. Premium plans available for production.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Panel Section -->
+            <section id="admin-panel" class="doc-section">
+                <h1><i class="fas fa-shield-alt"></i> Admin Panel Setup</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Complete Admin Management System</h2>
+                        <p>The admin panel provides comprehensive management tools for users, subscriptions, plans, and site settings.</p>
+
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Create Your First Admin User</h3>
+                                <p>After installation, you need to grant admin access to a user account:</p>
+                                
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code># Using the provided script (Recommended)
+node scripts/make-admin.mjs your-email@example.com
+
+# Or using MongoDB Shell
+db.users.updateOne(
+  { email: 'your-email@example.com' },
+  { $set: { role: 'admin', isActive: true } }
+)</code></pre>
+                                </div>
+                                
+                                <div class="info-box info">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div>
+                                        <strong>Important:</strong> After updating the role, the user must <strong>log out and log back in</strong> for the changes to take effect, as the JWT token needs to be refreshed.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Access Admin Panel</h3>
+                                <p>Once logged in as an admin user:</p>
+                                <ol>
+                                    <li>Navigate to <code>/admin</code> in your browser</li>
+                                    <li>You'll see the admin dashboard with overview statistics</li>
+                                    <li>Use the sidebar to access different admin features</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Configure Site Settings</h3>
+                                <p>Go to <code>/admin/settings</code> to configure:</p>
+                                <ul>
+                                    <li><strong>General:</strong> Website name, logo, contact emails</li>
+                                    <li><strong>SEO:</strong> Meta title, description, keywords, OG image</li>
+                                    <li><strong>Social Media:</strong> Facebook, Twitter, LinkedIn links</li>
+                                    <li><strong>Features:</strong> Maintenance mode, registration control, public access</li>
+                                    <li><strong>Analytics:</strong> Google Analytics and Tag Manager IDs</li>
+                                    <li><strong>Customization:</strong> Primary/secondary colors, footer text</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Configure Subscription Plans</h3>
+                                <p>Go to <code>/admin/plans</code> to set up:</p>
+                                <ul>
+                                    <li>AI conversation limits per plan</li>
+                                    <li>Stock chart limits</li>
+                                    <li>Stock tracking limits</li>
+                                    <li>Plan pricing and features</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Admin Panel Features</h3>
+                        <div class="admin-features-grid">
+                            <div class="admin-feature-card">
+                                <i class="fas fa-users"></i>
+                                <h4>User Management</h4>
+                                <p>View, edit, delete, and suspend users. View detailed user information and usage statistics.</p>
+                            </div>
+                            <div class="admin-feature-card">
+                                <i class="fas fa-credit-card"></i>
+                                <h4>Subscription Management</h4>
+                                <p>Manage user subscriptions, change plans, update subscription IDs, and view subscription statistics.</p>
+                            </div>
+                            <div class="admin-feature-card">
+                                <i class="fas fa-box"></i>
+                                <h4>Plan Management</h4>
+                                <p>Configure plan limits, pricing, and features. Enable or disable plans.</p>
+                            </div>
+                            <div class="admin-feature-card">
+                                <i class="fas fa-chart-bar"></i>
+                                <h4>Analytics Dashboard</h4>
+                                <p>View platform usage statistics, user trends, feature usage breakdown, and daily usage charts.</p>
+                            </div>
+                            <div class="admin-feature-card">
+                                <i class="fas fa-history"></i>
+                                <h4>Audit Logs</h4>
+                                <p>Track all admin actions with detailed before/after changes, timestamps, and IP addresses.</p>
+                            </div>
+                            <div class="admin-feature-card">
+                                <i class="fas fa-cog"></i>
+                                <h4>Site Settings</h4>
+                                <p>Configure website branding, SEO, social media, maintenance mode, and theme customization.</p>
+                            </div>
+                        </div>
+
+                        <h3>Read-Only Demo Mode</h3>
+                        <p>Perfect for CodeCanyon demos - allows viewing all admin features without allowing modifications.</p>
+                        
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span>.env.local</span>
+                                <button class="copy-btn" onclick="copyCode(this)">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                            </div>
+                            <pre><code># Enable read-only demo mode
+ADMIN_DEMO_MODE=true</code></pre>
+                        </div>
+
+                        <div class="info-box warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div>
+                                <strong>Demo Mode:</strong> When enabled, all edit/delete/add buttons are disabled, and API modifications return 403 errors. Perfect for safe demos!
+                            </div>
+                        </div>
+
+                        <h3>Additional Documentation</h3>
+                        <p>For more detailed information, see the following documentation files:</p>
+                        <ul>
+                            <li><strong>ADMIN_SETUP.md</strong> - Complete guide for granting admin access</li>
+                            <li><strong>ADMIN_READ_ONLY_MODE.md</strong> - Demo mode configuration guide</li>
+                            <li><strong>ADMIN_QUICK_START.md</strong> - 5-minute quick start guide</li>
+                            <li><strong>USER_DOCUMENTATION.md</strong> - Comprehensive user and admin guide</li>
+                        </ul>
+
+                        <div class="info-box success">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Security:</strong> The admin panel is protected by role-based access control. Only users with <code>role: 'admin'</code> can access admin routes. Regular users will be redirected to the dashboard.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stripe Setup Section -->
+            <section id="stripe" class="doc-section">
+                <h1><i class="fas fa-credit-card"></i> Stripe Setup</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Payment Integration Setup</h2>
+
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Create Stripe Account</h3>
+                                <p>Visit <a href="https://dashboard.stripe.com/register" target="_blank">Stripe Dashboard</a> and create an account.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Get API Keys</h3>
+                                <p>Navigate to Developers → API keys:</p>
+                                <ul>
+                                    <li><strong>Publishable key:</strong> Starts with <code>pk_test_</code> (for test mode)</li>
+                                    <li><strong>Secret key:</strong> Starts with <code>sk_test_</code> (for test mode)</li>
+                                </ul>
+                                <div class="info-box warning">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <div>Use test keys for development. Switch to live keys only when ready for production.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Create Products</h3>
+                                <p>Navigate to Products and create three pricing plans:</p>
+                                
+                                <div class="pricing-setup">
+                                    <div class="price-card">
+                                        <h4>Investor Plan</h4>
+                                        <p class="price">$19/month</p>
+                                        <ul>
+                                            <li>Recurring billing: Monthly</li>
+                                            <li>Description: For active traders</li>
+                                        </ul>
+                                    </div>
+                                    <div class="price-card">
+                                        <h4>Professional Plan</h4>
+                                        <p class="price">$49/month</p>
+                                        <ul>
+                                            <li>Recurring billing: Monthly</li>
+                                            <li>Description: For professionals</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <p>After creating each product, copy the <strong>Price ID</strong> (starts with <code>price_</code>).</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Configure Webhook</h3>
+                                <p>Navigate to Developers → Webhooks → Add endpoint:</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>Webhook URL</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>https://yourdomain.com/api/webhooks/stripe</code></pre>
+                                </div>
+                                
+                                <p><strong>Events to select:</strong></p>
+                                <ul>
+                                    <li><code>checkout.session.completed</code></li>
+                                    <li><code>customer.subscription.updated</code></li>
+                                    <li><code>customer.subscription.deleted</code></li>
+                                    <li><code>invoice.payment_failed</code></li>
+                                </ul>
+
+                                <p>Copy the <strong>Webhook signing secret</strong> (starts with <code>whsec_</code>).</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box success">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Testing:</strong> Use Stripe's test card numbers to test payments. Card: <code>4242 4242 4242 4242</code>, Exp: Any future date, CVC: Any 3 digits.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deployment Section -->
+            <section id="deployment" class="doc-section">
+                <h1><i class="fas fa-rocket"></i> Deployment</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Deploy to Vercel (Recommended)</h2>
+
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Prepare for Deployment</h3>
+                                <p>Ensure your project is ready:</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code># Test production build
+npm run build
+
+# Verify no errors
+npm run start</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Push to Git Repository</h3>
+                                <p>Push your code to GitHub, GitLab, or Bitbucket:</p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>git init
+git add .
+git commit -m "Initial commit"
+git remote add origin your-repository-url
+git push -u origin main</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Deploy to Vercel</h3>
+                                <ol>
+                                    <li>Visit <a href="https://vercel.com" target="_blank">vercel.com</a> and sign in</li>
+                                    <li>Click "Add New Project"</li>
+                                    <li>Import your Git repository</li>
+                                    <li>Configure project:
+                                        <ul>
+                                            <li>Framework Preset: Next.js</li>
+                                            <li>Root Directory: ./</li>
+                                            <li>Build Command: <code>npm run build</code></li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Add Environment Variables</h3>
+                                <p>In Vercel project settings → Environment Variables, add all variables from your <code>.env.local</code>:</p>
+                                <ul>
+                                    <li>GROQ_API_KEY</li>
+                                    <li>MONGODB_URI</li>
+                                    <li>JWT_SECRET</li>
+                                    <li>FINNHUB_API_KEY</li>
+                                    <li>ALPHA_VANTAGE_API_KEY</li>
+                                    <li>STRIPE_SECRET_KEY</li>
+                                    <li>STRIPE_PUBLISHABLE_KEY</li>
+                                    <li>STRIPE_PRICE_PRO</li>
+                                    <li>STRIPE_PRICE_ENTERPRISE</li>
+                                    <li>STRIPE_WEBHOOK_SECRET</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3>Deploy</h3>
+                                <p>Click "Deploy" and wait for the build to complete. Your site will be live at <code>your-project.vercel.app</code>.</p>
+                            </div>
+                        </div>
+
+                        <h3>Alternative: Deploy to Other Platforms</h3>
+                        <div class="deployment-options">
+                            <div class="deploy-option">
+                                <i class="fab fa-aws"></i>
+                                <h4>AWS Amplify</h4>
+                                <p>Full serverless deployment with automatic scaling</p>
+                            </div>
+                            <div class="deploy-option">
+                                <i class="fab fa-google"></i>
+                                <h4>Google Cloud</h4>
+                                <p>Deploy with Cloud Run or App Engine</p>
+                            </div>
+                            <div class="deploy-option">
+                                <i class="fab fa-digital-ocean"></i>
+                                <h4>DigitalOcean</h4>
+                                <p>Deploy with App Platform</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usage Guide Section -->
+            <section id="usage" class="doc-section">
+                <h1><i class="fas fa-book-open"></i> Usage Guide</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Getting Started with InvestStocks</h2>
+
+                        <div class="usage-section">
+                            <h3><i class="fas fa-user-plus"></i> User Registration & Authentication</h3>
+                            <p>Users can create accounts and sign in to access premium features:</p>
+                            <ol>
+                                <li>Navigate to the landing page</li>
+                                <li>Click "Sign Up" button</li>
+                                <li>Fill in registration details (name, email, password)</li>
+                                <li>Account is created with "Starter" (free) plan</li>
+                                <li>Users can upgrade to paid plans through the Billing section</li>
+                            </ol>
+                        </div>
+
+                        <div class="usage-section">
+                            <h3><i class="fas fa-comments"></i> Using AI Chat</h3>
+                            <p>The AI chat assistant can answer questions about stocks and markets:</p>
+                            <div class="example-queries">
+                                <div class="query-example">
+                                    <div class="query">
+                                        <i class="fas fa-question"></i>
+                                        <span>"Show me a chart for AAPL"</span>
+                                    </div>
+                                    <div class="response">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Displays interactive TradingView chart for Apple stock</span>
+                                    </div>
+                                </div>
+                                <div class="query-example">
+                                    <div class="query">
+                                        <i class="fas fa-question"></i>
+                                        <span>"What's the price of Tesla?"</span>
+                                    </div>
+                                    <div class="response">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <span>Shows real-time TSLA stock price and change</span>
+                                    </div>
+                                </div>
+                                <div class="query-example">
+                                    <div class="query">
+                                        <i class="fas fa-question"></i>
+                                        <span>"Show me market heatmap"</span>
+                                    </div>
+                                    <div class="response">
+                                        <i class="fas fa-th"></i>
+                                        <span>Displays interactive market heatmap by sector</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="usage-section">
+                            <h3><i class="fas fa-briefcase"></i> Portfolio Management</h3>
+                            <p>Users can track their investments:</p>
+                            <ol>
+                                <li>Navigate to Portfolio page</li>
+                                <li>Click "Add Holdings"</li>
+                                <li>Enter stock symbol, quantity, and purchase price</li>
+                                <li>View real-time portfolio value and gains/losses</li>
+                                <li>Analyze performance with charts</li>
+                            </ol>
+                        </div>
+
+                        <div class="usage-section">
+                            <h3><i class="fas fa-eye"></i> Watchlist</h3>
+                            <p>Save favorite stocks for quick access:</p>
+                            <ol>
+                                <li>Search for a stock</li>
+                                <li>Click the star icon to add to watchlist</li>
+                                <li>Access watchlist from Dashboard or Stocks page</li>
+                                <li>Monitor price changes in real-time</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customization Section -->
+            <section id="customization" class="doc-section">
+                <h1><i class="fas fa-palette"></i> Customization</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Customize Your Platform</h2>
+
+                        <div class="custom-section">
+                            <h3><i class="fas fa-paint-brush"></i> Colors & Branding</h3>
+                            <p>Primary colors are defined in <code>tailwind.config.ts</code>:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>tailwind.config.ts</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code>colors: {
+  primary: {
+    DEFAULT: 'rgb(255, 70, 24)', // Main orange color
+    // Add custom shades
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="custom-section">
+                            <h3><i class="fas fa-dollar-sign"></i> Pricing Plans</h3>
+                            <p>Modify subscription plans in <code>lib/stripe.ts</code>:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>lib/stripe.ts</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code>export const PLANS = {
+  free: {
+    name: 'Starter',
+    price: 0,
+    // Customize features and limits
+  },
+  pro: {
+    name: 'Investor',
+    price: 19, // Change price
+    // Customize features
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="custom-section">
+                            <h3><i class="fas fa-lock"></i> Usage Limits</h3>
+                            <p>Configure feature limits in <code>lib/plan-limits.ts</code>:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>lib/plan-limits.ts</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code>export const PLAN_LIMITS = {
+  free: {
+    conversations: 5, // Daily limit
+    chartSymbols: 1,
+    // Add more limits
+  }
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="custom-section">
+                            <h3><i class="fas fa-image"></i> Logo & Favicon</h3>
+                            <p>Replace the following files in the <code>public/</code> directory:</p>
+                            <ul>
+                                <li><code>favicon.ico</code> - Browser tab icon</li>
+                                <li><code>apple-touch-icon.png</code> - iOS home screen icon</li>
+                                <li><code>favicon-16x16.png</code> - Small favicon</li>
+                            </ul>
+                        </div>
+
+                        <div class="custom-section">
+                            <h3><i class="fas fa-heading"></i> Site Metadata</h3>
+                            <p>Update site title and description in <code>app/layout.tsx</code>:</p>
+                            <div class="code-block">
+                                <div class="code-header">
+                                    <span>app/layout.tsx</span>
+                                    <button class="copy-btn" onclick="copyCode(this)">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
+                                </div>
+                                <pre><code>export const metadata = {
+  title: {
+    default: 'Your Site Name',
+    template: `%s - Your Site Name`
+  },
+  description: 'Your site description'
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section id="troubleshooting" class="doc-section">
+                <h1><i class="fas fa-wrench"></i> Troubleshooting</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Common Issues & Solutions</h2>
+
+                        <div class="trouble-item">
+                            <h3><i class="fas fa-exclamation-triangle"></i> API Key Errors</h3>
+                            <div class="trouble-content">
+                                <p><strong>Problem:</strong> "Missing API key" or "Invalid API key" errors</p>
+                                <p><strong>Solution:</strong></p>
+                                <ul>
+                                    <li>Verify all keys are correctly copied in <code>.env.local</code></li>
+                                    <li>Ensure no extra spaces or quotes around keys</li>
+                                    <li>Restart the development server after adding keys</li>
+                                    <li>Check API key validity in respective dashboards</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="trouble-item">
+                            <h3><i class="fas fa-database"></i> MongoDB Connection Issues</h3>
+                            <div class="trouble-content">
+                                <p><strong>Problem:</strong> Cannot connect to MongoDB Atlas</p>
+                                <p><strong>Solution:</strong></p>
+                                <ul>
+                                    <li>Verify connection string format is correct</li>
+                                    <li>Replace &lt;username&gt; and &lt;password&gt; with actual credentials</li>
+                                    <li>Check Network Access settings allow your IP</li>
+                                    <li>Ensure database user has proper permissions</li>
+                                    <li>URL-encode special characters in password</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="trouble-item">
+                            <h3><i class="fas fa-credit-card"></i> Stripe Payment Fails</h3>
+                            <div class="trouble-content">
+                                <p><strong>Problem:</strong> Payments not processing or webhook not working</p>
+                                <p><strong>Solution:</strong></p>
+                                <ul>
+                                    <li>Use test card numbers for development: 4242 4242 4242 4242</li>
+                                    <li>Verify webhook URL is correct and accessible</li>
+                                    <li>Check webhook signing secret matches</li>
+                                    <li>Ensure Price IDs are correct in environment variables</li>
+                                    <li>Test webhooks using Stripe CLI locally</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="trouble-item">
+                            <h3><i class="fas fa-chart-line"></i> Stock Data Not Loading</h3>
+                            <div class="trouble-content">
+                                <p><strong>Problem:</strong> Charts or prices not displaying</p>
+                                <p><strong>Solution:</strong></p>
+                                <ul>
+                                    <li>Check Finnhub and Alpha Vantage API keys</li>
+                                    <li>Verify you haven't exceeded rate limits</li>
+                                    <li>Check browser console for specific errors</li>
+                                    <li>Test API keys directly in browser or Postman</li>
+                                    <li>Ensure stock symbol is valid (U.S. markets)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="trouble-item">
+                            <h3><i class="fas fa-box"></i> Build Errors</h3>
+                            <div class="trouble-content">
+                                <p><strong>Problem:</strong> Production build fails</p>
+                                <p><strong>Solution:</strong></p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>bash</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code># Clear cache and rebuild
+rm -rf .next
+rm -rf node_modules
+npm install
+npm run build</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box info">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>Still Having Issues?</strong> Check the browser console and terminal for detailed error messages. Most issues can be resolved by carefully reading the error output.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="doc-section">
+                <h1><i class="fas fa-question-circle"></i> FAQ</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Frequently Asked Questions</h2>
+
+                        <div class="faq-list">
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Can I use this for commercial projects?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! This is a CodeCanyon regular license product. You can use it for one end product (your website) that end users are not charged for. For multiple projects or charging end users, you need an extended license.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Are all API keys free?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! All required APIs (Groq, Finnhub, Alpha Vantage) offer free tiers that are sufficient for development and small-scale production. Stripe is free to use (they charge transaction fees). Only upgrade when you need higher limits.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Can I customize the design?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Absolutely! The entire UI is built with Tailwind CSS and is fully customizable. Colors, spacing, layouts - everything can be modified to match your brand.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Do I need coding knowledge?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Basic knowledge of JavaScript and React is recommended for customization. However, the installation and configuration can be done by following this documentation step-by-step.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Is it mobile responsive?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! The entire platform is fully responsive and works seamlessly on mobile phones, tablets, and desktops. Special attention has been paid to mobile UX.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Can I add more features?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! The codebase is well-structured and documented, making it easy to add new features. The modular architecture allows for easy extension.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>What about SEO?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Built with Next.js 14 App Router, the platform is SEO-friendly with server-side rendering, proper metadata, and semantic HTML. All pages are crawlable and indexable.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Can I change the pricing plans?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! Pricing plans are fully customizable. You can change prices, features, limits, and even add more tiers. All plan logic is centralized in the configuration files.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>Is there a demo available?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Yes! A live demo is available on the product page. You can test all features including the AI chat, stock data, portfolio management, and payment flow.</p>
+                                </div>
+                            </div>
+
+                            <div class="faq-item">
+                                <div class="faq-question">
+                                    <i class="fas fa-chevron-right"></i>
+                                    <h3>What if I need help?</h3>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>Support is provided through CodeCanyon's comment system. We typically respond within 24 hours. For urgent issues, you can reach out through the support tab.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Support Section -->
+            <section id="support" class="doc-section">
+                <h1><i class="fas fa-life-ring"></i> Support</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Get Help & Support</h2>
+
+                        <div class="support-grid">
+                            <div class="support-card">
+                                <i class="fas fa-book"></i>
+                                <h3>Documentation</h3>
+                                <p>Comprehensive guides covering all aspects of the platform</p>
+                                <button class="btn btn-outline">You're Here!</button>
+                            </div>
+
+                            <div class="support-card">
+                                <i class="fab fa-telegram"></i>
+                                <h3>Community</h3>
+                                <p>Join other users and share experiences on Telegram</p>
+                                <button class="btn btn-outline" onclick="window.open('https://t.me/webbuddyenvato_bot', '_blank')">Join Telegram</button>
+                            </div>
+
+                            <div class="support-card">
+                                <i class="fas fa-headset"></i>
+                                <h3>Direct Support</h3>
+                                <p>Get personalized help from our team via WebBuddy</p>
+                                <button class="btn btn-outline" onclick="window.open('https://envato.webbuddy.agency/', '_blank')">Contact Support</button>
+                            </div>
+
+                            <div class="support-card">
+                                <i class="fas fa-video"></i>
+                                <h3>Video Tutorials</h3>
+                                <p>Watch step-by-step installation and customization guides</p>
+                                <button class="btn btn-outline">Coming Soon</button>
+                            </div>
+                        </div>
+
+                        <div class="support-info">
+                            <h3>Before Contacting Support</h3>
+                            <p>To help us assist you better, please:</p>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Check this documentation thoroughly</li>
+                                <li><i class="fas fa-check"></i> Review the FAQ section</li>
+                                <li><i class="fas fa-check"></i> Try the troubleshooting steps</li>
+                                <li><i class="fas fa-check"></i> Provide clear error messages and screenshots</li>
+                                <li><i class="fas fa-check"></i> Include your environment details (Node version, OS, etc.)</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box info">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Response Time:</strong> We aim to respond to all support requests within 24 hours (business days). Critical issues are prioritized.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Credits Section -->
+            <section id="credits" class="doc-section">
+                <h1><i class="fas fa-heart"></i> Credits & Acknowledgments</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Built With Amazing Technologies</h2>
+                        <p>InvestStocks wouldn't be possible without these incredible tools, services, and open-source projects:</p>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-code"></i> Core Technologies</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> <strong>Next.js</strong> - The React framework for production by Vercel</li>
+                                <li><i class="fas fa-check"></i> <strong>React</strong> - JavaScript library for building user interfaces by Meta</li>
+                                <li><i class="fas fa-check"></i> <strong>TypeScript</strong> - Typed superset of JavaScript by Microsoft</li>
+                                <li><i class="fas fa-check"></i> <strong>Tailwind CSS</strong> - Utility-first CSS framework</li>
+                                <li><i class="fas fa-check"></i> <strong>MongoDB</strong> - NoSQL database for modern applications</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-robot"></i> AI & Data Services</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> <strong>Groq</strong> - Ultra-fast LLaMA 3 70B AI inference</li>
+                                <li><i class="fas fa-check"></i> <strong>Finnhub</strong> - Real-time stock market data API</li>
+                                <li><i class="fas fa-check"></i> <strong>Alpha Vantage</strong> - Stock sentiment and news analysis</li>
+                                <li><i class="fas fa-check"></i> <strong>TradingView</strong> - Professional charting widgets and tools</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-credit-card"></i> Payment & Infrastructure</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> <strong>Stripe</strong> - Payment processing and subscription management</li>
+                                <li><i class="fas fa-check"></i> <strong>Vercel</strong> - Hosting and deployment platform</li>
+                                <li><i class="fas fa-check"></i> <strong>MongoDB Atlas</strong> - Cloud database service</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-palette"></i> UI Components & Libraries</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> <strong>Radix UI</strong> - Unstyled, accessible component primitives</li>
+                                <li><i class="fas fa-check"></i> <strong>Lucide React</strong> - Beautiful & consistent icon pack</li>
+                                <li><i class="fas fa-check"></i> <strong>Framer Motion</strong> - Production-ready animation library</li>
+                                <li><i class="fas fa-check"></i> <strong>Lottie React</strong> - Lightweight animations from Airbnb</li>
+                                <li><i class="fas fa-check"></i> <strong>Recharts</strong> - Composable charting library for React</li>
+                                <li><i class="fas fa-check"></i> <strong>Sonner</strong> - Opinionated toast component for React</li>
+                                <li><i class="fas fa-check"></i> <strong>Geist Font</strong> - Font family by Vercel</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-toolbox"></i> Development Tools</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> <strong>ESLint</strong> - JavaScript linting utility</li>
+                                <li><i class="fas fa-check"></i> <strong>Prettier</strong> - Opinionated code formatter</li>
+                                <li><i class="fas fa-check"></i> <strong>bcryptjs</strong> - Password hashing library</li>
+                                <li><i class="fas fa-check"></i> <strong>jsonwebtoken</strong> - JSON Web Token implementation</li>
+                                <li><i class="fas fa-check"></i> <strong>date-fns</strong> - Modern JavaScript date utility library</li>
+                                <li><i class="fas fa-check"></i> <strong>nanoid</strong> - Tiny, secure URL-friendly unique ID generator</li>
+                                <li><i class="fas fa-check"></i> <strong>clsx</strong> - Utility for constructing className strings</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-icons"></i> Icons & Assets</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> <strong>Font Awesome</strong> - Icon library and toolkit</li>
+                                <li><i class="fas fa-check"></i> <strong>LottieFiles</strong> - Free animation files library by Airbnb</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box success">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <strong>Special Thanks:</strong> To all the open-source contributors and maintainers who make projects like InvestStocks possible. Your dedication to creating free, accessible tools empowers developers worldwide.
+                            </div>
+                        </div>
+
+                        <div class="info-box info">
+                            <i class="fas fa-code-branch"></i>
+                            <div>
+                                <strong>License Information:</strong> Each library and service used in this project maintains its own license. Please refer to their respective documentation for license details. InvestStocks itself is licensed under the CodeCanyon Regular License.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Changelog Section -->
+            <section id="changelog" class="doc-section">
+                <h1><i class="fas fa-history"></i> Changelog</h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2>Version History</h2>
+
+                        <div class="changelog-list">
+                            <div class="changelog-item">
+                                <div class="version-header">
+                                    <span class="version-badge">v1.1.0</span>
+                                    <span class="date">January 2025</span>
+                                </div>
+                                <div class="version-content">
+                                    <h3>Admin Panel Release 🎉</h3>
+                                    <h4>New Features:</h4>
+                                    <ul>
+                                        <li>Complete admin panel system with dashboard</li>
+                                        <li>User management (view, edit, delete, suspend)</li>
+                                        <li>Subscription management with plan changes</li>
+                                        <li>Plan management (configure limits, pricing, features)</li>
+                                        <li>Site settings (branding, SEO, maintenance mode)</li>
+                                        <li>Analytics dashboard with usage statistics</li>
+                                        <li>Audit logs with complete action history</li>
+                                        <li>API key management</li>
+                                        <li>Read-only demo mode for CodeCanyon</li>
+                                        <li>Maintenance mode with admin bypass</li>
+                                        <li>Registration and public access controls</li>
+                                    </ul>
+                                    <h4>Improvements:</h4>
+                                    <ul>
+                                        <li>Fixed stock logo API (switched to elbstream.com)</li>
+                                        <li>Improved error handling for external APIs</li>
+                                        <li>Performance optimizations (reduced API calls)</li>
+                                        <li>Fixed React Hook warnings</li>
+                                        <li>Fixed build errors for Vercel deployment</li>
+                                        <li>Consistent UI/UX across admin and user panels</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="changelog-item">
+                                <div class="version-header">
+                                    <span class="version-badge">v1.0.1</span>
+                                    <span class="date">October 2025</span>
+                                </div>
+                                <div class="version-content">
+                                    <h3>Bug Fixes & Improvements</h3>
+                                    <h4>Fixed:</h4>
+                                    <ul>
+                                        <li>Stock logo API failures</li>
+                                        <li>Finnhub API 403 errors</li>
+                                        <li>Fear & Greed Index connection timeouts</li>
+                                        <li>Excessive API calls</li>
+                                        <li>React Hook dependency warnings</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="changelog-item">
+                                <div class="version-header">
+                                    <span class="version-badge">v1.0.0</span>
+                                    <span class="date">October 2025</span>
+                                </div>
+                                <div class="version-content">
+                                    <h3>Initial Release 🎉</h3>
+                                    <h4>Features:</h4>
+                                    <ul>
+                                        <li>AI-powered chat with Groq LLaMA 3 integration</li>
+                                        <li>Real-time stock data from Finnhub</li>
+                                        <li>Sentiment analysis with Alpha Vantage</li>
+                                        <li>Interactive TradingView charts</li>
+                                        <li>Portfolio management system</li>
+                                        <li>Watchlist functionality</li>
+                                        <li>Stripe payment integration</li>
+                                        <li>Three-tier subscription model</li>
+                                        <li>User authentication with JWT</li>
+                                        <li>MongoDB database integration</li>
+                                        <li>Dark/Light theme</li>
+                                        <li>Fully responsive design</li>
+                                        <li>Stock screener</li>
+                                        <li>Market heatmaps</li>
+                                        <li>Fear & Greed Index</li>
+                                        <li>Trade ideas and recommendations</li>
+                                        <li>Stock news and events</li>
+                                        <li>Financial metrics</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box info">
+                            <i class="fas fa-bell"></i>
+                            <div>
+                                <strong>Updates:</strong> We regularly release updates with new features, improvements, and bug fixes. Check your CodeCanyon downloads for the latest version.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="doc-footer">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="logo">
+                            <i class="fas fa-chart-line"></i>
+                            <span>InvestStocks</span>
+                        </div>
+                        <p>Built with ❤️ for investors and traders</p>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">Powered by Next.js, React, Groq AI, TradingView, Finnhub, Stripe, Lottie & more</p>
+                    </div>
+                    <div class="footer-right">
+                        <p>&copy; 2025 InvestStocks. All rights reserved.</p>
+                        <p>Version 1.1.0</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
+
