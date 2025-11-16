@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)'],
+        sans: ['Overpass', 'sans-serif'],
         mono: ['var(--font-geist-mono)']
       },
       colors: {
