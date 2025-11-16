@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -36,11 +36,7 @@ export function DividendsCalendar() {
   const [searchSymbol, setSearchSymbol] = useState('')
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
 
-  useEffect(() => {
-    loadDividends()
-  }, [selectedDate])
-
-  const loadDividends = async () => {
+  const loadDividends = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
@@ -69,7 +65,11 @@ export function DividendsCalendar() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedDate])
+
+  useEffect(() => {
+    loadDividends()
+  }, [loadDividends])
 
   const filteredDividends = dividends.filter(dividend =>
     !searchSymbol || dividend.symbol.toLowerCase().includes(searchSymbol.toLowerCase()) ||
@@ -163,13 +163,13 @@ export function DividendsCalendar() {
       <div className="flex items-center gap-4">
         {dataSource === 'mock' && (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-            <Icons.alert className="h-3 w-3 mr-1" />
+            <Icons.alertTriangle className="h-3 w-3 mr-1" />
             Demo Data - Financial Modeling Prep API not configured
           </Badge>
         )}
         {error && (
           <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
-            <Icons.alert className="h-3 w-3 mr-1" />
+            <Icons.alertTriangle className="h-3 w-3 mr-1" />
             {error}
           </Badge>
         )}
@@ -285,10 +285,10 @@ export function DividendsCalendar() {
                             </Badge>
                           </TableCell>
                           <TableCell>
-                            {formatDate(dividend.recordDate)}
+                            {formatDate(dividend.recordDate || '')}
                           </TableCell>
                           <TableCell>
-                            {formatDate(dividend.paymentDate)}
+                            {formatDate(dividend.paymentDate || '')}
                           </TableCell>
                         </TableRow>
                       ))}

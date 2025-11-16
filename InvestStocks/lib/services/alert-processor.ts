@@ -29,7 +29,11 @@ export class AlertProcessor {
     triggered: number,
     errors: string[]
   }> {
-    const results = {
+    const results: {
+      processed: number,
+      triggered: number,
+      errors: string[]
+    } = {
       processed: 0,
       triggered: 0,
       errors: []

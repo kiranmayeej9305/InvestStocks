@@ -164,13 +164,13 @@ export function EarningsCalendar() {
       <div className="flex items-center gap-4">
         {dataSource === 'mock' && (
           <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">
-            <Icons.alert className="h-3 w-3 mr-1" />
+            <Icons.alertTriangle className="h-3 w-3 mr-1" />
             Demo Data - Financial Modeling Prep API not configured
           </Badge>
         )}
         {error && (
           <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">
-            <Icons.alert className="h-3 w-3 mr-1" />
+            <Icons.alertTriangle className="h-3 w-3 mr-1" />
             {error}
           </Badge>
         )}
