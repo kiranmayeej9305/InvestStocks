@@ -29,7 +29,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowUpRight,
-  TrendingUp,
+  ChartCandlestick,
   TrendingDown,
   Users,
   Crown,
@@ -158,7 +158,7 @@ function SubscriptionsContent() {
       case 'free':
         return <Zap className="w-4 h-4" />
       case 'pro':
-        return <TrendingUp className="w-4 h-4" />
+        return <ChartCandlestick className="w-4 h-4" />
       case 'enterprise':
         return <Crown className="w-4 h-4" />
       default:
@@ -267,7 +267,7 @@ function SubscriptionsContent() {
                     <p className="text-3xl font-bold text-foreground mt-2">{stats.byPlan.pro}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-purple-500/10">
-                    <TrendingUp className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                    <ChartCandlestick className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                 </div>
               </CardContent>

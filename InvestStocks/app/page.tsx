@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
 import { 
-  TrendingUp, 
+  ChartCandlestick, 
   BarChart3, 
   PieChart, 
   LineChart, 
@@ -26,7 +26,8 @@ import {
   Users,
   MessageSquare,
   Crown,
-  Star
+  Star,
+  TrendingUp
 } from 'lucide-react'
 import { StockLogo } from '@/components/stocks/stock-logo'
 
@@ -72,8 +73,8 @@ export default function LandingPage() {
   // Show loading only briefly, don't block the landing page
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2" style={{ borderColor: 'rgb(255, 70, 24)' }} />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-orange-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2" style={{ borderColor: '#FF9900' }} />
       </div>
     )
   }
@@ -86,7 +87,7 @@ export default function LandingPage() {
   // If user is authenticated, they'll be redirected to dashboard by the useEffect
   // Otherwise, show the landing page for marketing purposes
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden">
       {/* Gradient Orbs */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl animate-pulse delay-1000" />
@@ -98,8 +99,8 @@ export default function LandingPage() {
             <div className="flex items-center justify-between gap-3 sm:gap-4">
               {/* Logo */}
               <div className="flex items-center space-x-2 sm:space-x-3">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-                  <TrendingUp className="h-6 w-6 text-white" />
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
+                  <ChartCandlestick className="h-6 w-6 text-white" />
                 </div>
                 <span className="hidden sm:block text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                   StokAlert
@@ -130,7 +131,7 @@ export default function LandingPage() {
                   <Button 
                     className="font-semibold shadow-lg rounded-xl text-sm px-4 sm:px-5 py-2 whitespace-nowrap flex items-center gap-1.5"
                     style={{ 
-                      background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                      background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                       boxShadow: '0 4px 15px rgba(255, 70, 24, 0.3)'
                     }}
                   >
@@ -170,7 +171,7 @@ export default function LandingPage() {
                 size="lg"
                 className="h-14 px-8 text-lg font-semibold shadow-2xl"
                 style={{ 
-                  background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                  background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                   boxShadow: '0 8px 30px rgba(255, 70, 24, 0.4)'
                 }}
               >
@@ -227,7 +228,7 @@ export default function LandingPage() {
               {/* Top Bar */}
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-primary/10">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl shadow-lg" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
+                  <div className="w-10 h-10 rounded-xl shadow-lg" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
                     <TrendingUp className="h-6 w-6 text-white m-2" />
                   </div>
                   <div>
@@ -264,7 +265,7 @@ export default function LandingPage() {
                           </h3>
                           <div className="flex items-center gap-2 mt-3">
                             <Badge className="bg-success/10 text-success border-success/20 shadow-sm">
-                              <TrendingUp className="h-3 w-3 mr-1" />
+                              <ChartCandlestick className="h-3 w-3 mr-1" />
                               +12.5%
                             </Badge>
                             <span className="text-sm text-muted-foreground">+$13,892.50 today</span>
@@ -283,7 +284,7 @@ export default function LandingPage() {
                             className="flex-1 rounded-t-lg transition-all duration-300 hover:scale-110 cursor-pointer"
                             style={{ 
                               height: `${height}%`,
-                              background: `linear-gradient(to top, rgb(255, 107, 53), rgb(255, 140, 90))`,
+                              background: `linear-gradient(to top, #FF7700, rgb(255, 140, 90))`,
                               opacity: 0.7 + (height / 100) * 0.3,
                               animationDelay: `${i * 50}ms`
                             }}
@@ -357,7 +358,7 @@ export default function LandingPage() {
                           <div className="text-right">
                             <p className="font-bold text-base">{stock.value}</p>
                             <Badge className={`text-xs ${stock.positive ? 'bg-success/10 text-success border-success/20' : 'bg-destructive/10 text-destructive border-destructive/20'}`}>
-                              {stock.positive ? <TrendingUp className="h-3 w-3 mr-1" /> : <TrendingDown className="h-3 w-3 mr-1" />}
+                              {stock.positive ? <ChartCandlestick className="h-3 w-3 mr-1" /> : <TrendingDown className="h-3 w-3 mr-1" />}
                               {stock.change}
                             </Badge>
                           </div>
@@ -429,7 +430,7 @@ export default function LandingPage() {
                           />
                           <defs>
                             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                              <stop offset="0%" style={{ stopColor: 'rgb(255, 70, 24)', stopOpacity: 1 }} />
+                              <stop offset="0%" style={{ stopColor: '#FF9900', stopOpacity: 1 }} />
                               <stop offset="100%" style={{ stopColor: 'rgb(255, 140, 90)', stopOpacity: 1 }} />
                             </linearGradient>
                           </defs>
@@ -485,7 +486,7 @@ export default function LandingPage() {
                   <div className="absolute inset-0 bg-primary/30 blur-2xl rounded-3xl animate-pulse" />
                   
                   {/* Main badge */}
-                  <div className="relative bg-background/95 backdrop-blur-xl border-2 border-primary/40 rounded-2xl px-8 py-5 shadow-2xl">
+                  {/* <div className="relative bg-background/95 backdrop-blur-xl border-2 border-primary/40 rounded-2xl px-8 py-5 shadow-2xl">
                     <div className="flex items-center gap-3">
                       <div className="relative">
                         <div className="absolute inset-0 bg-primary/30 blur-md rounded-full animate-pulse" />
@@ -498,7 +499,7 @@ export default function LandingPage() {
                         <p className="text-xs text-muted-foreground mt-0.5">Interactive real-time experience</p>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -679,7 +680,7 @@ export default function LandingPage() {
               Most Popular
             </Badge>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
                 <TrendingUp className="h-6 w-6 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-2">Investor</h3>
@@ -692,7 +693,7 @@ export default function LandingPage() {
                 <Button 
                   className="w-full font-semibold"
                   style={{ 
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                    background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                   }}
                 >
                   Start Trial
@@ -741,7 +742,7 @@ export default function LandingPage() {
               <p className="text-muted-foreground mb-6">For professionals</p>
               <Link href="/signup">
                 <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5">
-                  Get Started
+                  Start Trial
                 </Button>
               </Link>
             </div>
@@ -790,7 +791,7 @@ export default function LandingPage() {
                 size="lg"
                 className="h-14 px-8 text-lg font-semibold shadow-2xl"
                 style={{ 
-                  background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                  background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                   boxShadow: '0 8px 30px rgba(255, 70, 24, 0.4)'
                 }}
               >
@@ -819,8 +820,8 @@ export default function LandingPage() {
               {/* Brand Section */}
               <div className="lg:col-span-2">
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-                    <TrendingUp className="h-6 w-6 text-white" />
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
+                    <ChartCandlestick className="h-6 w-6 text-white" />
                   </div>
                   <span className="text-2xl font-bold text-primary">StokAlert</span>
                 </div>

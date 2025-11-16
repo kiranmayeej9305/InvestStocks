@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Activity, Smile, Frown, Meh, TrendingUp, TrendingDown } from 'lucide-react'
+import { Activity, Smile, Frown, Meh, ChartCandlestick, TrendingDown } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface FearGreedData {
@@ -82,7 +82,7 @@ export function FearGreedIndexCard() {
       case 'neutral':
         return <Meh className="w-5 h-5" />
       case 'greed':
-        return <TrendingUp className="w-5 h-5" />
+        return <ChartCandlestick className="w-5 h-5" />
       case 'extreme greed':
         return <Smile className="w-5 h-5" />
       default:

@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { ChartCandlestick, TrendingDown } from 'lucide-react'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { StockLogo } from './stock-logo'
 
@@ -71,7 +71,7 @@ export function StockPortfolioCard({
                 {isPositive ? '+' : ''} {shares.toFixed(2)}
               </span>
               {isPositive ? (
-                <TrendingUp className="w-3 h-3 text-emerald-500" />
+                <ChartCandlestick className="w-3 h-3 text-emerald-500" />
               ) : (
                 <TrendingDown className="w-3 h-3 text-red-500" />
               )}

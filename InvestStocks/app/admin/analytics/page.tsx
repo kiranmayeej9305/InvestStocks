@@ -4,7 +4,7 @@ import { AdminLayout } from '@/components/admin/admin-layout'
 import { AdminProtectedRoute } from '@/components/admin/admin-protected-route'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { BarChart3, TrendingUp, Activity, Users, Calendar } from 'lucide-react'
+import { BarChart3, ChartCandlestick, Activity, Users, Calendar } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
 
@@ -163,7 +163,7 @@ function AnalyticsContent() {
                   Total Users
                 </CardTitle>
                 <div className="p-2 rounded-lg bg-orange-500/10">
-                  <TrendingUp className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                  <ChartCandlestick className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                 </div>
               </div>
             </CardHeader>
@@ -176,7 +176,7 @@ function AnalyticsContent() {
                 )}
               </div>
               <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" />
+                <ChartCandlestick className="w-3 h-3" />
                 Registered users
               </p>
             </CardContent>
@@ -214,7 +214,7 @@ function AnalyticsContent() {
                   />
                   <Bar 
                     dataKey="count" 
-                    fill="rgb(255, 70, 24)"
+                    fill="#FF9900"
                     radius={[8, 8, 0, 0]}
                   />
                 </BarChart>
@@ -228,7 +228,7 @@ function AnalyticsContent() {
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
-                <TrendingUp className="w-5 h-5 text-primary" />
+                <ChartCandlestick className="w-5 h-5 text-primary" />
                 Daily Usage Trend
               </CardTitle>
             </CardHeader>
@@ -256,7 +256,7 @@ function AnalyticsContent() {
                   <Line 
                     type="monotone" 
                     dataKey="conversations" 
-                    stroke="rgb(255, 70, 24)" 
+                    stroke="#FF9900" 
                     strokeWidth={2}
                     dot={{ r: 4 }}
                     name="Conversations"

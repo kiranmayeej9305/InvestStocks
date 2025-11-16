@@ -167,7 +167,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
         <div className="space-y-6">
           {/* Profile Picture Section */}
           <div className="flex items-center space-x-4">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full" style={{ backgroundColor: '#ff4618' }}>
+            <div className="flex h-20 w-20 items-center justify-center rounded-full" style={{ backgroundColor: '#FF9900' }}>
               <IconUser className="h-8 w-8 text-white" />
             </div>
             <div className="space-y-1">
@@ -345,7 +345,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
                   <Button 
                     onClick={handleChangePassword}
                     disabled={changingPassword}
-                    style={{ backgroundColor: '#ff4618' }}
+                    style={{ backgroundColor: '#FF9900' }}
                     className="text-white"
                   >
                     {changingPassword ? (
@@ -370,7 +370,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
               </Button>
               <Button 
                 onClick={handleSave}
-                style={{ backgroundColor: '#ff4618' }}
+                style={{ backgroundColor: '#FF9900' }}
                 className="text-white"
               >
                 Save Changes

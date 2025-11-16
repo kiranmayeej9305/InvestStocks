@@ -2,8 +2,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown } from 'lucide-react'
-import { MdAttachMoney, MdShowChart, MdPeople, MdShoppingCart, MdTrendingUp } from 'react-icons/md'
+import { ChartCandlestick, TrendingDown } from 'lucide-react'
+import { MdAttachMoney, MdShowChart, MdPeople, MdShoppingCart, MdChartCandlestick } from 'react-icons/md'
 import { RiLineChartLine } from 'react-icons/ri'
 
 interface StatsCardProps {
@@ -49,7 +49,7 @@ export function StatsCard({
       case 'cart':
         return <MdShoppingCart className="w-6 h-6" />
       case 'trend':
-        return <MdTrendingUp className="w-6 h-6" />
+        return <MdChartCandlestick className="w-6 h-6" />
       default:
         return <MdShowChart className="w-6 h-6" />
     }
@@ -69,7 +69,7 @@ export function StatsCard({
   const getChangeIcon = () => {
     switch (changeType) {
       case 'increase':
-        return <TrendingUp className="w-3 h-3" />
+        return <ChartCandlestick className="w-3 h-3" />
       case 'decrease':
         return <TrendingDown className="w-3 h-3" />
       default:

@@ -9,7 +9,7 @@ import {
   Key, 
   BarChart3, 
   Settings,
-  TrendingUp,
+  ChartCandlestick,
   Shield,
   Activity,
   UserPlus,
@@ -182,7 +182,7 @@ function AdminDashboardContent() {
                 )}
               </div>
               <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
-                <TrendingUp className="w-3 h-3" />
+                <ChartCandlestick className="w-3 h-3" />
                 Registered today
               </p>
             </CardContent>

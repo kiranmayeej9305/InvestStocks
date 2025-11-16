@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ProtectedRoute } from '@/components/protected-route'
-import { TrendingUp, TrendingDown, Activity, Info, AlertTriangle, Smile, Frown, Meh } from 'lucide-react'
+import { ChartCandlestick, TrendingDown, Activity, Info, AlertTriangle, Smile, Frown, Meh } from 'lucide-react'
 import { Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart, CartesianGrid } from 'recharts'
 
 interface FearGreedData {

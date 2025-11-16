@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { 
-  TrendingUp, 
+  ChartCandlestick, 
   TrendingDown, 
   DollarSign, 
   Activity, 
@@ -14,7 +14,8 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Clock,
-  Briefcase
+  Briefcase,
+  TrendingUp
 } from 'lucide-react'
 import { StockLogo } from '@/components/stocks/stock-logo'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -325,11 +326,11 @@ function DashboardContent() {
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/20 to-transparent" />
             <CardHeader className="pb-4 relative z-10 px-4 sm:px-6">
               <CardTitle className="text-base font-medium flex items-center gap-2"
-                style={{ color: 'rgb(255, 70, 24)' }}
+                style={{ color: '#FF9900' }}
               >
                 <div className="p-2.5 sm:p-3 rounded-xl"
                   style={{
-                    background: 'linear-gradient(135deg, rgb(255, 107, 53) 0%, rgb(255, 140, 90) 100%)',
+                    background: 'linear-gradient(135deg, #FF7700 0%, rgb(255, 140, 90) 100%)',
                   }}
                 >
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-white" />

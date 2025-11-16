@@ -11,6 +11,7 @@ import {
   Lock,
   Eye,
   EyeOff,
+  ChartCandlestick,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
@@ -55,7 +56,7 @@ export function Sidebar() {
   const settings = useSiteSettings()
   const siteName = settings?.siteName || 'StokAlert'
   const siteLogo = settings?.siteLogo
-  const primaryColor = settings?.primaryColor || '#ff4618'
+  const primaryColor = settings?.primaryColor || '#FF9900'
   const [isOpen, setIsOpen] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
   const [showPricingModal, setShowPricingModal] = useState(false)
@@ -90,16 +91,16 @@ export function Sidebar() {
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed top-4 left-4 z-[60] p-2.5 rounded-xl border-2 shadow-xl transition-all touch-target"
         style={{
-          background: isOpen ? 'rgba(255, 70, 24, 0.1)' : 'rgba(255, 255, 255, 0.95)',
+          background: isOpen ? 'rgba(255, 153, 0, 0.1)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(12px)',
-          borderColor: isOpen ? 'rgb(255, 70, 24)' : 'rgba(200, 200, 200, 0.3)'
+          borderColor: isOpen ? '#FF9900' : 'rgba(200, 200, 200, 0.3)'
         }}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? (
-          <X className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <X className="w-5 h-5" style={{ color: '#FF9900' }} />
         ) : (
-          <Menu className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <Menu className="w-5 h-5" style={{ color: '#FF9900' }} />
         )}
       </button>
 
@@ -114,7 +115,7 @@ export function Sidebar() {
           <div className="flex items-center px-6 py-6 pt-20 lg:pt-6">
             <div className="flex items-center">
               {siteLogo ? (
-                <Image src={siteLogo} alt={siteName} width={40} height={40} className="rounded-xl shadow-lg" />
+                  <ChartCandlestick className="h-6 w-6 text-white" />
               ) : (
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
                   style={{
@@ -122,7 +123,7 @@ export function Sidebar() {
                     boxShadow: `0 4px 14px 0 ${primaryColor}63`
                   }}
                 >
-                  <RiLineChartLine className="w-6 h-6 text-white" />
+                  <ChartCandlestick className="h-6 w-6 text-white" />
                 </div>
               )}
               <span className="ml-3 text-xl font-bold text-foreground">{siteName}</span>
@@ -145,20 +146,20 @@ export function Sidebar() {
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
                   )}
                   style={isActive ? {
-                    background: 'linear-gradient(to right, rgba(255, 70, 24, 0.1), rgba(255, 107, 53, 0.1))',
-                    borderColor: 'rgba(255, 70, 24, 0.2)'
+                    background: 'linear-gradient(to right, rgba(255, 153, 0, 0.1), rgba(255, 107, 53, 0.1))',
+                    borderColor: 'rgba(255, 153, 0, 0.2)'
                   } : {}}
                 >
                   {isActive && (
                     <div className="absolute inset-0 blur-xl" style={{ 
-                      background: 'linear-gradient(to right, rgba(255, 70, 24, 0.05), rgba(255, 107, 53, 0.05))' 
+                      background: 'linear-gradient(to right, rgba(255, 153, 0, 0.05), rgba(255, 119, 0, 0.05))' 
                     }} />
                   )}
                   <Icon className={cn(
                     "mr-3 w-5 h-5 transition-all relative z-10",
                     isActive ? "" : "text-muted-foreground"
                   )} 
-                  style={isActive ? { color: 'rgb(255, 70, 24)' } : {}}
+                  style={isActive ? { color: '#FF9900' } : {}}
                   />
                   <span className="truncate relative z-10">{item.name}</span>
                 </Link>
@@ -180,8 +181,8 @@ export function Sidebar() {
                 className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
               >
                 <MdPerson className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                  style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
+                  style={{ '--hover-color': '#FF9900' } as React.CSSProperties}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#FF9900')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                 />
                 <span className="truncate">Profile</span>
@@ -194,8 +195,8 @@ export function Sidebar() {
                   className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
                 >
                   <MdAdminPanelSettings className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                    style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
+                    style={{ '--hover-color': '#FF9900' } as React.CSSProperties}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#FF9900')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                   />
                   <span className="truncate">Admin Panel</span>
@@ -214,8 +215,8 @@ export function Sidebar() {
                     className="flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
                   >
                     <Icon className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                      style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
+                      style={{ '--hover-color': '#FF9900' } as React.CSSProperties}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#FF9900')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                     />
                     <span className="truncate">{item.name}</span>
@@ -240,8 +241,8 @@ export function Sidebar() {
               <div className="flex-shrink-0">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center ring-2"
                   style={{
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                    boxShadow: '0 0 0 2px rgba(255, 70, 24, 0.2)'
+                    background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
+                    boxShadow: '0 0 0 2px rgba(255, 153, 0, 0.2)'
                   }}
                 >
                   <span className="text-sm font-bold text-white">
@@ -383,7 +384,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
         {/* Header */}
         <div className="relative p-6 pb-8"
           style={{
-            background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+            background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
           }}
         >
           <button
@@ -396,7 +397,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
           <div className="flex flex-col items-center">
             <div className="w-24 h-24 rounded-full flex items-center justify-center bg-white shadow-xl">
               <span className="text-4xl font-bold"
-                style={{ color: 'rgb(255, 70, 24)' }}
+                style={{ color: '#FF9900' }}
               >
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </span>
@@ -527,7 +528,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
                     disabled={changingPassword}
                     size="sm"
                     className="h-8 text-xs text-white"
-                    style={{ backgroundColor: '#ff4618' }}
+                    style={{ backgroundColor: '#FF9900' }}
                   >
                     {changingPassword ? (
                       <>
@@ -554,7 +555,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
               onClick={handleUpgrade}
               className="flex-1 px-4 py-2.5 rounded-xl text-white text-sm font-medium transition-colors"
               style={{
-                background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+                background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
               }}
             >
               Upgrade Plan

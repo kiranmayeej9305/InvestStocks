@@ -114,7 +114,7 @@ export default function ContactPage() {
                   disabled={loading}
                   className="w-full text-white"
                   style={{
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+                    background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
                   }}
                 >
                   <MdSend className="mr-2 w-4 h-4" />
@@ -140,7 +140,7 @@ export default function ContactPage() {
                       background: 'linear-gradient(135deg, rgba(255, 70, 24, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%)'
                     }}
                   >
-                    <MdEmail className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+                    <MdEmail className="w-5 h-5" style={{ color: '#FF9900' }} />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Email</p>
@@ -154,7 +154,7 @@ export default function ContactPage() {
                       background: 'linear-gradient(135deg, rgba(255, 70, 24, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%)'
                     }}
                   >
-                    <MdPhone className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+                    <MdPhone className="w-5 h-5" style={{ color: '#FF9900' }} />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Phone</p>
@@ -168,7 +168,7 @@ export default function ContactPage() {
                       background: 'linear-gradient(135deg, rgba(255, 70, 24, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%)'
                     }}
                   >
-                    <MdLocationOn className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+                    <MdLocationOn className="w-5 h-5" style={{ color: '#FF9900' }} />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Office</p>

@@ -17,7 +17,7 @@
  
 @layer base {
   :root {
-    /* Light Mode - Elegant Orange Theme */
+    /* Light Mode - Modern Orange Theme */
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
 
@@ -27,16 +27,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
  
-    --primary: 16 100% 55%;
+    --primary: 36 100% 50%;
     --primary-foreground: 210 40% 98%;
  
-    --secondary: 16 100% 98%;
+    --secondary: 36 100% 98%;
     --secondary-foreground: 222.2 47.4% 11.2%;
  
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
  
-    --accent: 16 100% 96%;
+    --accent: 36 100% 96%;
     --accent-foreground: 222.2 47.4% 11.2%;
  
     --destructive: 0 84.2% 60.2%;
@@ -44,21 +44,21 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 16 100% 55%;
+    --ring: 36 100% 50%;
  
     --radius: 0.75rem;
     
     /* Custom Enterprise Colors */
     --success: 142.1 76.2% 36.3%;
     --success-foreground: 210 40% 98%;
-    --warning: 45.4 93.4% 47.5%;
-    --warning-foreground: 222.2 47.4% 11.2%;
-    --info: 16 100% 55%;
+    --warning: 36 100% 50%;
+    --warning-foreground: 210 40% 98%;
+    --info: 36 100% 50%;
     --info-foreground: 210 40% 98%;
   }
  
   .dark {
-    /* Dark Mode - Elegant Orange Theme */
+    /* Dark Mode - Modern Orange Theme */
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
  
@@ -68,7 +68,7 @@
     --popover: 224 71% 4%;
     --popover-foreground: 213 31% 91%;
  
-    --primary: 16 100% 65%;
+    --primary: 36 100% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
  
     --secondary: 222.2 47.4% 11.2%;
@@ -77,7 +77,7 @@
     --muted: 223 47% 11%;
     --muted-foreground: 215.4 16.3% 56.9%;
  
-    --accent: 16 50% 20%;
+    --accent: 36 50% 25%;
     --accent-foreground: 210 40% 98%;
  
     --destructive: 0 62.8% 30.6%;
@@ -85,14 +85,14 @@
  
     --border: 216 34% 17%;
     --input: 216 34% 17%;
-    --ring: 16 100% 65%;
+    --ring: 36 100% 60%;
     
     /* Custom Enterprise Colors - Dark Mode */
     --success: 142.1 70.6% 45.3%;
     --success-foreground: 210 40% 98%;
-    --warning: 47.9 95.8% 53.1%;
+    --warning: 36 100% 60%;
     --warning-foreground: 222.2 47.4% 11.2%;
-    --info: 16 100% 65%;
+    --info: 36 100% 60%;
     --info-foreground: 222.2 47.4% 11.2%;
   }
 }

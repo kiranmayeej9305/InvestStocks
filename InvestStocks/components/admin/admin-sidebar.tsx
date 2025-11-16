@@ -66,14 +66,14 @@ export function AdminSidebar() {
         style={{
           background: isOpen ? 'rgba(255, 70, 24, 0.1)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(12px)',
-          borderColor: isOpen ? 'rgb(255, 70, 24)' : 'rgba(200, 200, 200, 0.3)'
+          borderColor: isOpen ? '#FF9900' : 'rgba(200, 200, 200, 0.3)'
         }}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? (
-          <X className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <X className="w-5 h-5" style={{ color: '#FF9900' }} />
         ) : (
-          <Menu className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <Menu className="w-5 h-5" style={{ color: '#FF9900' }} />
         )}
       </button>
 
@@ -89,7 +89,7 @@ export function AdminSidebar() {
             <div className="flex items-center">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
                 style={{
-                  background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                  background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                   boxShadow: '0 4px 14px 0 rgba(255, 70, 24, 0.39)'
                 }}
               >
@@ -140,7 +140,7 @@ export function AdminSidebar() {
                     "mr-3 w-5 h-5 transition-all relative z-10",
                     isActive ? "" : "text-muted-foreground"
                   )} 
-                  style={isActive ? { color: 'rgb(255, 70, 24)' } : {}}
+                  style={isActive ? { color: '#FF9900' } : {}}
                   />
                   <span className="truncate relative z-10">{item.name}</span>
                 </Link>
@@ -155,8 +155,8 @@ export function AdminSidebar() {
               className="flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
             >
               <RiLineChartLine className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
+                style={{ '--hover-color': '#FF9900' } as React.CSSProperties}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#FF9900')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = '')}
               />
               <span className="truncate">Back to Dashboard</span>
@@ -169,7 +169,7 @@ export function AdminSidebar() {
               <div className="flex-shrink-0">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center ring-2"
                   style={{
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                    background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                     boxShadow: '0 0 0 2px rgba(255, 70, 24, 0.2)'
                   }}
                 >

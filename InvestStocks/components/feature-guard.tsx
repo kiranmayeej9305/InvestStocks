@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Lock, TrendingUp, BarChart3, Shield } from 'lucide-react';
+import { Lock, ChartCandlestick, BarChart3, Shield } from 'lucide-react';
 
 interface FeatureGuardProps {
   feature: string;
@@ -32,7 +32,7 @@ export function FeatureGuard({
       case 'stockScreener':
         return <BarChart3 className="h-12 w-12 text-orange-500" />;
       case 'marketHeatmap':
-        return <TrendingUp className="h-12 w-12 text-orange-500" />;
+        return <ChartCandlestick className="h-12 w-12 text-orange-500" />;
       case 'advancedAnalytics':
         return <Shield className="h-12 w-12 text-orange-500" />;
       default:

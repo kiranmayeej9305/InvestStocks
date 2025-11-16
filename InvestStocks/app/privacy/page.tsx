@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
         {/* Header */}
         <div className="text-center space-y-4 py-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" 
-            style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
+            style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
             <Shield className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
@@ -308,7 +308,7 @@ export default function PrivacyPolicy() {
           <a 
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:shadow-lg"
-            style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}
+            style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}
           >
             Back to Home
           </a>

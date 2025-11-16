@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import { IconSpinner } from '@/components/ui/icons'
-import { TrendingUp, Mail, Lock, Eye, EyeOff, User, ArrowLeft } from 'lucide-react'
+import { ChartCandlestick, Mail, Lock, Eye, EyeOff, User, ArrowLeft } from 'lucide-react'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -78,7 +78,7 @@ export default function SignupPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-        <IconSpinner className="h-8 w-8 animate-spin" style={{ color: 'rgb(255, 70, 24)' }} />
+        <IconSpinner className="h-8 w-8 animate-spin" style={{ color: '#FF9900' }} />
       </div>
     )
   }
@@ -140,8 +140,8 @@ export default function SignupPage() {
           
           {/* Logo/Brand */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-              <TrendingUp className="h-8 w-8 text-white" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
+              <ChartCandlestick className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               StokAlert
@@ -231,7 +231,7 @@ export default function SignupPage() {
               type="submit"
               className="w-full h-11 font-semibold rounded-xl shadow-lg transition-all duration-200 mt-6"
               style={{ 
-                background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)',
                 boxShadow: '0 4px 15px rgba(255, 70, 24, 0.3)'
               }}
               disabled={isLoading}

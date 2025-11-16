@@ -66,8 +66,8 @@ const DEFAULT_SETTINGS: Omit<SiteSettings, '_id' | 'createdAt' | 'updatedAt'> = 
   allowPublicAccess: true,
   googleAnalyticsId: '',
   googleTagManagerId: '',
-  primaryColor: '#FF4618',
-  secondaryColor: '#FF6B35',
+  primaryColor: '#FF9900',
+  secondaryColor: '#FF7700',
   footerText: '© 2024 StokAlert. All rights reserved.',
 }
 

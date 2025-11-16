@@ -158,7 +158,7 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
                 key={plan.name} 
                 className={`relative ${plan.popular ? 'border-2 shadow-xl' : ''}`}
                 style={plan.popular ? {
-                  borderColor: 'rgb(255, 70, 24)'
+                  borderColor: '#FF9900'
                 } : {}}
               >
                 {plan.popular && (
@@ -166,7 +166,7 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
                     <Badge 
                       className="text-white px-4 py-1"
                       style={{
-                        background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+                        background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
                       }}
                     >
                       Most Popular
@@ -197,7 +197,7 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
                     className={`w-full ${plan.popular ? 'text-white' : ''}`}
                     variant={plan.popular ? 'default' : 'outline'}
                     style={plan.popular ? {
-                      background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+                      background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
                     } : {}}
                     onClick={() => handleSelectPlan(plan.planType, plan.name)}
                     disabled={loading !== null}

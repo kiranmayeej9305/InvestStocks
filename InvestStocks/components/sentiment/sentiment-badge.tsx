@@ -1,7 +1,7 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { ChartCandlestick, TrendingDown, Minus } from 'lucide-react'
 
 interface SentimentBadgeProps {
   sentimentPercentage: number
@@ -24,7 +24,7 @@ export function SentimentBadge({
   }
 
   const getSentimentIcon = (percentage: number) => {
-    if (percentage >= 60) return <TrendingUp className="w-3 h-3" />
+    if (percentage >= 60) return <ChartCandlestick className="w-3 h-3" />
     if (percentage >= 40) return <Minus className="w-3 h-3" />
     return <TrendingDown className="w-3 h-3" />
   }

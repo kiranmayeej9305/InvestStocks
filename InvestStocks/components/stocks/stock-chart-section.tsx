@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { ChartCandlestick, TrendingDown } from 'lucide-react'
 import { StockLogo } from './stock-logo'
 import { useTheme } from 'next-themes'
 
@@ -113,7 +113,7 @@ export function StockChartSection({
                 </div>
                 <div className="flex items-center gap-2 mb-1">
                   {isPositive ? (
-                    <TrendingUp className="w-5 h-5 text-emerald-500" />
+                    <ChartCandlestick className="w-5 h-5 text-emerald-500" />
                   ) : (
                     <TrendingDown className="w-5 h-5 text-red-500" />
                   )}

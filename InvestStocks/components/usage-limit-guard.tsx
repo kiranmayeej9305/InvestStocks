@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Clock, BarChart, MessageSquare, TrendingUp } from 'lucide-react';
+import { Clock, BarChart, MessageSquare, ChartCandlestick } from 'lucide-react';
 
 interface UsageLimitGuardProps {
   feature: string;
@@ -39,7 +39,7 @@ export function UsageLimitGuard({
       case 'stockCharts':
         return <BarChart className="h-12 w-12 text-orange-500" />;
       case 'stockTracking':
-        return <TrendingUp className="h-12 w-12 text-orange-500" />;
+        return <ChartCandlestick className="h-12 w-12 text-orange-500" />;
       default:
         return <Clock className="h-12 w-12 text-orange-500" />;
     }

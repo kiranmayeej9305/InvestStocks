@@ -190,7 +190,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
                       <Button
               type="submit"
               className="w-full text-white font-semibold py-2.5 rounded-xl shadow-lg transition-all duration-200"
-              style={{ backgroundColor: '#ff4618' }}
+              style={{ backgroundColor: '#FF9900' }}
               disabled={isSignUp && registrationDisabled}
             >
             {isSignUp ? 'Create Account' : 'Sign In'}
@@ -204,7 +204,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
               <button
                 onClick={() => setIsSignUp(false)}
                 className="font-medium transition-colors"
-                style={{ color: '#ff4618' }}
+                style={{ color: '#FF9900' }}
               >
                 Sign in
               </button>
@@ -221,7 +221,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
                   }
                 }}
                 className="font-medium transition-colors"
-                style={{ color: '#ff4618' }}
+                style={{ color: '#FF9900' }}
               >
                 Sign up
               </button>

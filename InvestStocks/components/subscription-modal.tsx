@@ -171,13 +171,13 @@ export function SubscriptionModal({ isOpen, onClose, userPlan = 'free', userEmai
                 <Card 
                   key={plan.id}
                   className={`relative ${
-                    plan.popular ? 'border-2 border-[#ff4618] shadow-lg' : 'border'
-                  } ${isCurrentPlan ? 'ring-2 ring-[#ff4618]' : ''}`}
+                    plan.popular ? 'border-2 border-[#FF9900] shadow-lg' : 'border'
+                  } ${isCurrentPlan ? 'ring-2 ring-[#FF9900]' : ''}`}
                 >
                   {plan.popular && (
                     <Badge 
                       className="absolute -top-3 left-1/2 transform -translate-x-1/2"
-                      style={{ backgroundColor: '#ff4618' }}
+                      style={{ backgroundColor: '#FF9900' }}
                     >
                       Most Popular
                     </Badge>
@@ -250,7 +250,7 @@ export function SubscriptionModal({ isOpen, onClose, userPlan = 'free', userEmai
                             ? 'text-white' 
                             : 'variant-outline'
                       }`}
-                      style={plan.popular && !isCurrentPlan ? { backgroundColor: '#ff4618' } : {}}
+                      style={plan.popular && !isCurrentPlan ? { backgroundColor: '#FF9900' } : {}}
                       disabled={isCurrentPlan || isProcessing}
                       onClick={() => !isCurrentPlan && handleUpgrade(plan.id)}
                     >

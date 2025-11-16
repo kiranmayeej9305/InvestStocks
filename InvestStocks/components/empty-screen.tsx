@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { ExternalLink } from '@/components/external-link'
 import { IconArrowRight } from '@/components/ui/icons'
 import { RiRobot2Line, RiSparklingLine } from 'react-icons/ri'
-import { MdTrendingUp, MdShowChart, MdInsights } from 'react-icons/md'
+import { MdChartCandlestick, MdShowChart, MdInsights } from 'react-icons/md'
 
 export function EmptyScreen() {
   return (

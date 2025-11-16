@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { StockLogo } from './stock-logo'
-import { Trash2, TrendingUp, TrendingDown, MoreHorizontal, AlertTriangle, StickyNote } from 'lucide-react'
+import { Trash2, ChartCandlestick, TrendingDown, MoreHorizontal, AlertTriangle, StickyNote } from 'lucide-react'
 import { AddHoldingDialog } from './add-holding-dialog'
 import {
   DropdownMenu,
@@ -102,7 +102,7 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Total Gain/Loss</p>
               <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                 {totalGainLoss >= 0 ? (
-                  <TrendingUp className="w-4 h-4 text-success flex-shrink-0" />
+                  <ChartCandlestick className="w-4 h-4 text-success flex-shrink-0" />
                 ) : (
                   <TrendingDown className="w-4 h-4 text-destructive flex-shrink-0" />
                 )}

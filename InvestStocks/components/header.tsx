@@ -23,7 +23,7 @@ function UserOrLogin() {
   const settings = useSiteSettings()
   const siteName = settings?.siteName || 'StokAlert'
   const siteLogo = settings?.siteLogo
-  const primaryColor = settings?.primaryColor || '#ff4618'
+  const primaryColor = settings?.primaryColor || '#FF9900'
 
   return (
     <>
@@ -48,7 +48,7 @@ function UserOrLogin() {
 
 export function Header() {
   const settings = useSiteSettings()
-  const primaryColor = settings?.primaryColor || '#ff4618'
+  const primaryColor = settings?.primaryColor || '#FF9900'
   const [authModalOpen, setAuthModalOpen] = React.useState(false)
   const [authMode, setAuthMode] = React.useState<'signin' | 'signup'>('signin')
   const [isAuthenticated, setIsAuthenticated] = React.useState(false)

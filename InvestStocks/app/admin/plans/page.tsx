@@ -21,7 +21,7 @@ import {
   Save, 
   Edit, 
   Zap, 
-  TrendingUp, 
+  ChartCandlestick, 
   Crown,
   DollarSign,
   CheckCircle,
@@ -93,7 +93,7 @@ function PlansManagementContent() {
       case 'free':
         return <Zap className="w-5 h-5" />
       case 'pro':
-        return <TrendingUp className="w-5 h-5" />
+        return <ChartCandlestick className="w-5 h-5" />
       case 'enterprise':
         return <Crown className="w-5 h-5" />
       default:

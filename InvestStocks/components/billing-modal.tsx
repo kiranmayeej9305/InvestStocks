@@ -391,7 +391,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           <Button
             variant={activeTab === 'overview' ? 'default' : 'ghost'}
             className={`flex-1 ${activeTab === 'overview' ? 'text-white' : ''}`}
-            style={activeTab === 'overview' ? { backgroundColor: '#ff4618' } : {}}
+            style={activeTab === 'overview' ? { backgroundColor: '#FF9900' } : {}}
             onClick={() => setActiveTab('overview')}
           >
             <DollarSign className="w-4 h-4 mr-2" />
@@ -400,7 +400,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           <Button
             variant={activeTab === 'subscription' ? 'default' : 'ghost'}
             className={`flex-1 ${activeTab === 'subscription' ? 'text-white' : ''}`}
-            style={activeTab === 'subscription' ? { backgroundColor: '#ff4618' } : {}}
+            style={activeTab === 'subscription' ? { backgroundColor: '#FF9900' } : {}}
             onClick={() => setActiveTab('subscription')}
           >
             <Crown className="w-4 h-4 mr-2" />
@@ -409,7 +409,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           <Button
             variant={activeTab === 'usage' ? 'default' : 'ghost'}
             className={`flex-1 ${activeTab === 'usage' ? 'text-white' : ''}`}
-            style={activeTab === 'usage' ? { backgroundColor: '#ff4618' } : {}}
+            style={activeTab === 'usage' ? { backgroundColor: '#FF9900' } : {}}
             onClick={() => setActiveTab('usage')}
           >
             <BarChart2 className="w-4 h-4 mr-2" />
@@ -502,13 +502,13 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                     <Card 
                       key={plan.id}
                       className={`relative ${
-                        plan.popular ? 'border-2 border-[#ff4618] shadow-lg' : 'border'
-                      } ${isCurrentPlan ? 'ring-2 ring-[#ff4618]' : ''}`}
+                        plan.popular ? 'border-2 border-[#FF9900] shadow-lg' : 'border'
+                      } ${isCurrentPlan ? 'ring-2 ring-[#FF9900]' : ''}`}
                     >
                       {plan.popular && (
                         <Badge 
                           className="absolute -top-3 left-1/2 transform -translate-x-1/2"
-                          style={{ backgroundColor: '#ff4618' }}
+                          style={{ backgroundColor: '#FF9900' }}
                         >
                           Most Popular
                         </Badge>
@@ -581,7 +581,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                                 ? 'text-white' 
                                 : 'variant-outline'
                           }`}
-                          style={plan.popular && !isCurrentPlan ? { backgroundColor: '#ff4618' } : {}}
+                          style={plan.popular && !isCurrentPlan ? { backgroundColor: '#FF9900' } : {}}
                           disabled={isCurrentPlan || isProcessing}
                           onClick={() => !isCurrentPlan && handleUpgrade(plan.id)}
                         >

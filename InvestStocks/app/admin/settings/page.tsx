@@ -452,7 +452,7 @@ function SettingsContent() {
                         <Input
                           value={settings.primaryColor}
                           onChange={(e) => updateSetting('primaryColor', e.target.value)}
-                          placeholder="#FF4618"
+                          placeholder="#FF9900"
                         />
                       </div>
                     </div>
@@ -468,7 +468,7 @@ function SettingsContent() {
                         <Input
                           value={settings.secondaryColor}
                           onChange={(e) => updateSetting('secondaryColor', e.target.value)}
-                          placeholder="#FF6B35"
+                          placeholder="#FF7700"
                         />
                       </div>
                     </div>
