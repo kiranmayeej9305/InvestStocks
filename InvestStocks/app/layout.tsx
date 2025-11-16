@@ -29,7 +29,7 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Overpass:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -47,8 +47,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <Toaster position="top-center" />
         <Providers
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <SiteSettingsContextProvider>
@@ -56,7 +57,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               {children}
             </MaintenanceMode>
           </SiteSettingsContextProvider>
-          <ThemeToggle />
+          {/* Theme toggle disabled - dark mode only */}
         </Providers>
         <script
           dangerouslySetInnerHTML={{
