@@ -2,6 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link'
 import CalendarContent from './calendar-content'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Calendar - StokAlert',
   description: 'Track earnings announcements and dividend payments',

@@ -482,26 +482,26 @@ export function StockScreener() {
                             {stock.name}
                           </div>
                         </TableCell>
-                        <TableCell>${stock.price.toFixed(2)}</TableCell>
+                        <TableCell>${(stock.price ?? 0).toFixed(2)}</TableCell>
                         <TableCell>
                           <div className={`flex items-center ${
-                            stock.changePercent >= 0 ? 'text-green-600' : 'text-red-600'
+                            (stock.changePercent ?? 0) >= 0 ? 'text-green-600' : 'text-red-600'
                           }`}>
-                            {stock.changePercent >= 0 ? '↗' : '↘'}
-                            {stock.changePercent.toFixed(2)}%
+                            {(stock.changePercent ?? 0) >= 0 ? '↗' : '↘'}
+                            {(stock.changePercent ?? 0).toFixed(2)}%
                           </div>
                         </TableCell>
                         <TableCell>{formatMarketCap(stock.marketCap)}</TableCell>
-                        <TableCell>{stock.peRatio.toFixed(2)}</TableCell>
+                        <TableCell>{(stock.peRatio ?? 0).toFixed(2)}</TableCell>
                         <TableCell>
                           <Badge 
                             variant={
-                              stock.rsi > 70 ? 'destructive' : 
-                              stock.rsi < 30 ? 'default' : 
+                              (stock.rsi ?? 50) > 70 ? 'destructive' : 
+                              (stock.rsi ?? 50) < 30 ? 'default' : 
                               'secondary'
                             }
                           >
-                            {stock.rsi.toFixed(1)}
+                            {(stock.rsi ?? 0).toFixed(1)}
                           </Badge>
                         </TableCell>
                         <TableCell>
