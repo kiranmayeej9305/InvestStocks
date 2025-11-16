@@ -15,7 +15,20 @@ interface MaintenanceModeProps {
 export function MaintenanceMode({ children }: MaintenanceModeProps) {
   const [settings, setSettings] = useState<SiteSettings | null>(null)
   const [loading, setLoading] = useState(true)
-  const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
+  
+  // Get pathname safely
+  let pathname: string | null = null
+  try {
+    pathname = usePathname()
+  } catch (error) {
+    // Router context not available yet
+    pathname = null
+  }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     fetch('/api/site-settings')
@@ -29,7 +42,8 @@ export function MaintenanceMode({ children }: MaintenanceModeProps) {
       .finally(() => setLoading(false))
   }, [])
 
-  if (loading) {
+  // Don't render anything until mounted on client
+  if (!mounted || loading) {
     return <>{children}</>
   }
 

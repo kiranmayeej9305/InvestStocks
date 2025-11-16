@@ -115,7 +115,7 @@ export function Sidebar() {
           <div className="flex items-center px-6 py-6 pt-20 lg:pt-6">
             <div className="flex items-center">
               {siteLogo ? (
-                  <ChartCandlestick className="h-6 w-6 text-white" />
+                  <ChartCandlestick className="h-6 w-10 text-white" />
               ) : (
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
                   style={{
@@ -123,10 +123,12 @@ export function Sidebar() {
                     boxShadow: `0 4px 14px 0 ${primaryColor}63`
                   }}
                 >
-                  <ChartCandlestick className="h-6 w-6 text-white" />
+                  <ChartCandlestick className="h-6 w-10 text-white" />
                 </div>
               )}
-              <span className="ml-3 text-xl font-bold text-foreground">{siteName}</span>
+              <h3 className="ml-3 text-xl font-bold text-foreground">
+                {siteName}
+              </h3>            
             </div>
           </div>
 
