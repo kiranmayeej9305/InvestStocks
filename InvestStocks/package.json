@@ -13,7 +13,10 @@
     "change-password": "node scripts/change-password.mjs",
     "type-check": "tsc --noEmit",
     "format:write": "prettier --write \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache",
+    "test": "node scripts/run-tests.js",
+    "test:local": "TEST_BASE_URL=http://localhost:3000 node scripts/run-tests.js",
+    "test:production": "TEST_BASE_URL=https://your-domain.vercel.app node scripts/run-tests.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.2",

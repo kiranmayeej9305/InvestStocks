@@ -31,7 +31,9 @@ import {
   MdChat,
   MdSpeed,
   MdLightbulb,
-  MdAdminPanelSettings
+  MdAdminPanelSettings,
+  MdNotifications,
+  MdFilterList
 } from 'react-icons/md'
 import { RiStockLine, RiLineChartLine, RiRobot2Line } from 'react-icons/ri'
 import { useSiteSettings } from '@/components/site-settings-context'
@@ -43,6 +45,9 @@ const navigation = [
   { name: 'StokAlert AI', href: '/ai-chat', icon: RiRobot2Line },
   { name: 'Stock', href: '/stocks', icon: RiStockLine },
   { name: 'Portfolio', href: '/portfolio', icon: MdPieChart },
+  { name: 'Alerts', href: '/alerts', icon: MdNotifications },
+  { name: 'Calendar', href: '/calendar', icon: MdCalendarToday },
+  { name: 'Screener', href: '/screener', icon: MdFilterList },
   { name: 'Trade Ideas', href: '/trade-ideas', icon: MdLightbulb },
   { name: 'Fear & Greed', href: '/fear-greed', icon: MdSpeed },
   { name: 'Community', href: '/community', icon: MdPeople },

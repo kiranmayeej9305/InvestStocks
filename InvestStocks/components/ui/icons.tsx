@@ -487,6 +487,132 @@ function IconChevronUpDown({
   )
 }
 
+function IconBell({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M221.8 175.94c-5.55-9.56-13.8-36.61-13.8-71.94a80 80 0 0 0-160 0c0 35.33-8.25 62.38-13.8 71.94A16 16 0 0 0 48 200h40.81a40 40 0 0 0 78.38 0H208a16 16 0 0 0 13.8-24.06ZM128 216a24 24 0 0 1-22.62-16h45.24A24 24 0 0 1 128 216ZM48 184c7.7-13.24 16-43.92 16-80a64 64 0 0 1 128 0c0 36.05 8.28 66.73 16 80Z" />
+    </svg>
+  )
+}
+
+function IconActivity({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M240 128a8 8 0 0 1-8 8h-48.08l-26.17 40.6a8 8 0 0 1-12.86.5L100.5 139.08 70.2 176.6A8 8 0 0 1 57.8 174l-33.33-44.44A8 8 0 0 1 30.47 121.4l32 42.66 30.15-37.45a8 8 0 0 1 12.86-.5L149.85 164.13 175.26 136H232a8 8 0 0 1 8-8Z" />
+    </svg>
+  )
+}
+
+function IconAlertTriangle({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M236.8 188.09L149.35 36.22a24.76 24.76 0 0 0-42.7 0L19.2 188.09a23.51 23.51 0 0 0 0 23.72A24.35 24.35 0 0 0 40.55 224h174.9a24.35 24.35 0 0 0 21.33-12.19 23.51 23.51 0 0 0 .02-23.72ZM224.66 198.1a8.5 8.5 0 0 1-7.16 4.9H38.5a8.5 8.5 0 0 1-7.16-4.9 7.59 7.59 0 0 1 0-7.72L118.8 38.56a8.75 8.75 0 0 1 15.4 0l87.46 151.82a7.59 7.59 0 0 1 0 7.72ZM120 144V104a8 8 0 0 1 16 0v40a8 8 0 0 1-16 0Zm20 36a12 12 0 1 1-12-12 12 12 0 0 1 12 12Z" />
+    </svg>
+  )
+}
+
+function IconTrending({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M232 56v64a8 8 0 0 1-8 8h-64a8 8 0 0 1 0-16h44.69L149.66 57a8 8 0 0 0-11.32 0L96 99.31l-53.66-53.65a8 8 0 0 0-11.32 11.32l59.32 59.32a8 8 0 0 0 11.32 0L144 74 196.69 126.65a8 8 0 0 0 11.32-11.32l-16-16v-43.31a8 8 0 0 1 16 0Z" />
+    </svg>
+  )
+}
+
+function IconMail({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M224 48H32a16 16 0 0 0-16 16v128a16 16 0 0 0 16 16h192a16 16 0 0 0 16-16V64a16 16 0 0 0-16-16ZM203.43 64 128 133.15 52.57 64ZM224 192H32V74.19l82.59 75.71a16 16 0 0 0 21.82 0L224 74.19V192Z" />
+    </svg>
+  )
+}
+
+function IconPhone({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M222.37 158.46l-47.11-21.11-.13-.06a16 16 0 0 0-15.17 1.4 8.12 8.12 0 0 0-.75.56L134.87 160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16 16 0 0 0 1.32-15.06l0-.12L97.54 33.64a16 16 0 0 0-16.62-9.52A56.26 56.26 0 0 0 32 80c0 79.4 64.6 144 144 144a56.26 56.26 0 0 0 55.88-48.92 16 16 0 0 0-9.51-16.62Z" />
+    </svg>
+  )
+}
+
+function IconChevronDown({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M213.66 101.66l-80 80a8 8 0 0 1-11.32 0l-80-80a8 8 0 0 1 11.32-11.32L128 164.69l74.34-74.35a8 8 0 0 1 11.32 11.32Z" />
+    </svg>
+  )
+}
+
+function IconChevronLeft({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M165.66 202.34a8 8 0 0 1-11.32 11.32l-80-80a8 8 0 0 1 0-11.32l80-80a8 8 0 0 1 11.32 11.32L91.31 128Z" />
+    </svg>
+  )
+}
+
+function IconMoreHorizontal({ className, ...props }: React.ComponentProps<'svg'>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="currentColor"
+      className={cn('size-4', className)}
+      {...props}
+    >
+      <path d="M144 128a16 16 0 1 1-16-16 16 16 0 0 1 16 16Zm-84-16a16 16 0 1 0 16 16 16 16 0 0 0-16-16Zm136 0a16 16 0 1 0 16 16 16 16 0 0 0-16-16Z" />
+    </svg>
+  )
+}
+
 export {
   IconEdit,
   IconNextChat,
@@ -514,5 +640,54 @@ export {
   IconShare,
   IconUsers,
   IconExternalLink,
-  IconChevronUpDown
+  IconChevronUpDown,
+  IconBell,
+  IconActivity,
+  IconAlertTriangle,
+  IconTrending,
+  IconMail,
+  IconPhone,
+  IconChevronDown,
+  IconChevronLeft,
+  IconMoreHorizontal
+}
+
+// Create a consolidated Icons object for easier access
+export const Icons = {
+  edit: IconEdit,
+  nextChat: IconNextChat,
+  openAI: IconOpenAI,
+  groq: IconGroq,
+  vercel: IconVercel,
+  gitHub: IconGitHub,
+  separator: IconSeparator,
+  arrowDown: IconArrowDown,
+  arrowRight: IconArrowRight,
+  user: IconUser,
+  plus: IconPlus,
+  arrowElbow: IconArrowElbow,
+  spinner: IconSpinner,
+  message: IconMessage,
+  trash: IconTrash,
+  refresh: IconRefresh,
+  stop: IconStop,
+  moon: IconMoon,
+  sun: IconSun,
+  copy: IconCopy,
+  check: IconCheck,
+  download: IconDownload,
+  close: IconClose,
+  share: IconShare,
+  users: IconUsers,
+  externalLink: IconExternalLink,
+  chevronUpDown: IconChevronUpDown,
+  bell: IconBell,
+  activity: IconActivity,
+  alertTriangle: IconAlertTriangle,
+  trending: IconTrending,
+  mail: IconMail,
+  phone: IconPhone,
+  chevronDown: IconChevronDown,
+  chevronLeft: IconChevronLeft,
+  moreHorizontal: IconMoreHorizontal
 }
