@@ -1,4 +1,3 @@
-import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 
 import '@/app/globals.css'
@@ -31,12 +30,18 @@ interface RootLayoutProps {
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Overpass:wght@100;200;300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={cn(
           'font-sans antialiased min-h-screen',
-          GeistSans.variable,
           GeistMono.variable
         )}
+        style={{ fontFamily: 'Overpass, sans-serif' }}
       >
         <SiteSettingsProvider />
         <Toaster position="top-center" />
