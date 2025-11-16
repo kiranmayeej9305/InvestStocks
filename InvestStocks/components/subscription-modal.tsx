@@ -18,7 +18,7 @@ interface SubscriptionModalProps {
 const plans = [
   {
     id: 'free',
-    name: 'Starter',
+    name: 'Explorer',
     price: '$0',
     period: '/month',
     description: 'Perfect for individual investors and students',
@@ -46,8 +46,8 @@ const plans = [
   },
   {
     id: 'pro',
-    name: 'Investor',
-    price: '$19',
+    name: 'Alpha Hunter',
+    price: '$4.99',
     period: '/month',
     description: 'For active investors and day traders',
     features: [
@@ -66,17 +66,17 @@ const plans = [
     ],
     limitations: [],
     popular: true,
-    cta: 'Upgrade to Pro',
+    cta: 'Upgrade to Alpha Hunter',
     disabled: false
   },
   {
     id: 'enterprise',
-    name: 'Professional',
-    price: '$49',
+    name: 'Market Master',
+    price: '$9.99',
     period: '/month',
     description: 'For financial institutions and professionals',
     features: [
-      'Everything in Pro Plan',
+      'Everything in Alpha Hunter Plan',
       'Unlimited symbol comparisons',
       'Advanced stock screener',
       'Dedicated support (phone + email)',
@@ -86,7 +86,7 @@ const plans = [
     ],
     limitations: [],
     popular: false,
-    cta: 'Upgrade to Enterprise',
+    cta: 'Upgrade to Market Master',
     disabled: false
   }
 ]

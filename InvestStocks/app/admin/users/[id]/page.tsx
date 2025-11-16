@@ -444,9 +444,9 @@ function UserDetailsContent({ userId }: { userId: string }) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="free">Free</SelectItem>
-                  <SelectItem value="pro">Pro</SelectItem>
-                  <SelectItem value="enterprise">Enterprise</SelectItem>
+                  <SelectItem value="free">Explorer</SelectItem>
+                  <SelectItem value="pro">Alpha Hunter</SelectItem>
+                  <SelectItem value="enterprise">Market Master</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -37,7 +37,7 @@ export async function getAllPlans(): Promise<Plan[]> {
       const defaultPlans: Omit<Plan, '_id'>[] = [
         {
           planId: 'free',
-          name: 'Starter',
+          name: 'Explorer',
           price: 0,
           limits: PLAN_LIMITS.free,
           isActive: true,
@@ -46,8 +46,8 @@ export async function getAllPlans(): Promise<Plan[]> {
         },
         {
           planId: 'pro',
-          name: 'Investor',
-          price: 19,
+          name: 'Alpha Hunter',
+          price: 4.99,
           limits: PLAN_LIMITS.pro,
           isActive: true,
           createdAt: new Date().toISOString(),
@@ -55,8 +55,8 @@ export async function getAllPlans(): Promise<Plan[]> {
         },
         {
           planId: 'enterprise',
-          name: 'Enterprise',
-          price: 49,
+          name: 'Market Master',
+          price: 9.99,
           limits: PLAN_LIMITS.enterprise,
           isActive: true,
           createdAt: new Date().toISOString(),
