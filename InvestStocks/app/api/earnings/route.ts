@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { FinancialModelingPrepService } from '@/lib/services/data-sources'
+import { tradingViewDataService } from '@/lib/services/tradingview-data'
 
 export async function GET(request: NextRequest) {
   try {
@@ -7,28 +8,52 @@ export async function GET(request: NextRequest) {
     const from = searchParams.get('from') || new Date().toISOString().split('T')[0]
     const to = searchParams.get('to') || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-    // Check if API key is configured
-    if (!process.env.FINANCIAL_PREP_API_KEY) {
-      return NextResponse.json(
-        { 
-          error: 'API key not configured',
-          message: 'FINANCIAL_PREP_API_KEY environment variable is required. Please configure it to fetch earnings data.'
-        },
-        { status: 503 }
-      )
-    }
+    let earningsData: any[] = []
+    let dataSource = 'mock'
 
-    const financialPrepService = new FinancialModelingPrepService()
-    const earningsData = await financialPrepService.getEarningsCalendar(from, to)
-
-    if (!earningsData || earningsData.length === 0) {
-      return NextResponse.json(
-        { 
-          error: 'No data available',
-          message: 'Financial Modeling Prep API returned no earnings data for the requested period.'
-        },
-        { status: 404 }
-      )
+    // Try to get real data from TradingViewDataService
+    try {
+      const tradingViewResult = await tradingViewDataService.getEarningsData(from, to)
+      
+      if (tradingViewResult.data && tradingViewResult.data.length > 0) {
+        earningsData = tradingViewResult.data
+        dataSource = tradingViewResult.source
+      } else {
+        // No real data available, try original Financial Prep service
+        if (process.env.FINANCIAL_PREP_API_KEY) {
+          try {
+            const financialPrepService = new FinancialModelingPrepService()
+            const apiData = await financialPrepService.getEarningsCalendar(from, to)
+            
+            if (apiData && apiData.length > 0) {
+              earningsData = apiData
+              dataSource = 'financial_prep'
+            } else {
+              return NextResponse.json({
+                error: 'No earnings data available',
+                message: 'No earnings data found for the requested date range'
+              }, { status: 404 })
+            }
+          } catch (apiError) {
+            console.error('Financial Prep API error:', apiError)
+            return NextResponse.json({
+              error: 'Financial data service error',
+              message: 'Unable to fetch earnings data from Financial Modeling Prep API'
+            }, { status: 503 })
+          }
+        } else {
+          return NextResponse.json({
+            error: 'No data sources configured',
+            message: 'Please configure API keys for real-time earnings data'
+          }, { status: 503 })
+        }
+      }
+    } catch (error) {
+      console.error('TradingView data service error:', error)
+      return NextResponse.json({
+        error: 'Data service unavailable',
+        message: 'Real-time earnings data service is currently unavailable'
+      }, { status: 503 })
     }
 
     // Transform and filter the data
@@ -50,12 +75,14 @@ export async function GET(request: NextRequest) {
         updatedToDate: item.updatedToDate || null
       }))
 
-    return NextResponse.json({
+    const response: any = {
       earnings: formattedEarnings,
       count: formattedEarnings.length,
       dateRange: { from, to },
-      source: 'financial_prep'
-    })
+      source: dataSource
+    }
+
+    return NextResponse.json(response)
 
   } catch (error) {
     console.error('Earnings API error:', error)

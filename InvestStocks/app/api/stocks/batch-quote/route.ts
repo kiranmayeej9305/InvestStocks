@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { cacheService, CacheKeys } from '@/lib/services/cache-service'
 
 export async function POST(request: NextRequest) {
   const apiKey = process.env.FINNHUB_API_KEY
@@ -19,51 +20,84 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Fetch quotes for all symbols in parallel (Finnhub allows this)
-    const quotePromises = symbols.map(async (symbol: string) => {
-      try {
-        const response = await fetch(
-          `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${apiKey}`,
-          {
-            next: { revalidate: 60 }, // Cache for 1 minute
-          }
-        )
+    if (symbols.length > 50) {
+      return NextResponse.json(
+        { error: 'Maximum 50 symbols allowed per request' },
+        { status: 400 }
+      )
+    }
 
-        if (!response.ok) return null
-
-        const data = await response.json()
+    // Check cache first for batch data
+    const cacheKey = CacheKeys.batchQuotes(symbols)
+    
+    const result = await cacheService.getOrSet(cacheKey, async () => {
+      console.log(`Fetching fresh batch quotes for ${symbols.length} symbols...`)
+      
+      // Fetch quotes for all symbols in parallel (with rate limiting)
+      const quotesMap: any = {}
+      
+      // Process in smaller chunks to avoid overwhelming the API
+      const chunkSize = 10
+      for (let i = 0; i < symbols.length; i += chunkSize) {
+        const chunk = symbols.slice(i, i + chunkSize)
         
-        if (!data.c || data.c === 0) return null
+        const chunkPromises = chunk.map(async (symbol: string) => {
+          try {
+            const response = await fetch(
+              `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${apiKey}`
+            )
 
-        return {
-          symbol,
-          currentPrice: data.c,
-          change: data.d,
-          changePercent: data.dp,
-          high: data.h,
-          low: data.l,
-          open: data.o,
-          previousClose: data.pc,
-          timestamp: data.t,
+            if (!response.ok) return null
+
+            const data = await response.json()
+            
+            if (!data.c || data.c === 0) return null
+
+            return {
+              symbol,
+              currentPrice: data.c,
+              change: data.d,
+              changePercent: data.dp,
+              high: data.h,
+              low: data.l,
+              open: data.o,
+              previousClose: data.pc,
+              timestamp: data.t,
+            }
+          } catch (error) {
+            console.error(`Quote error for ${symbol}:`, error)
+            return null
+          }
+        })
+
+        const chunkResults = await Promise.all(chunkPromises)
+        
+        // Add results to map
+        chunkResults.forEach(quote => {
+          if (quote) {
+            quotesMap[quote.symbol] = quote
+          }
+        })
+        
+        // Add delay between chunks to respect rate limits
+        if (i + chunkSize < symbols.length) {
+          await new Promise(resolve => setTimeout(resolve, 100))
         }
-      } catch {
-        return null
       }
-    })
 
-    const quotes = await Promise.all(quotePromises)
-    const validQuotes = quotes.filter(q => q !== null)
+      const count = Object.keys(quotesMap).length
+      console.log(`Successfully fetched ${count}/${symbols.length} quotes`)
 
-    // Create a map for easy lookup
-    const quotesMap = validQuotes.reduce((acc: any, quote: any) => {
-      acc[quote.symbol] = quote
-      return acc
-    }, {})
-
-    return NextResponse.json({
-      quotes: quotesMap,
-      count: validQuotes.length,
-    })
+      return {
+        quotes: quotesMap,
+        count: count,
+        requested: symbols.length,
+        source: 'finnhub_fresh',
+        timestamp: new Date().toISOString()
+      }
+    }, 60 * 1000) // Cache for 1 minute
+    
+    return NextResponse.json(result)
 
   } catch (error) {
     console.error('Batch quote API error:', error)
