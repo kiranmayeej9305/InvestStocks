@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Separator } from '@/components/ui/separator'
 import { EarningsAlertManager } from '@/components/alerts/earnings-alert-manager'
 import { TradingViewWidget, TradingViewMiniChart } from '@/components/tradingview/tradingview-widget'
+import { SelectedStockWidget } from './selected-stock-widget'
 import {
   Table,
   TableBody,
@@ -419,7 +420,7 @@ export function EarningsCalendar() {
                           <TableRow 
                             key={`${earning.symbol}-${index}`}
                             className="hover:bg-muted/50 cursor-pointer"
-                            onClick={() => handleStockClick(earning.symbol)}
+                            onClick={() => setSelectedStock(earning.symbol)}
                           >
                             <TableCell className="font-medium">
                               <Badge variant="outline" className="font-mono">
@@ -474,10 +475,11 @@ export function EarningsCalendar() {
                                 variant="ghost"
                                 onClick={(e) => {
                                   e.stopPropagation()
-                                  handleStockClick(earning.symbol)
+                                  setSelectedStock(earning.symbol)
                                 }}
+                                className="hover:bg-blue-50"
                               >
-                                <Icons.arrowRight className="h-4 w-4" />
+                                <Icons.bell className="h-4 w-4 text-blue-600" />
                               </Button>
                             </TableCell>
                           </TableRow>
@@ -495,7 +497,7 @@ export function EarningsCalendar() {
               <Card 
                 key={`${earning.symbol}-${index}`} 
                 className="cursor-pointer hover:shadow-md transition-shadow"
-                onClick={() => handleStockClick(earning.symbol)}
+                onClick={() => setSelectedStock(earning.symbol)}
               >
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">

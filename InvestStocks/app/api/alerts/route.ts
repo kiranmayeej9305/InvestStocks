@@ -5,23 +5,36 @@ import { Alert, AlertType } from '@/lib/types/alerts'
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify authentication
-    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    // Verify authentication - get token from cookies (httpOnly cookie)
+    const authHeader = request.headers.get('authorization')
+    let token = authHeader?.replace('Bearer ', '') || null
+    
+    // If no Authorization header, try to get from cookies
+    if (!token) {
+      token = request.cookies.get('auth_token')?.value || null
+    }
     
     if (!token) {
+      console.error('No authentication token provided')
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Authentication required: No token provided' },
         { status: 401 }
       )
     }
 
+    // Log token info for debugging (without exposing full token)
+    console.log(`Verifying token: ${token.substring(0, 20)}...`)
+
     const decoded = verifyJWT(token)
     if (!decoded) {
+      console.error('JWT verification failed - token is invalid or expired')
       return NextResponse.json(
-        { error: 'Invalid authentication token' },
+        { error: 'Invalid or expired authentication token' },
         { status: 401 }
       )
     }
+
+    console.log(`Authenticated user: ${decoded.userId}`)
 
     const body = await request.json()
     
@@ -83,8 +96,13 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    // Verify authentication
-    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    // Verify authentication - get token from cookies
+    let token = request.headers.get('authorization')?.replace('Bearer ', '')
+    
+    // If no Authorization header, try to get from cookies
+    if (!token) {
+      token = request.cookies.get('auth_token')?.value || null
+    }
     
     if (!token) {
       return NextResponse.json(
