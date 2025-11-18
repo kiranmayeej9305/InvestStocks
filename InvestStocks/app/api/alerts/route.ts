@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     // Verify authentication - get token from cookies
-    let token = request.headers.get('authorization')?.replace('Bearer ', '')
+    let token = request.headers.get('authorization')?.replace('Bearer ', '') || null
     
     // If no Authorization header, try to get from cookies
     if (!token) {

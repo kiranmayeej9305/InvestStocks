@@ -71,6 +71,11 @@ export async function setupDatabaseIndexes() {
     await auditLogsCollection.createIndex({ userId: 1, timestamp: -1 })
     await auditLogsCollection.createIndex({ timestamp: -1 })
     
+    // User screeners collection indexes
+    const userScreenersCollection = db.collection('user_screeners')
+    await userScreenersCollection.createIndex({ userId: 1, createdAt: -1 })
+    await userScreenersCollection.createIndex({ userId: 1, name: 1 })
+    
     console.log('Database indexes setup completed successfully')
     
     return {

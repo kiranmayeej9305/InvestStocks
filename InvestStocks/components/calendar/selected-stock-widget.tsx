@@ -159,7 +159,7 @@ export function SelectedStockWidget({ symbol, onClose }: SelectedStockWidgetProp
             
             {/* Close Button */}
             <Button size="sm" variant="ghost" onClick={onClose}>
-              <Icons.x className="h-4 w-4" />
+              <Icons.close className="h-4 w-4" />
             </Button>
           </div>
         </div>

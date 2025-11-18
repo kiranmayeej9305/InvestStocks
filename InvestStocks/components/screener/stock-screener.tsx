@@ -8,14 +8,17 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Icons } from '@/components/ui/icons'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { StockScreener as TradingViewStockScreener } from '@/components/tradingview/stock-screener'
+// import { DynamicStockScreener } from '@/components/tradingview/dynamic-stock-screener'
 
 interface ScreenerFilters {
   exchanges: string[]
@@ -36,34 +39,14 @@ interface ScreenerFilters {
   industries: string[]
 }
 
-interface Stock {
-  symbol: string
-  name: string
-  price: number
-  change: number
-  changePercent: number
-  marketCap: number
-  volume: number
-  peRatio: number
-  sector: string
-  industry: string
-  sma20: number
-  sma50: number
-  sma200: number
-  ema20: number
-  ema50: number
-  rsi: number
-  week52High: number
-  week52Low: number
-  dividendYield: number
-  bookValue: number
-  eps: number
-  beta: number
-}
 
 export function StockScreener() {
-  const [stocks, setStocks] = useState<Stock[]>([])
   const [loading, setLoading] = useState(false)
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false)
+  const [savedScreeners, setSavedScreeners] = useState<any[]>([])
+  const [screenerName, setScreenerName] = useState('')
+  const [activeTab, setActiveTab] = useState('smart')
+  const [smartRules, setSmartRules] = useState<any[]>([])
   const [filters, setFilters] = useState<ScreenerFilters>({
     exchanges: [],
     priceRange: {},
@@ -80,66 +63,71 @@ export function StockScreener() {
   const [sortBy, setSortBy] = useState('marketCap')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 
-  const runScreener = useCallback(async () => {
+
+  // Load saved screeners on component mount
+  useEffect(() => {
+    loadSavedScreeners()
+  }, [])
+
+  const loadSavedScreeners = async () => {
     try {
-      setLoading(true)
-      
-      const response = await fetch('/api/screener', {
+      const response = await fetch('/api/screener/saved')
+      if (response.ok) {
+        const data = await response.json()
+        setSavedScreeners(data.screeners || [])
+      }
+    } catch (error) {
+      console.error('Error loading saved screeners:', error)
+    }
+  }
+
+  const saveScreener = async () => {
+    if (!screenerName.trim()) return
+
+    try {
+      const response = await fetch('/api/screener/saved', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...filters,
+          name: screenerName,
+          filters,
           sortBy,
-          sortOrder,
-          limit: 100
+          sortOrder
         })
       })
-      
+
       if (response.ok) {
-        const data = await response.json()
-        setStocks(data.stocks || [])
-      } else {
-        console.error('Failed to run screener')
-        setStocks([])
+        await loadSavedScreeners()
+        setSaveDialogOpen(false)
+        setScreenerName('')
       }
     } catch (error) {
-      console.error('Error running screener:', error)
-      setStocks([])
-    } finally {
-      setLoading(false)
-    }
-  }, [filters, sortBy, sortOrder])
-
-  useEffect(() => {
-    // Run initial screen with default filters
-    runScreener()
-  }, [runScreener])
-
-  const formatMarketCap = (marketCap: number | undefined) => {
-    if (!marketCap || marketCap <= 0) return '$0'
-    if (marketCap >= 1e12) {
-      return `$${(marketCap / 1e12).toFixed(2)}T`
-    } else if (marketCap >= 1e9) {
-      return `$${(marketCap / 1e9).toFixed(2)}B`
-    } else if (marketCap >= 1e6) {
-      return `$${(marketCap / 1e6).toFixed(2)}M`
-    } else {
-      return `$${marketCap.toFixed(0)}`
+      console.error('Error saving screener:', error)
     }
   }
 
-  const formatVolume = (volume: number | undefined) => {
-    if (!volume || volume <= 0) return '0'
-    if (volume >= 1e6) {
-      return `${(volume / 1e6).toFixed(2)}M`
-    } else if (volume >= 1e3) {
-      return `${(volume / 1e3).toFixed(2)}K`
-    } else {
-      return volume.toString()
+  const deleteSavedScreener = async (id: string) => {
+    try {
+      const response = await fetch(`/api/screener/saved/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        await loadSavedScreeners()
+      }
+    } catch (error) {
+      console.error('Error deleting screener:', error)
     }
   }
+
+  const applyPresetScreener = (preset: any) => {
+    setFilters(prev => ({ ...prev, ...preset.filters }))
+    if (preset.sortBy) setSortBy(preset.sortBy)
+    if (preset.sortOrder) setSortOrder(preset.sortOrder)
+  }
+
 
   const addRsiFilter = () => {
     setFilters(prev => ({
@@ -180,7 +168,7 @@ export function StockScreener() {
     })
   }
 
-  const presetScreeners = [
+  const defaultPresetScreeners = [
     {
       name: 'Large Cap Growth',
       filters: { marketCapRange: { min: 10000000000 }, peRatioRange: { min: 15 } }
@@ -196,8 +184,18 @@ export function StockScreener() {
     {
       name: 'Overbought (RSI > 70)',
       filters: { rsiFilters: [{ comparison: 'above', value: 70 }] }
+    },
+    {
+      name: 'High Volume Breakout',
+      filters: { volumeRange: { min: 1000000 }, priceRange: { min: 10 } }
+    },
+    {
+      name: 'Mid Cap Value',
+      filters: { marketCapRange: { min: 2000000000, max: 10000000000 }, peRatioRange: { max: 15 } }
     }
   ]
+
+  const allScreeners = [...defaultPresetScreeners, ...savedScreeners]
 
   return (
     <div className="space-y-6">
@@ -210,18 +208,9 @@ export function StockScreener() {
           </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button onClick={runScreener} disabled={loading}>
-            {loading ? (
-              <>
-                <Icons.spinner className="h-4 w-4 mr-2 animate-spin" />
-                Screening...
-              </>
-            ) : (
-              <>
-                <Icons.refresh className="h-4 w-4 mr-2" />
-                Run Screen
-              </>
-            )}
+          <Button variant="outline" onClick={() => setSaveDialogOpen(true)}>
+            <Icons.download className="h-4 w-4 mr-2" />
+            Save Screener
           </Button>
           <Button variant="outline" onClick={clearAllFilters}>
             Clear Filters
@@ -229,39 +218,99 @@ export function StockScreener() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-4">
-        {/* Filters Sidebar */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* Preset Screeners */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Preset Screeners</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              {presetScreeners.map((preset, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  size="sm"
-                  className="w-full justify-start text-xs"
-                  onClick={() => {
-                    setFilters(prev => ({ ...prev, ...preset.filters }))
-                    runScreener()
-                  }}
-                >
-                  {preset.name}
-                </Button>
-              ))}
-            </CardContent>
-          </Card>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="smart">🧠 Smart Rules</TabsTrigger>
+          <TabsTrigger value="manual">⚙️ Manual Filters</TabsTrigger>
+        </TabsList>
 
-          {/* Price Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-sm">Price</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
+        <TabsContent value="smart" className="space-y-6">
+          <div className="grid gap-6 lg:grid-cols-4">
+            {/* Smart Filter Panel */}
+            <div className="lg:col-span-1">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-sm">🧠 Smart Filters</CardTitle>
+                  <p className="text-xs text-muted-foreground">
+                    Coming soon - Simplified smart filtering
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-xs text-muted-foreground">
+                    Smart filtering integration will be available here.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+            
+            {/* TradingView Stock Screener */}
+            <div className="lg:col-span-3">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Smart Stock Screener</CardTitle>
+                      <CardDescription>
+                        Interactive TradingView screener with advanced filtering capabilities
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <TradingViewStockScreener />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="manual" className="space-y-6">
+          <div className="grid gap-6 lg:grid-cols-4">
+            {/* Manual Filters Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Saved & Preset Screeners */}
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm">Saved & Preset Screeners</CardTitle>
+                    <Badge variant="secondary" className="text-xs">
+                      {allScreeners.length}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-2 max-h-80 overflow-y-auto">
+                  {allScreeners.map((screener, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1 justify-start text-xs"
+                        onClick={() => applyPresetScreener(screener)}
+                      >
+                        {screener.name}
+                      </Button>
+                      {screener._id && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => deleteSavedScreener(screener._id)}
+                          className="p-1 h-auto text-destructive hover:text-destructive"
+                        >
+                          <Icons.trash className="h-3 w-3" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+
+              {/* Price Filters */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-sm">Price</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
                 <Label className="text-xs">Price Range ($)</Label>
                 <div className="flex space-x-2">
                   <Input
@@ -411,123 +460,61 @@ export function StockScreener() {
                 </div>
               ))}
             </CardContent>
-          </Card>
-        </div>
+              </Card>
+            </div>
 
-        {/* Results */}
-        <div className="lg:col-span-3">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>Screener Results</CardTitle>
-                  <CardDescription>
-                    Found {stocks.length} stocks matching your criteria
-                  </CardDescription>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="marketCap">Market Cap</SelectItem>
-                      <SelectItem value="price">Price</SelectItem>
-                      <SelectItem value="changePercent">Change %</SelectItem>
-                      <SelectItem value="volume">Volume</SelectItem>
-                      <SelectItem value="peRatio">P/E Ratio</SelectItem>
-                      <SelectItem value="rsi">RSI</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-                      runScreener()
-                    }}
-                  >
-                    {sortOrder === 'asc' ? '↑' : '↓'}
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <div className="flex items-center justify-center py-8">
-                  <Icons.spinner className="h-8 w-8 animate-spin" />
-                </div>
-              ) : stocks.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Symbol</TableHead>
-                      <TableHead>Company</TableHead>
-                      <TableHead>Price</TableHead>
-                      <TableHead>Change</TableHead>
-                      <TableHead>Market Cap</TableHead>
-                      <TableHead>P/E</TableHead>
-                      <TableHead>RSI</TableHead>
-                      <TableHead>Sector</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {stocks.map((stock) => (
-                      <TableRow key={stock.symbol}>
-                        <TableCell className="font-medium">
-                          <Badge variant="outline" className="font-mono">
-                            {stock.symbol}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="max-w-48 truncate">
-                            {stock.name}
-                          </div>
-                        </TableCell>
-                        <TableCell>${(stock.price ?? 0).toFixed(2)}</TableCell>
-                        <TableCell>
-                          <div className={`flex items-center ${
-                            (stock.changePercent ?? 0) >= 0 ? 'text-green-600' : 'text-red-600'
-                          }`}>
-                            {(stock.changePercent ?? 0) >= 0 ? '↗' : '↘'}
-                            {(stock.changePercent ?? 0).toFixed(2)}%
-                          </div>
-                        </TableCell>
-                        <TableCell>{formatMarketCap(stock.marketCap)}</TableCell>
-                        <TableCell>{(stock.peRatio ?? 0).toFixed(2)}</TableCell>
-                        <TableCell>
-                          <Badge 
-                            variant={
-                              (stock.rsi ?? 50) > 70 ? 'destructive' : 
-                              (stock.rsi ?? 50) < 30 ? 'default' : 
-                              'secondary'
-                            }
-                          >
-                            {(stock.rsi ?? 0).toFixed(1)}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="text-xs">
-                            {stock.sector}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-center py-8">
-                  <Icons.activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold">No stocks found</h3>
-                  <p className="text-muted-foreground">
-                    Try adjusting your filters or running the screener again
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+            {/* TradingView Stock Screener Results */}
+            <div className="lg:col-span-3">
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle>Manual Stock Screener</CardTitle>
+                      <CardDescription>
+                        Use the filters on the left and view results in the interactive TradingView screener
+                      </CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <TradingViewStockScreener />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      {/* Save Screener Dialog */}
+      <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Save Screener</DialogTitle>
+            <DialogDescription>
+              Save your current screener settings for quick access later
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="screener-name">Screener Name</Label>
+              <Input
+                id="screener-name"
+                placeholder="e.g., My Growth Strategy"
+                value={screenerName}
+                onChange={(e) => setScreenerName(e.target.value)}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSaveDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={saveScreener} disabled={!screenerName.trim()}>
+              Save Screener
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
