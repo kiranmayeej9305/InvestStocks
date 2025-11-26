@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ChartCandlestick, TrendingDown, BarChart3, Calendar } from 'lucide-react'
+import { TrendingUp, TrendingDown, BarChart3, Calendar } from 'lucide-react'
 
 interface ChartCardProps {
   title: string
@@ -37,7 +37,7 @@ export function ChartCard({
   const getChangeIcon = () => {
     switch (changeType) {
       case 'increase':
-        return <ChartCandlestick className="w-4 h-4" />
+        return <TrendingUp className="w-4 h-4" />
       case 'decrease':
         return <TrendingDown className="w-4 h-4" />
       default:

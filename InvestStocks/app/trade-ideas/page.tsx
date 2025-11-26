@@ -9,7 +9,7 @@ import { TradingViewIdeas } from '@/components/tradingview/trade-ideas'
 import { StockLogo } from '@/components/stocks/stock-logo'
 import { ProtectedRoute } from '@/components/protected-route'
 import { 
-  ChartCandlestick, 
+  TrendingUp, 
   TrendingDown, 
   Lightbulb, 
   RefreshCw,
@@ -19,7 +19,7 @@ import {
   Newspaper,
   ExternalLink,
   Clock,
-  TrendingUp
+  TrendingUpIcon
 } from 'lucide-react'
 import Image from 'next/image'
 
@@ -158,7 +158,7 @@ export default function TradeIdeasPage() {
   const getSentimentIcon = (sentiment: string) => {
     switch (sentiment) {
       case 'bullish':
-        return <ChartCandlestick className="w-5 h-5 text-success" />
+        return <TrendingUp className="w-5 h-5 text-success" />
       case 'bearish':
         return <TrendingDown className="w-5 h-5 text-destructive" />
       default:
@@ -167,7 +167,7 @@ export default function TradeIdeasPage() {
   }
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute requireAuth={true}>
       <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 ml-12 lg:ml-0">
@@ -423,7 +423,7 @@ export default function TradeIdeasPage() {
           <Card className="xl:sticky xl:top-24 overflow-hidden">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-primary" />
+                <TrendingUpIcon className="w-5 h-5 text-primary" />
                 Community Trade Ideas
               </CardTitle>
               <CardDescription className="text-xs">

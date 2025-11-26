@@ -3,36 +3,111 @@ import { getStripe, getPlanByPriceId } from '@/lib/stripe';
 import { headers } from 'next/headers';
 import { connectToDatabase } from '@/lib/mongodb';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
-  const body = await request.text();
-  const signature = headers().get('stripe-signature');
-
-  if (!signature) {
-    return NextResponse.json(
-      { error: 'Missing stripe signature' },
-      { status: 400 }
-    );
-  }
-
-  let event;
-
   try {
-    const stripe = getStripe();
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
-  } catch (err) {
-    console.error('Webhook signature verification failed:', err);
-    return NextResponse.json(
-      { error: 'Invalid signature' },
-      { status: 400 }
-    );
-  }
+    // Read raw body as Buffer first to preserve exact bytes for signature verification
+    // This is critical - Stripe signs the exact raw bytes, so any modification breaks verification
+    const bodyBuffer = await request.arrayBuffer();
+    const body = Buffer.from(bodyBuffer).toString('utf8');
+    const signature = headers().get('stripe-signature');
 
-  try {
-    switch (event.type) {
+    if (!signature) {
+      console.error('[WEBHOOK] Missing stripe signature header');
+      return NextResponse.json(
+        { error: 'Missing stripe signature' },
+        { status: 400 }
+      );
+    }
+
+    // Get webhook secret - try CLI secret first (for local dev), then production secret
+    // For local testing with Stripe CLI, the secret is: whsec_7ab15dab2a6552dc9fe98f0aafc6148c95e012905c492e0c60fefed5069f1a75
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_CLI || process.env.STRIPE_WEBHOOK_SECRET;
+    
+    if (!webhookSecret) {
+      console.error('[WEBHOOK] STRIPE_WEBHOOK_SECRET not configured');
+      console.error('[WEBHOOK] Available env vars:', {
+        hasCliSecret: !!process.env.STRIPE_WEBHOOK_SECRET_CLI,
+        hasProdSecret: !!process.env.STRIPE_WEBHOOK_SECRET
+      });
+      return NextResponse.json(
+        { error: 'Webhook secret not configured' },
+        { status: 500 }
+      );
+    }
+    
+    console.log('[WEBHOOK] Using webhook secret:', webhookSecret.substring(0, 20) + '...');
+
+    let event;
+    let verificationError: any = null;
+
+    try {
+      const stripe = getStripe();
+      
+      // Verify signature with raw body
+      // Note: The body must be the exact raw string as received from Stripe
+      event = stripe.webhooks.constructEvent(
+        body,
+        signature,
+        webhookSecret
+      );
+      
+      console.log('[WEBHOOK] ✓ Event verified:', event.type, event.id);
+    } catch (err: any) {
+      verificationError = err;
+      
+      // Try the other webhook secret as fallback (useful when switching between CLI and production)
+      const alternateSecret = webhookSecret === process.env.STRIPE_WEBHOOK_SECRET_CLI 
+        ? process.env.STRIPE_WEBHOOK_SECRET 
+        : process.env.STRIPE_WEBHOOK_SECRET_CLI;
+      
+      if (alternateSecret && alternateSecret !== webhookSecret) {
+        console.log('[WEBHOOK] Trying alternate webhook secret...');
+        try {
+          const stripe = getStripe();
+          event = stripe.webhooks.constructEvent(
+            body,
+            signature,
+            alternateSecret
+          );
+          console.log('[WEBHOOK] ✓ Event verified with alternate secret:', event.type, event.id);
+          verificationError = null;
+        } catch (altErr: any) {
+          console.error('[WEBHOOK] Alternate secret also failed');
+        }
+      }
+      
+      if (verificationError) {
+        console.error('[WEBHOOK] ✗ Signature verification failed:', verificationError?.message || verificationError);
+        console.error('[WEBHOOK] Signature header:', signature?.substring(0, 50) + '...');
+        console.error('[WEBHOOK] Body length:', body.length);
+        console.error('[WEBHOOK] Body first 200 chars:', body.substring(0, 200));
+        console.error('[WEBHOOK] Webhook secret used:', webhookSecret?.substring(0, 20) + '...');
+        
+        return NextResponse.json(
+          { 
+            error: 'Invalid signature', 
+            details: verificationError?.message || 'Unknown error',
+            hint: 'Ensure the raw request body is preserved exactly as received from Stripe. Check webhook secret matches the endpoint.'
+          },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Ensure event is defined before processing
+    if (!event) {
+      console.error('[WEBHOOK] Event is undefined after verification');
+      return NextResponse.json(
+        { error: 'Event verification failed' },
+        { status: 400 }
+      );
+    }
+
+    try {
+      switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as any;
         
@@ -107,11 +182,18 @@ export async function POST(request: NextRequest) {
         console.log(`Unhandled event type: ${event.type}`);
     }
 
-    return NextResponse.json({ received: true });
+      return NextResponse.json({ received: true });
+    } catch (error) {
+      console.error('[WEBHOOK] Processing error:', error);
+      return NextResponse.json(
+        { error: 'Webhook processing failed', details: error instanceof Error ? error.message : 'Unknown error' },
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    console.error('Webhook error:', error);
+    console.error('[WEBHOOK] Request error:', error);
     return NextResponse.json(
-      { error: 'Webhook processing failed' },
+      { error: 'Webhook request failed', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

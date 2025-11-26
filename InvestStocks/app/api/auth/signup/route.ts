@@ -49,8 +49,6 @@ export async function POST(request: NextRequest) {
       plan: 'free', // Default to free plan
       role: 'user', // Default to user role
       isActive: true, // Default to active
-      phone: '+1 (555) 123-4567', // Default phone
-      location: 'New York, NY', // Default location
       joinDate: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }), // Current date
     })
 

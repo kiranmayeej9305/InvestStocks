@@ -32,11 +32,6 @@ export function ThemeToggle() {
     )
   }
 
-  // Theme toggle temporarily disabled - app is dark mode only
-  return null
-
-  // Commented out theme toggle - uncomment to re-enable theme switching
-  /*
   return (
     <div className="fixed bottom-6 right-4 sm:right-6 z-50">
       <Button
@@ -58,5 +53,4 @@ export function ThemeToggle() {
       </Button>
     </div>
   )
-  */
 }

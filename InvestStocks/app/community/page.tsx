@@ -18,7 +18,7 @@ export default function CommunityPage() {
                     background: 'linear-gradient(135deg, rgba(255, 70, 24, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%)'
                   }}
                 >
-                  <MdPeople className="w-12 h-12" style={{ color: '#FF9900' }} />
+                  <MdPeople className="w-12 h-12" style={{ color: 'rgb(255, 70, 24)' }} />
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-lg">
                   <MdRocketLaunch className="w-4 h-4 text-white" />

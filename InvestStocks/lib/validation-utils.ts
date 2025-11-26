@@ -1,4 +1,4 @@
-import { canUseFeature, checkUsageLimit } from '@/lib/plan-limits';
+import { canUseFeatureWithFlags, checkUsageLimit } from '@/lib/plan-limits';
 import { getUserUsage, incrementUsage } from '@/lib/db/usage';
 
 export interface ValidationResult {
@@ -23,8 +23,8 @@ export async function validateFeatureAccess(
 
   const planFeature = featureMap[feature];
   
-  // Check if feature is available for plan
-  if (planFeature && !canUseFeature(userPlan, planFeature)) {
+  // Check if feature is available for plan (with feature flags)
+  if (planFeature && !(await canUseFeatureWithFlags(userPlan, planFeature))) {
     return {
       allowed: false,
       reason: `This feature is not available in your ${userPlan} plan`,
@@ -64,7 +64,7 @@ export async function validateUsageLimit(
     return {
       allowed: false,
       reason: `You've reached your daily limit for ${feature}`,
-      upgradeMessage: limit.limit === -1 ? '' : `Upgrade to Alpha Hunter for unlimited ${feature}`
+      upgradeMessage: limit.limit === -1 ? '' : `Upgrade to Pro for unlimited ${feature}`
     };
   }
 

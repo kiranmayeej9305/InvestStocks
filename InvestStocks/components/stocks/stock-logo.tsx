@@ -49,6 +49,12 @@ export function StockLogo({ ticker, size = 'md', className, eager = false }: Sto
   const [imageLoaded, setImageLoaded] = useState(false)
   const [shouldLoad, setShouldLoad] = useState(false)
   const observerRef = useRef<HTMLDivElement>(null)
+  
+  // Handle undefined or empty ticker
+  if (!ticker || typeof ticker !== 'string') {
+    ticker = 'A' // Default fallback
+  }
+  
   const gradient = getTickerGradient(ticker)
   const sizeConfig = sizeClasses[size]
 

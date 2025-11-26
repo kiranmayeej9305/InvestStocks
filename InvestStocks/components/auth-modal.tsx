@@ -103,7 +103,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
           </DialogTitle>
           <p className="text-center mobile-text text-muted-foreground">
             {isSignUp 
-              ? 'Join StokAlert to get personalized investment insights'
+              ? 'Join InvestStocks to get personalized investment insights'
               : 'Sign in to access your investment dashboard'
             }
           </p>
@@ -190,7 +190,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
                       <Button
               type="submit"
               className="w-full text-white font-semibold py-2.5 rounded-xl shadow-lg transition-all duration-200"
-              style={{ backgroundColor: '#FF9900' }}
+              style={{ backgroundColor: '#ff4618' }}
               disabled={isSignUp && registrationDisabled}
             >
             {isSignUp ? 'Create Account' : 'Sign In'}
@@ -204,7 +204,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
               <button
                 onClick={() => setIsSignUp(false)}
                 className="font-medium transition-colors"
-                style={{ color: '#FF9900' }}
+                style={{ color: '#ff4618' }}
               >
                 Sign in
               </button>
@@ -221,7 +221,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
                   }
                 }}
                 className="font-medium transition-colors"
-                style={{ color: '#FF9900' }}
+                style={{ color: '#ff4618' }}
               >
                 Sign up
               </button>

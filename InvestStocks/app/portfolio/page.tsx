@@ -3,13 +3,19 @@
 import { useState, useEffect } from 'react'
 import { DashboardLayout } from '@/components/dashboard-layout'
 import { StockChartSection } from '@/components/stocks/stock-chart-section'
+import { CryptoChartSection } from '@/components/crypto/crypto-chart-section'
 import { PortfolioTable } from '@/components/stocks/portfolio-table'
+import { CryptoPortfolioTable } from '@/components/crypto/crypto-portfolio-table'
 import { FavoritesList } from '@/components/stocks/favorites-list'
+import { AnalyticsDashboard } from '@/components/portfolio/analytics-dashboard'
 import { useStockQuote, useStockDaily, useBatchQuotes } from '@/lib/hooks/use-stock-data'
+import { useBatchCryptoPrices, useCryptoPrice } from '@/lib/hooks/use-crypto-data'
 import { useWatchlist } from '@/lib/hooks/use-watchlist'
+import { useAuth } from '@/lib/contexts/auth-context'
 import { toast } from 'sonner'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 // Company names mapping
 const companyNames: Record<string, string> = {
@@ -22,10 +28,15 @@ const companyNames: Record<string, string> = {
 }
 
 export default function PortfolioPage() {
+  const { user } = useAuth()
+  const [activeTab, setActiveTab] = useState<'stocks' | 'crypto' | 'analytics'>('stocks')
   const [selectedStock, setSelectedStock] = useState('AMZN')
+  const [selectedCrypto, setSelectedCrypto] = useState<{ coinId: string; symbol: string; name: string } | null>(null)
   const [mounted, setMounted] = useState(false)
   const [portfolioHoldings, setPortfolioHoldings] = useState<any[]>([])
+  const [cryptoHoldings, setCryptoHoldings] = useState<any[]>([])
   const [loadingPortfolio, setLoadingPortfolio] = useState(true)
+  const [loadingCryptoPortfolio, setLoadingCryptoPortfolio] = useState(true)
   
   // Fetch watchlist
   const { watchlist: watchlistSymbols, loading: watchlistLoading } = useWatchlist()
@@ -37,11 +48,20 @@ export default function PortfolioPage() {
   // Extract portfolio symbols for batch quotes
   const portfolioSymbols = portfolioHoldings.map(h => h.symbol)
   
+  // Extract crypto coin IDs for batch prices
+  const cryptoCoinIds = cryptoHoldings.map(h => h.coinId)
+  
   // Fetch real-time quotes for portfolio and watchlist
   const { data: portfolioQuotes, loading: portfolioQuotesLoading } = useBatchQuotes(portfolioSymbols)
   const { data: watchlistQuotes, loading: watchlistQuotesLoading } = useBatchQuotes(watchlistSymbols)
   
-  // Fetch portfolio holdings
+  // Fetch real-time prices for crypto portfolio
+  const { data: cryptoPrices, loading: cryptoPricesLoading } = useBatchCryptoPrices(cryptoCoinIds)
+  
+  // Fetch price for selected crypto
+  const { data: selectedCryptoPrice } = useCryptoPrice(selectedCrypto?.coinId || '')
+  
+  // Fetch stock portfolio holdings
   const fetchPortfolio = async () => {
     try {
       setLoadingPortfolio(true)
@@ -63,6 +83,32 @@ export default function PortfolioPage() {
     }
   }
 
+  // Fetch crypto portfolio holdings
+  const fetchCryptoPortfolio = async () => {
+    try {
+      setLoadingCryptoPortfolio(true)
+      const response = await fetch('/api/crypto/portfolio')
+      
+      if (response.ok) {
+        const data = await response.json()
+        setCryptoHoldings(data.holdings || [])
+        
+        // Set first crypto holding as selected if available and crypto tab is active
+        if (data.holdings?.length > 0 && !selectedCrypto && activeTab === 'crypto') {
+          setSelectedCrypto({
+            coinId: data.holdings[0].coinId,
+            symbol: data.holdings[0].symbol,
+            name: data.holdings[0].name,
+          })
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching crypto portfolio:', error)
+    } finally {
+      setLoadingCryptoPortfolio(false)
+    }
+  }
+
   const handleDeleteHolding = async (id: string) => {
     try {
       const response = await fetch(`/api/portfolio/${id}`, {
@@ -80,40 +126,22 @@ export default function PortfolioPage() {
     }
   }
 
-  // Set initial selected stock from watchlist if available
-  useEffect(() => {
-    if (watchlistSymbols.length > 0 && selectedStock === 'AMZN' && portfolioHoldings.length === 0) {
-      setSelectedStock(watchlistSymbols[0])
+  const handleDeleteCryptoHolding = async (id: string) => {
+    try {
+      const response = await fetch(`/api/crypto/portfolio/${id}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        toast.success('Crypto holding deleted successfully')
+        fetchCryptoPortfolio()
+      } else {
+        toast.error('Failed to delete crypto holding')
+      }
+    } catch (error) {
+      toast.error('Failed to delete crypto holding')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchlistSymbols, portfolioHoldings])
-
-  // Fetch portfolio on mount
-  useEffect(() => {
-    fetchPortfolio()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // Prevent hydration errors by only rendering random data after mount
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Build watchlist stocks for sidebar display
-  const sidebarWatchlistStocks = watchlistSymbols.map(symbol => {
-    const quote = watchlistQuotes[symbol]
-    const changePercentValue = quote?.changePercent 
-      ? (typeof quote.changePercent === 'number' ? quote.changePercent : parseFloat(quote.changePercent || '0'))
-      : 0
-    
-    return {
-      symbol,
-      name: companyNames[symbol] || symbol,
-      price: quote?.currentPrice || 0,
-      change: quote?.change || 0,
-      changePercent: changePercentValue,
-    }
-  })
+  }
 
   // Enrich portfolio holdings with current prices
   const enrichedHoldings = portfolioHoldings.map(holding => {
@@ -133,6 +161,85 @@ export default function PortfolioPage() {
       gainLossPercent,
     }
   })
+
+  // Enrich crypto holdings with current prices
+  const enrichedCryptoHoldings = cryptoHoldings.map(holding => {
+    const priceData = cryptoPrices[holding.coinId]
+    const currentPrice = priceData?.currentPrice || 0
+    const totalCost = holding.amount * holding.buyPrice
+    const currentValue = holding.amount * currentPrice
+    const gainLoss = currentValue - totalCost
+    const gainLossPercent = totalCost > 0 ? (gainLoss / totalCost) * 100 : 0
+
+    return {
+      ...holding,
+      currentPrice,
+      totalCost,
+      currentValue,
+      gainLoss,
+      gainLossPercent,
+    }
+  })
+
+  // Build watchlist stocks for sidebar display
+  const sidebarWatchlistStocks = watchlistSymbols.map(symbol => {
+    const quote = watchlistQuotes[symbol]
+    const changePercentValue = quote?.changePercent 
+      ? (typeof quote.changePercent === 'number' ? quote.changePercent : parseFloat(quote.changePercent || '0'))
+      : 0
+    
+    return {
+      symbol,
+      name: companyNames[symbol] || symbol,
+      price: quote?.currentPrice || 0,
+      change: quote?.change || 0,
+      changePercent: changePercentValue,
+    }
+  })
+
+  // Build crypto watchlist from crypto holdings
+  const cryptoWatchlist = enrichedCryptoHoldings.map(holding => ({
+    symbol: holding.symbol,
+    name: holding.name,
+    price: holding.currentPrice || 0,
+    change: holding.gainLoss || 0,
+    changePercent: holding.gainLossPercent || 0,
+    coinId: holding.coinId,
+    imageUrl: holding.imageUrl,
+  }))
+
+  // Set initial selected stock from watchlist if available
+  useEffect(() => {
+    if (watchlistSymbols.length > 0 && selectedStock === 'AMZN' && portfolioHoldings.length === 0) {
+      setSelectedStock(watchlistSymbols[0])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchlistSymbols, portfolioHoldings])
+
+  // Auto-select first crypto when switching to crypto tab
+  useEffect(() => {
+    if (activeTab === 'crypto' && enrichedCryptoHoldings.length > 0 && !selectedCrypto) {
+      const firstHolding = enrichedCryptoHoldings[0]
+      setSelectedCrypto({
+        coinId: firstHolding.coinId,
+        symbol: firstHolding.symbol,
+        name: firstHolding.name,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, enrichedCryptoHoldings])
+
+  // Fetch portfolios on mount
+  useEffect(() => {
+    fetchPortfolio()
+    fetchCryptoPortfolio()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Prevent hydration errors by only rendering random data after mount
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
 
   // Handler for when user clicks a watchlist stock
@@ -226,41 +333,119 @@ export default function PortfolioPage() {
           <p className="text-muted-foreground mt-2 text-sm sm:text-base">Track your investments and watchlist performance</p>
         </div>
 
-        {/* Portfolio Holdings Table - Now at the top */}
-        <PortfolioTable 
-          holdings={enrichedHoldings}
-          onRefresh={fetchPortfolio}
-          onDelete={handleDeleteHolding}
-        />
-
-        {/* Main Content - Chart and Watchlist */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-          <div className="lg:col-span-2">
-            <StockChartSection
-              symbol={selectedStock}
-              name={companyNames[selectedStock] || selectedStock}
-              currentPrice={selectedQuote?.price || 0}
-              change={selectedQuote?.change || 0}
-              changePercent={parseFloat(selectedQuote?.changePercent?.replace('%', '') || '0')}
-              chartData={chartData}
+        {/* Portfolio Holdings - Stocks and Crypto */}
+        <Tabs defaultValue="stocks" value={activeTab} onValueChange={(value) => setActiveTab(value as 'stocks' | 'crypto' | 'analytics')} className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="stocks">Stocks</TabsTrigger>
+            <TabsTrigger value="crypto">Crypto</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
+          <TabsContent value="stocks" className="mt-4">
+            <PortfolioTable 
+              holdings={enrichedHoldings}
+              onRefresh={fetchPortfolio}
+              onDelete={handleDeleteHolding}
             />
-          </div>
+          </TabsContent>
+          <TabsContent value="crypto" className="mt-4">
+            <CryptoPortfolioTable 
+              holdings={enrichedCryptoHoldings}
+              onRefresh={fetchCryptoPortfolio}
+              onDelete={handleDeleteCryptoHolding}
+            />
+          </TabsContent>
+          <TabsContent value="analytics" className="mt-4">
+            {user?.id && <AnalyticsDashboard userId={user.id} />}
+          </TabsContent>
+        </Tabs>
 
-          <div className="min-w-0">
-            {watchlistLoading || watchlistQuotesLoading ? (
-              <div className="flex items-center justify-center h-48 text-muted-foreground">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-              </div>
-            ) : (
-              <FavoritesList 
-                stocks={sidebarWatchlistStocks} 
-                title="My Watchlist"
-                onStockClick={handleWatchlistStockClick}
-                selectedSymbol={selectedStock}
+        {/* Main Content - Chart and Watchlist (hide on analytics tab) */}
+        {activeTab === 'stocks' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="lg:col-span-2">
+              <StockChartSection
+                symbol={selectedStock}
+                name={companyNames[selectedStock] || selectedStock}
+                currentPrice={selectedQuote?.price || 0}
+                change={selectedQuote?.change || 0}
+                changePercent={parseFloat(selectedQuote?.changePercent?.replace('%', '') || '0')}
+                chartData={chartData}
               />
-            )}
+            </div>
+
+            <div className="min-w-0">
+              {watchlistLoading || watchlistQuotesLoading ? (
+                <div className="flex items-center justify-center h-48 text-muted-foreground">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <FavoritesList 
+                  stocks={sidebarWatchlistStocks} 
+                  title="My Watchlist"
+                  onStockClick={handleWatchlistStockClick}
+                  selectedSymbol={selectedStock}
+                />
+              )}
+            </div>
           </div>
-        </div>
+        )}
+        
+        {activeTab === 'crypto' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="lg:col-span-2">
+              {selectedCrypto ? (
+                <CryptoChartSection
+                  coinId={selectedCrypto.coinId}
+                  symbol={selectedCrypto.symbol}
+                  name={selectedCrypto.name}
+                  currentPrice={selectedCryptoPrice?.currentPrice || 0}
+                  change24h={selectedCryptoPrice?.change24h || 0}
+                  change24hPercent={selectedCryptoPrice?.change24hPercent || 0}
+                />
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Select a Crypto</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">Add crypto holdings to view charts</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+
+            <div className="min-w-0">
+              {cryptoPricesLoading ? (
+                <div className="flex items-center justify-center h-48 text-muted-foreground">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <FavoritesList 
+                  stocks={cryptoWatchlist.map(c => ({
+                    symbol: c.symbol,
+                    name: c.name,
+                    price: c.price,
+                    change: c.change,
+                    changePercent: c.changePercent,
+                  }))} 
+                  title="My Crypto Watchlist"
+                  onStockClick={(symbol) => {
+                    const holding = enrichedCryptoHoldings.find(h => h.symbol === symbol)
+                    if (holding) {
+                      setSelectedCrypto({
+                        coinId: holding.coinId,
+                        symbol: holding.symbol,
+                        name: holding.name,
+                      })
+                    }
+                  }}
+                  selectedSymbol={selectedCrypto?.symbol || ''}
+                  seeAllLink="/crypto"
+                />
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </DashboardLayout>
   )

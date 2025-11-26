@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ChartCandlestick, TrendingDown, DollarSign, Activity } from 'lucide-react'
+import { TrendingUp, TrendingDown, DollarSign, Activity } from 'lucide-react'
 
 interface PortfolioCardProps {
   symbol: string
@@ -39,7 +39,7 @@ export function PortfolioCard({
   const getTrendIcon = () => {
     switch (trend) {
       case 'up':
-        return <ChartCandlestick className="w-4 h-4 text-success" />
+        return <TrendingUp className="w-4 h-4 text-success" />
       case 'down':
         return <TrendingDown className="w-4 h-4 text-destructive" />
       default:
@@ -101,7 +101,7 @@ export function PortfolioCard({
               {formatCurrency(totalReturn)}
             </p>
             <p className={`text-xs sm:text-sm ${getTrendColor()}`}>
-              {(returnPercentage ?? 0) > 0 ? '+' : ''}{(returnPercentage ?? 0).toFixed(2)}%
+              {returnPercentage > 0 ? '+' : ''}{returnPercentage.toFixed(2)}%
             </p>
           </div>
         </div>

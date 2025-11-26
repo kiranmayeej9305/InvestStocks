@@ -29,7 +29,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ArrowUpRight,
-  ChartCandlestick,
+  TrendingUp,
   TrendingDown,
   Users,
   Crown,
@@ -158,7 +158,7 @@ function SubscriptionsContent() {
       case 'free':
         return <Zap className="w-4 h-4" />
       case 'pro':
-        return <ChartCandlestick className="w-4 h-4" />
+        return <TrendingUp className="w-4 h-4" />
       case 'enterprise':
         return <Crown className="w-4 h-4" />
       default:
@@ -263,11 +263,11 @@ function SubscriptionsContent() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Alpha Hunter Users</p>
+                    <p className="text-sm font-medium text-muted-foreground">Pro Users</p>
                     <p className="text-3xl font-bold text-foreground mt-2">{stats.byPlan.pro}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-purple-500/10">
-                    <ChartCandlestick className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                    <TrendingUp className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                 </div>
               </CardContent>
@@ -277,7 +277,7 @@ function SubscriptionsContent() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Market Master Users</p>
+                    <p className="text-sm font-medium text-muted-foreground">Enterprise Users</p>
                     <p className="text-3xl font-bold text-foreground mt-2">{stats.byPlan.enterprise}</p>
                   </div>
                   <div className="p-3 rounded-xl bg-yellow-500/10">
@@ -311,9 +311,9 @@ function SubscriptionsContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Plans</SelectItem>
-                  <SelectItem value="free">Explorer</SelectItem>
-                  <SelectItem value="pro">Alpha Hunter</SelectItem>
-                  <SelectItem value="enterprise">Market Master</SelectItem>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="pro">Pro</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -413,7 +413,7 @@ function SubscriptionsContent() {
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex items-center justify-end gap-2">
-                            <Link href={`/admin/users/${subscription.userId}`}>
+                            <Link href={`/admin/users/${subscription.userId}?from=subscriptions`}>
                               <Button variant="ghost" size="sm" className="gap-1.5">
                                 <Eye className="w-4 h-4" />
                               </Button>
@@ -485,9 +485,9 @@ function SubscriptionsContent() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="free">Explorer</SelectItem>
-                  <SelectItem value="pro">Alpha Hunter</SelectItem>
-                  <SelectItem value="enterprise">Market Master</SelectItem>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="pro">Pro</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
                 </SelectContent>
               </Select>
             </div>

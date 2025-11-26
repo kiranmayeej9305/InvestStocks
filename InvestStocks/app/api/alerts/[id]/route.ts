@@ -1,33 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyJWT } from '@/lib/auth/jwt'
+import { getUserFromRequest } from '@/lib/auth/jwt'
 import { getAlertById, updateAlert, deleteAlert } from '@/lib/db/alerts'
-import { ObjectId } from 'mongodb'
+import { z } from 'zod'
 
+export const dynamic = 'force-dynamic'
+
+const updateAlertSchema = z.object({
+  threshold: z.number().positive().optional(),
+  emailNotification: z.boolean().optional(),
+  inAppNotification: z.boolean().optional(),
+  status: z.enum(['active', 'cancelled']).optional(),
+}).partial()
+
+/**
+ * GET - Get alert by ID
+ */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Verify authentication
-    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    const user = await getUserFromRequest(request)
     
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    const decoded = verifyJWT(token)
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Invalid authentication token' },
-        { status: 401 }
-      )
-    }
+    const { id } = await params
+    const alert = await getAlertById(id, user.id)
 
-    const alert = await getAlertById(params.id)
-    
     if (!alert) {
       return NextResponse.json(
         { error: 'Alert not found' },
@@ -35,104 +39,62 @@ export async function GET(
       )
     }
 
-    // Check if user owns this alert
-    if (alert.userId !== decoded.userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized access to alert' },
-        { status: 403 }
-      )
-    }
-
-    return NextResponse.json({ alert })
-
+    return NextResponse.json({
+      success: true,
+      alert,
+    })
   } catch (error) {
-    console.error('Error getting alert:', error)
+    console.error('Get alert error:', error)
     return NextResponse.json(
-      { error: 'Failed to get alert' },
+      { error: 'Failed to fetch alert' },
       { status: 500 }
     )
   }
 }
 
-export async function PATCH(
+/**
+ * PUT - Update alert
+ */
+export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Verify authentication
-    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    const user = await getUserFromRequest(request)
     
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    const decoded = verifyJWT(token)
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Invalid authentication token' },
-        { status: 401 }
-      )
-    }
+    const { id } = await params
+    const body = await request.json()
+    const validatedData = updateAlertSchema.parse(body)
 
-    // Check if alert exists and user owns it
-    const existingAlert = await getAlertById(params.id)
-    
-    if (!existingAlert) {
+    const alert = await updateAlert(id, user.id, validatedData)
+
+    if (!alert) {
       return NextResponse.json(
         { error: 'Alert not found' },
         { status: 404 }
       )
     }
 
-    if (existingAlert.userId !== decoded.userId) {
+    return NextResponse.json({
+      success: true,
+      alert,
+    })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: 'Unauthorized access to alert' },
-        { status: 403 }
-      )
-    }
-
-    // Get update data
-    const body = await request.json()
-    
-    // Validate and sanitize update data
-    const allowedFields = [
-      'isActive', 'triggerCondition', 'notificationMethods', 'expiresAt'
-    ]
-    
-    const updates: any = {}
-    for (const field of allowedFields) {
-      if (body[field] !== undefined) {
-        updates[field] = body[field]
-      }
-    }
-
-    if (Object.keys(updates).length === 0) {
-      return NextResponse.json(
-        { error: 'No valid fields to update' },
+        { error: 'Invalid request data', details: error.errors },
         { status: 400 }
       )
     }
-
-    // Update alert
-    const updatedAlert = await updateAlert(params.id, updates)
     
-    if (!updatedAlert) {
-      return NextResponse.json(
-        { error: 'Failed to update alert' },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json({
-      message: 'Alert updated successfully',
-      alert: updatedAlert
-    })
-
-  } catch (error) {
-    console.error('Error updating alert:', error)
+    console.error('Update alert error:', error)
     return NextResponse.json(
       { error: 'Failed to update alert' },
       { status: 500 }
@@ -140,65 +102,43 @@ export async function PATCH(
   }
 }
 
+/**
+ * DELETE - Delete alert
+ */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Verify authentication
-    const token = request.headers.get('authorization')?.replace('Bearer ', '')
+    const user = await getUserFromRequest(request)
     
-    if (!token) {
+    if (!user) {
       return NextResponse.json(
-        { error: 'Authentication required' },
+        { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    const decoded = verifyJWT(token)
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Invalid authentication token' },
-        { status: 401 }
-      )
-    }
+    const { id } = await params
+    const deleted = await deleteAlert(id, user.id)
 
-    // Check if alert exists and user owns it
-    const existingAlert = await getAlertById(params.id)
-    
-    if (!existingAlert) {
+    if (!deleted) {
       return NextResponse.json(
         { error: 'Alert not found' },
         { status: 404 }
       )
     }
 
-    if (existingAlert.userId !== decoded.userId) {
-      return NextResponse.json(
-        { error: 'Unauthorized access to alert' },
-        { status: 403 }
-      )
-    }
-
-    // Delete alert
-    const deleted = await deleteAlert(params.id)
-    
-    if (!deleted) {
-      return NextResponse.json(
-        { error: 'Failed to delete alert' },
-        { status: 500 }
-      )
-    }
-
     return NextResponse.json({
-      message: 'Alert deleted successfully'
+      success: true,
+      message: 'Alert deleted successfully',
     })
-
   } catch (error) {
-    console.error('Error deleting alert:', error)
+    console.error('Delete alert error:', error)
     return NextResponse.json(
       { error: 'Failed to delete alert' },
       { status: 500 }
     )
   }
 }
+

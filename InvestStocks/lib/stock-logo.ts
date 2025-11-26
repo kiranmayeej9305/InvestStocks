@@ -44,6 +44,14 @@ export function preloadStockLogos(tickers: string[]) {
  * Get gradient color based on ticker symbol (for fallback)
  */
 export function getTickerGradient(ticker: string): string {
+  // Handle undefined or empty ticker
+  if (!ticker || typeof ticker !== 'string') {
+    ticker = 'A' // Default fallback
+  }
+  
+  // Convert to uppercase for consistency
+  ticker = ticker.toUpperCase()
+  
   // Specific gradients for popular stocks for brand consistency
   const specificGradients: { [key: string]: string } = {
     AAPL: 'from-slate-700 via-slate-800 to-slate-900',

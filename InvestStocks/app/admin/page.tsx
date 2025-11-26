@@ -9,7 +9,7 @@ import {
   Key, 
   BarChart3, 
   Settings,
-  ChartCandlestick,
+  TrendingUp,
   Shield,
   Activity,
   UserPlus,
@@ -182,7 +182,7 @@ function AdminDashboardContent() {
                 )}
               </div>
               <p className="text-xs text-muted-foreground mt-3 flex items-center gap-1">
-                <ChartCandlestick className="w-3 h-3" />
+                <TrendingUp className="w-3 h-3" />
                 Registered today
               </p>
             </CardContent>
@@ -239,7 +239,7 @@ function AdminDashboardContent() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-gray-400" />
-                    <span className="text-sm font-medium text-foreground">Explorer</span>
+                    <span className="text-sm font-medium text-foreground">Free Plan</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-bold text-foreground">
@@ -267,7 +267,7 @@ function AdminDashboardContent() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-blue-500" />
-                    <span className="text-sm font-medium text-foreground">Alpha Hunter</span>
+                    <span className="text-sm font-medium text-foreground">Pro Plan</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-bold text-foreground">
@@ -295,7 +295,7 @@ function AdminDashboardContent() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-orange-500" />
-                    <span className="text-sm font-medium text-foreground">Market Master Plan</span>
+                    <span className="text-sm font-medium text-foreground">Enterprise Plan</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-lg font-bold text-foreground">
@@ -334,13 +334,13 @@ function AdminDashboardContent() {
                 <span className="text-lg font-bold text-foreground">{activePercentage}%</span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-background/50">
-                <span className="text-sm text-muted-foreground">Alpha Hunter</span>
+                <span className="text-sm text-muted-foreground">Pro Users</span>
                 <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
                   {loading ? '...' : stats.usersByPlan.pro}
                 </span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-background/50">
-                <span className="text-sm text-muted-foreground">Market Master</span>
+                <span className="text-sm text-muted-foreground">Enterprise</span>
                 <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
                   {loading ? '...' : stats.usersByPlan.enterprise}
                 </span>

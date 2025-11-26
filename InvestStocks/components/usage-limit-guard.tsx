@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Clock, BarChart, MessageSquare, ChartCandlestick } from 'lucide-react';
+import { Clock, BarChart, MessageSquare, TrendingUp } from 'lucide-react';
 
 interface UsageLimitGuardProps {
   feature: string;
@@ -39,7 +39,7 @@ export function UsageLimitGuard({
       case 'stockCharts':
         return <BarChart className="h-12 w-12 text-orange-500" />;
       case 'stockTracking':
-        return <ChartCandlestick className="h-12 w-12 text-orange-500" />;
+        return <TrendingUp className="h-12 w-12 text-orange-500" />;
       default:
         return <Clock className="h-12 w-12 text-orange-500" />;
     }
@@ -123,7 +123,7 @@ export function UsageLimitGuard({
           onClick={onUpgrade}
           className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
         >
-          Upgrade to Alpha Hunter - $4.99/month
+          Upgrade to Pro - $19/month
         </Button>
 
         <p className="text-xs text-slate-500">

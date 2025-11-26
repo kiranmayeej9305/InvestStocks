@@ -1,5 +1,5 @@
 // ============================================
-// StokAlert Documentation JavaScript
+// InvestStocks Documentation JavaScript
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initFAQ();
     initSmoothScroll();
     
-    console.log('📚 StokAlert Documentation Loaded');
+    console.log('📚 InvestStocks Documentation Loaded');
 });
 
 // ============================================

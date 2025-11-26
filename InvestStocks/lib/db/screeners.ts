@@ -1,102 +1,129 @@
-import { MongoClient, ObjectId } from 'mongodb'
+import { connectToDatabase } from '@/lib/mongodb'
+import { ObjectId } from 'mongodb'
 
-const uri = process.env.MONGODB_URI
-const dbName = process.env.MONGODB_DB || 'investstocks'
-
-let cachedClient: MongoClient | null = null
-
-async function connectToDatabase() {
-  if (cachedClient) {
-    return { client: cachedClient, db: cachedClient.db(dbName) }
-  }
-
-  if (!uri) {
-    throw new Error('MONGODB_URI environment variable is not set')
-  }
-
-  const client = new MongoClient(uri)
-  await client.connect()
-  cachedClient = client
+export interface ScreenerFilter {
+  // Price filters
+  minPrice?: number
+  maxPrice?: number
   
-  return { client, db: client.db(dbName) }
+  // Market cap filters
+  minMarketCap?: number
+  maxMarketCap?: number
+  
+  // Volume filters
+  minVolume?: number
+  
+  // Price change filters
+  minChangePercent?: number
+  maxChangePercent?: number
+  
+  // Sector/Industry filters
+  sectors?: string[]
+  industries?: string[]
+  
+  // Exchange filters
+  exchanges?: string[]
+  
+  // 52-week range filters
+  min52WeekHigh?: number
+  max52WeekLow?: number
 }
 
-export interface UserScreener {
+export interface Screener {
   _id?: ObjectId
   userId: string
   name: string
-  filters: any
-  sortBy: string
-  sortOrder: 'asc' | 'desc'
+  description?: string
+  filters: ScreenerFilter
   createdAt: Date
   updatedAt: Date
 }
 
-export async function saveUserScreener(screenerData: Omit<UserScreener, '_id'>): Promise<UserScreener> {
+/**
+ * Create a new screener
+ */
+export async function createScreener(
+  userId: string,
+  screenerData: Omit<Screener, '_id' | 'userId' | 'createdAt' | 'updatedAt'>
+): Promise<Screener> {
   const { db } = await connectToDatabase()
   
-  const result = await db.collection('user_screeners').insertOne(screenerData)
-  
-  return {
-    _id: result.insertedId,
-    ...screenerData
+  const now = new Date()
+  const screener: Omit<Screener, '_id'> = {
+    ...screenerData,
+    userId,
+    createdAt: now,
+    updatedAt: now,
   }
+  
+  const result = await db.collection('screeners').insertOne(screener)
+  return { ...screener, _id: result.insertedId } as Screener
 }
 
-export async function getUserScreeners(userId: string): Promise<UserScreener[]> {
+/**
+ * Get user's screeners
+ */
+export async function getUserScreeners(userId: string): Promise<Screener[]> {
   const { db } = await connectToDatabase()
   
-  const screeners = await db.collection('user_screeners')
+  const screeners = await db
+    .collection('screeners')
     .find({ userId })
-    .sort({ createdAt: -1 })
+    .sort({ updatedAt: -1 })
     .toArray()
   
-  return screeners as UserScreener[]
+  return screeners as Screener[]
 }
 
-export async function deleteUserScreener(screenerId: string, userId: string): Promise<boolean> {
+/**
+ * Get screener by ID
+ */
+export async function getScreenerById(screenerId: string, userId: string): Promise<Screener | null> {
   const { db } = await connectToDatabase()
   
-  const result = await db.collection('user_screeners').deleteOne({
+  const screener = await db.collection('screeners').findOne({
     _id: new ObjectId(screenerId),
-    userId
+    userId,
   })
   
-  return result.deletedCount === 1
+  return screener as Screener | null
 }
 
-export async function updateUserScreener(
-  screenerId: string, 
-  userId: string, 
-  updates: Partial<Omit<UserScreener, '_id' | 'userId' | 'createdAt'>>
-): Promise<UserScreener | null> {
+/**
+ * Update screener
+ */
+export async function updateScreener(
+  screenerId: string,
+  userId: string,
+  updates: Partial<Omit<Screener, '_id' | 'userId' | 'createdAt'>>
+): Promise<Screener | null> {
   const { db } = await connectToDatabase()
   
-  const result = await db.collection('user_screeners').findOneAndUpdate(
+  const updateDoc = {
+    ...updates,
+    updatedAt: new Date(),
+  }
+  
+  const result = await db.collection('screeners').findOneAndUpdate(
     { _id: new ObjectId(screenerId), userId },
-    { 
-      $set: {
-        ...updates,
-        updatedAt: new Date()
-      }
-    },
+    { $set: updateDoc },
     { returnDocument: 'after' }
   )
   
-  return result ? result.value as UserScreener | null : null
+  return result as Screener | null
 }
 
-// Setup indexes for performance
-export async function createScreenerIndexes() {
-  try {
-    const { db } = await connectToDatabase()
-    
-    // Create indexes for efficient queries
-    await db.collection('user_screeners').createIndex({ userId: 1, createdAt: -1 })
-    await db.collection('user_screeners').createIndex({ userId: 1, name: 1 })
-    
-    console.log('Screener indexes created successfully')
-  } catch (error) {
-    console.error('Error creating screener indexes:', error)
-  }
+/**
+ * Delete screener
+ */
+export async function deleteScreener(screenerId: string, userId: string): Promise<boolean> {
+  const { db } = await connectToDatabase()
+  
+  const result = await db.collection('screeners').deleteOne({
+    _id: new ObjectId(screenerId),
+    userId,
+  })
+  
+  return result.deletedCount > 0
 }
+

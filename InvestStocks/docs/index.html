@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="StokAlert - Complete Documentation for AI-Powered Stock Market Platform">
-    <meta name="author" content="StokAlert">
-    <title>StokAlert - Documentation</title>
+    <meta name="description" content="InvestStocks - Complete Documentation for AI-Powered Stock Market Platform">
+    <meta name="author" content="InvestStocks">
+    <title>InvestStocks - Documentation</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -15,7 +15,7 @@
         <div class="sidebar-header">
             <div class="logo">
                 <i class="fas fa-chart-line"></i>
-                <span>StokAlert</span>
+                <span>InvestStocks</span>
             </div>
             <button class="close-btn" id="closeSidebar">
                 <i class="fas fa-times"></i>
@@ -27,30 +27,45 @@
             <input type="text" id="searchInput" placeholder="Search documentation...">
         </div>
 
+        <div style="padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 1rem; border-radius: 8px; color: white;">
+            <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem;">⚡ QUICK LINKS</div>
+            <div style="font-size: 0.8rem; opacity: 0.9;">Jump to most important sections</div>
+        </div>
+
         <ul class="nav-menu" id="navMenu">
             <li><a href="#introduction" class="active"><i class="fas fa-home"></i> Introduction</a></li>
-            <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+            
+            <li style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: #666; letter-spacing: 0.5px;">Getting Started</li>
             <li><a href="#requirements"><i class="fas fa-clipboard-check"></i> Requirements</a></li>
             <li><a href="#installation"><i class="fas fa-download"></i> Installation</a></li>
             <li><a href="#configuration"><i class="fas fa-cog"></i> Configuration</a></li>
             <li><a href="#database"><i class="fas fa-database"></i> Database Setup</a></li>
             <li><a href="#api-keys"><i class="fas fa-key"></i> API Keys</a></li>
+            
+            <li style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: #666; letter-spacing: 0.5px;">Platform Setup</li>
             <li><a href="#stripe"><i class="fas fa-credit-card"></i> Stripe Setup</a></li>
             <li><a href="#admin-panel"><i class="fas fa-shield-alt"></i> Admin Panel</a></li>
             <li><a href="#deployment"><i class="fas fa-rocket"></i> Deployment</a></li>
+            
+            <li style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: #666; letter-spacing: 0.5px;">Learn More</li>
+            <li><a href="#features"><i class="fas fa-star"></i> All Features</a></li>
             <li><a href="#usage"><i class="fas fa-book-open"></i> Usage Guide</a></li>
             <li><a href="#customization"><i class="fas fa-palette"></i> Customization</a></li>
+            
+            <li style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: #666; letter-spacing: 0.5px;">Help & Support</li>
             <li><a href="#troubleshooting"><i class="fas fa-wrench"></i> Troubleshooting</a></li>
             <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
-            <li><a href="#support"><i class="fas fa-life-ring"></i> Support</a></li>
+            <li><a href="#support"><i class="fas fa-life-ring"></i> Get Support</a></li>
+            
+            <li style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: #666; letter-spacing: 0.5px;">Additional Info</li>
             <li><a href="#credits"><i class="fas fa-heart"></i> Credits</a></li>
             <li><a href="#changelog"><i class="fas fa-history"></i> Changelog</a></li>
         </ul>
 
         <div class="sidebar-footer">
             <div class="version-info">
-                <span class="version">v1.1.0</span>
-                <span class="date">Last Updated: October 31, 2025</span>
+                <span class="version">v1.2.0</span>
+                <span class="date">Last Updated: November 21, 2025</span>
             </div>
         </div>
     </nav>
@@ -63,9 +78,6 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="header-right">
-                <a href="https://github.com" target="_blank" class="btn btn-outline">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -77,14 +89,14 @@
             <!-- Introduction Section -->
             <section id="introduction" class="doc-section">
                 <div class="section-header">
-                    <h1 class="gradient-text">Welcome to StokAlert</h1>
+                    <h1 class="gradient-text">Welcome to InvestStocks</h1>
                     <p class="lead">AI-Powered Stock Market Investment Platform with Real-Time Data & Analytics</p>
                 </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <h2><i class="fas fa-info-circle"></i> What is StokAlert?</h2>
-                        <p>StokAlert is a comprehensive, modern stock market platform built with <strong>Next.js 14</strong>, <strong>React</strong>, and <strong>TypeScript</strong>. It combines AI-powered chat assistance with real-time market data to help investors make informed decisions.</p>
+                        <h2><i class="fas fa-info-circle"></i> What is InvestStocks?</h2>
+                        <p>InvestStocks is a comprehensive, modern stock market platform built with <strong>Next.js 14</strong>, <strong>React</strong>, and <strong>TypeScript</strong>. It combines AI-powered chat assistance with real-time market data to help investors make informed decisions.</p>
                         
                         <div class="info-box info">
                             <i class="fas fa-lightbulb"></i>
@@ -93,7 +105,33 @@
                             </div>
                         </div>
 
-                        <h3>Key Highlights</h3>
+                        <h3>📊 Platform at a Glance</h3>
+                        <div style="background: #f0f9ff; border: 2px solid #0ea5e9; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; text-align: center;">
+                                <div>
+                                    <div style="font-size: 2rem; color: #0ea5e9; margin-bottom: 0.5rem;">8+</div>
+                                    <div style="font-size: 0.9rem; color: #075985;">Feature Categories</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; color: #0ea5e9; margin-bottom: 0.5rem;">30+</div>
+                                    <div style="font-size: 0.9rem; color: #075985;">API Endpoints</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; color: #0ea5e9; margin-bottom: 0.5rem;">15+</div>
+                                    <div style="font-size: 0.9rem; color: #075985;">Pages & Components</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; color: #0ea5e9; margin-bottom: 0.5rem;">$0</div>
+                                    <div style="font-size: 0.9rem; color: #075985;">To Get Started</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 2rem; color: #0ea5e9; margin-bottom: 0.5rem;">5 min</div>
+                                    <div style="font-size: 0.9rem; color: #075985;">Setup Time</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>🌟 Key Highlights</h3>
                         <div class="highlight-grid">
                             <div class="highlight-item">
                                 <i class="fas fa-bolt"></i>
@@ -119,6 +157,67 @@
                                 <i class="fas fa-shield-alt"></i>
                                 <h4>Admin Panel</h4>
                                 <p>Complete admin management system included</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Start Card -->
+                <div class="card quick-start-card">
+                    <div class="card-body">
+                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="width: 4px; height: 48px; background: var(--primary-gradient); border-radius: 2px;"></div>
+                            <div>
+                                <h2 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                                    <i class="fas fa-rocket" style="color: var(--primary-color);"></i>
+                                    Quick Start Guide
+                                </h2>
+                                <p style="color: var(--text-secondary); margin: 0;">Get your InvestStocks platform running in 5 minutes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-start-steps">
+                            <a href="#installation" class="quick-start-step">
+                                <div class="quick-step-number">1</div>
+                                <div class="quick-step-content">
+                                    <strong>Install</strong>
+                                    <p>Extract files & install dependencies</p>
+                                </div>
+                            </a>
+                            <a href="#configuration" class="quick-start-step">
+                                <div class="quick-step-number">2</div>
+                                <div class="quick-step-content">
+                                    <strong>Configure</strong>
+                                    <p>Set up environment variables</p>
+                                </div>
+                            </a>
+                            <a href="#api-keys" class="quick-start-step">
+                                <div class="quick-step-number">3</div>
+                                <div class="quick-step-content">
+                                    <strong>API Keys</strong>
+                                    <p>Get your free API keys</p>
+                                </div>
+                            </a>
+                            <a href="#database" class="quick-start-step">
+                                <div class="quick-step-number">4</div>
+                                <div class="quick-step-content">
+                                    <strong>Database</strong>
+                                    <p>Connect MongoDB Atlas</p>
+                                </div>
+                            </a>
+                            <a href="#usage" class="quick-start-step">
+                                <div class="quick-step-number">5</div>
+                                <div class="quick-step-content">
+                                    <strong>Launch</strong>
+                                    <p>Run and start using!</p>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <div class="info-box tip" style="margin-top: 2rem; margin-bottom: 0;">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>Pro Tip:</strong> All required APIs offer FREE tiers! You can get started without spending a single dollar.
                             </div>
                         </div>
                     </div>
@@ -169,6 +268,51 @@
                                 <li><i class="fas fa-check"></i> Performance charts and analytics</li>
                                 <li><i class="fas fa-check"></i> Watchlist functionality</li>
                                 <li><i class="fas fa-check"></i> Transaction history</li>
+                                <li><i class="fas fa-check"></i> Integrated crypto portfolio tracking</li>
+                                <li><i class="fas fa-check"></i> Stocks and crypto in unified portfolio</li>
+                                <li><i class="fas fa-check"></i> Portfolio analytics with diversity analysis</li>
+                                <li><i class="fas fa-check"></i> Export portfolio data (CSV/JSON)</li>
+                                <li><i class="fas fa-check"></i> Import trades from CSV</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-coins"></i> Cryptocurrency Features</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Complete cryptocurrency market tracking with CoinGecko</li>
+                                <li><i class="fas fa-check"></i> CoinMarketCap-style market overview (`/crypto`)</li>
+                                <li><i class="fas fa-check"></i> Global market statistics (market cap, volume, dominance)</li>
+                                <li><i class="fas fa-check"></i> Top Gainers & Losers (24h) with visual indicators</li>
+                                <li><i class="fas fa-check"></i> Cryptocurrency categories (DeFi, NFT, Stablecoins, Meme)</li>
+                                <li><i class="fas fa-check"></i> Individual coin detail pages with comprehensive information</li>
+                                <li><i class="fas fa-check"></i> Interactive price charts with multiple timeframes</li>
+                                <li><i class="fas fa-check"></i> Crypto portfolio management (add, edit, delete holdings)</li>
+                                <li><i class="fas fa-check"></i> Real-time crypto price updates</li>
+                                <li><i class="fas fa-check"></i> Crypto heatmap visualization (Pro feature)</li>
+                                <li><i class="fas fa-check"></i> Trending coins section</li>
+                                <li><i class="fas fa-check"></i> Market table with 50+ cryptocurrencies</li>
+                                <li><i class="fas fa-check"></i> Coin logo integration with fallback</li>
+                                <li><i class="fas fa-check"></i> Search cryptocurrencies by name or symbol</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-chart-line"></i> Paper Trading Simulator</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Virtual trading account with $100,000 starting capital</li>
+                                <li><i class="fas fa-check"></i> Real-time price execution for stocks and cryptocurrencies</li>
+                                <li><i class="fas fa-check"></i> Buy and sell orders with current market prices</li>
+                                <li><i class="fas fa-check"></i> Virtual portfolio tracking with real-time values</li>
+                                <li><i class="fas fa-check"></i> Complete transaction history with filtering</li>
+                                <li><i class="fas fa-check"></i> Performance analytics (total return, win rate, best/worst trades)</li>
+                                <li><i class="fas fa-check"></i> Account summary with cash balance and portfolio value</li>
+                                <li><i class="fas fa-check"></i> Average cost basis calculation for multiple purchases</li>
+                                <li><i class="fas fa-check"></i> Real-time gain/loss tracking for each holding</li>
+                                <li><i class="fas fa-check"></i> Professional trading interface with buy/sell tabs</li>
+                                <li><i class="fas fa-check"></i> Asset search functionality for stocks and crypto</li>
+                                <li><i class="fas fa-check"></i> Price validation before trade execution</li>
+                                <li><i class="fas fa-check"></i> Balance validation to prevent insufficient funds</li>
+                                <li><i class="fas fa-check"></i> Available to all plans (Free: 10 trades/day, Pro/Enterprise: Unlimited)</li>
                             </ul>
                         </div>
 
@@ -220,9 +364,133 @@
                                 <li><i class="fas fa-check"></i> Analytics dashboard (usage statistics, user trends)</li>
                                 <li><i class="fas fa-check"></i> Audit logs (complete action history with before/after changes)</li>
                                 <li><i class="fas fa-check"></i> API key management (view and monitor API keys)</li>
+                                <li><i class="fas fa-check"></i> Feature flags management (enable/disable features globally or per plan)</li>
                                 <li><i class="fas fa-check"></i> Read-only demo mode (perfect for CodeCanyon demos)</li>
                                 <li><i class="fas fa-check"></i> Role-based access control</li>
                                 <li><i class="fas fa-check"></i> Maintenance mode with admin bypass</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-flag"></i> Feature Flagging System</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Centralized feature control panel at `/admin/feature-flags`</li>
+                                <li><i class="fas fa-check"></i> Global feature toggle - enable/disable features instantly without code deployment</li>
+                                <li><i class="fas fa-check"></i> Plan-specific access control - enable features for specific plans (Free, Pro, Enterprise)</li>
+                                <li><i class="fas fa-check"></i> Category organization - group flags by category (AI, Stocks, Crypto, Trading, Analytics, Other)</li>
+                                <li><i class="fas fa-check"></i> Real-time changes - feature changes take effect immediately</li>
+                                <li><i class="fas fa-check"></i> Search & filter - find feature flags quickly by name, key, or category</li>
+                                <li><i class="fas fa-check"></i> Pre-configured default flags for all existing features (10 default flags)</li>
+                                <li><i class="fas fa-check"></i> Custom flag creation - create new feature flags with key, name, description, and category</li>
+                                <li><i class="fas fa-check"></i> Flag deletion - remove unused or deprecated feature flags</li>
+                                <li><i class="fas fa-check"></i> Client-side hooks - `useFeatureFlag()` and `useFeatureFlags()` for component checks</li>
+                                <li><i class="fas fa-check"></i> Server-side integration - `canUseFeatureWithFlags()` for API route checks</li>
+                                <li><i class="fas fa-check"></i> Visual status indicators - badge indicators showing enabled/disabled status</li>
+                                <li><i class="fas fa-check"></i> Plan checkboxes - easy-to-use checkboxes for selecting plan access</li>
+                                <li><i class="fas fa-check"></i> Read-only mode support - respects demo mode restrictions</li>
+                                <li><i class="fas fa-check"></i> Feature flags override plan limits when disabled globally</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-bell"></i> Price Alerts & Notifications</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Price alert system for stocks and cryptocurrencies</li>
+                                <li><i class="fas fa-check"></i> Multiple alert types: Price Above, Price Below, Percentage Change, Volume Spike</li>
+                                <li><i class="fas fa-check"></i> Email and in-app notifications for triggered alerts</li>
+                                <li><i class="fas fa-check"></i> Real-time price monitoring and alert checking</li>
+                                <li><i class="fas fa-check"></i> Alert management dashboard with status filtering</li>
+                                <li><i class="fas fa-check"></i> Active, Triggered, and Cancelled alert tracking</li>
+                                <li><i class="fas fa-check"></i> Notification center with unread count</li>
+                                <li><i class="fas fa-check"></i> Auto-refresh notifications every 30 seconds</li>
+                                <li><i class="fas fa-check"></i> Alert history and timestamp tracking</li>
+                                <li><i class="fas fa-check"></i> Cancel or delete alerts anytime</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-newspaper"></i> Market News & Information</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Comprehensive market news feed from multiple sources</li>
+                                <li><i class="fas fa-check"></i> Category-based news filtering (General, Forex, Crypto, Merger)</li>
+                                <li><i class="fas fa-check"></i> Symbol-specific news search and filtering</li>
+                                <li><i class="fas fa-check"></i> Personalized news feed based on watchlist and portfolio</li>
+                                <li><i class="fas fa-check"></i> Save articles for later reading</li>
+                                <li><i class="fas fa-check"></i> Real-time news updates with auto-refresh</li>
+                                <li><i class="fas fa-check"></i> News sentiment indicators</li>
+                                <li><i class="fas fa-check"></i> Share news articles to social media</li>
+                                <li><i class="fas fa-check"></i> Debounced search for smooth UX</li>
+                                <li><i class="fas fa-check"></i> News source attribution and timestamps</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-calendar-alt"></i> Earnings Calendar</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Track upcoming earnings announcements (next 30 days)</li>
+                                <li><i class="fas fa-check"></i> View EPS and revenue estimates</li>
+                                <li><i class="fas fa-check"></i> Compare actual results vs estimates</li>
+                                <li><i class="fas fa-check"></i> Search earnings by company symbol</li>
+                                <li><i class="fas fa-check"></i> Calendar view with date-based organization</li>
+                                <li><i class="fas fa-check"></i> Export to iCal format for personal calendar</li>
+                                <li><i class="fas fa-check"></i> Earnings surprise indicators</li>
+                                <li><i class="fas fa-check"></i> Historical earnings data access</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-lightbulb"></i> Trade Ideas & Recommendations</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> AI-powered trade recommendations</li>
+                                <li><i class="fas fa-check"></i> Technical analysis-based trade ideas</li>
+                                <li><i class="fas fa-check"></i> News-driven trading opportunities</li>
+                                <li><i class="fas fa-check"></i> Trending stocks and momentum plays</li>
+                                <li><i class="fas fa-check"></i> Buy/Sell/Hold recommendations with reasoning</li>
+                                <li><i class="fas fa-check"></i> Risk/reward analysis for trade ideas</li>
+                                <li><i class="fas fa-check"></i> Entry and exit price suggestions</li>
+                                <li><i class="fas fa-check"></i> Real-time trade idea updates</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-chart-pie"></i> Advanced Sentiment Analysis</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Multi-source sentiment analysis (Alpha Vantage, Finnhub)</li>
+                                <li><i class="fas fa-check"></i> Bullish/Bearish sentiment indicators</li>
+                                <li><i class="fas fa-check"></i> News sentiment scoring and aggregation</li>
+                                <li><i class="fas fa-check"></i> Social media sentiment tracking</li>
+                                <li><i class="fas fa-check"></i> Historical sentiment data and trends</li>
+                                <li><i class="fas fa-check"></i> Sentiment-based stock screening</li>
+                                <li><i class="fas fa-check"></i> Real-time sentiment updates</li>
+                                <li><i class="fas fa-check"></i> Sentiment visualization with charts</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-envelope"></i> Email & Communication</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Email notification preferences management</li>
+                                <li><i class="fas fa-check"></i> Automated daily/weekly email digests</li>
+                                <li><i class="fas fa-check"></i> Portfolio performance summary emails</li>
+                                <li><i class="fas fa-check"></i> Alert notifications via email</li>
+                                <li><i class="fas fa-check"></i> News digest with personalized content</li>
+                                <li><i class="fas fa-check"></i> Customizable email frequency</li>
+                                <li><i class="fas fa-check"></i> Unsubscribe and preference controls</li>
+                                <li><i class="fas fa-check"></i> HTML email templates with branding</li>
+                            </ul>
+                        </div>
+
+                        <div class="feature-category">
+                            <h3><i class="fas fa-file-export"></i> Export & Import</h3>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Export portfolio to CSV/JSON formats</li>
+                                <li><i class="fas fa-check"></i> Export transaction history for tax reporting</li>
+                                <li><i class="fas fa-check"></i> Export watchlist for sharing or backup</li>
+                                <li><i class="fas fa-check"></i> Import trades from CSV files</li>
+                                <li><i class="fas fa-check"></i> Bulk import with validation</li>
+                                <li><i class="fas fa-check"></i> Data backup and restore functionality</li>
+                                <li><i class="fas fa-check"></i> Compatible with major broker formats</li>
+                                <li><i class="fas fa-check"></i> Export paper trading history</li>
                             </ul>
                         </div>
                     </div>
@@ -232,10 +500,18 @@
             <!-- Requirements Section -->
             <section id="requirements" class="doc-section">
                 <h1><i class="fas fa-clipboard-check"></i> Requirements</h1>
+                
+                <div class="info-box info" style="margin-bottom: 2rem;">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>
+                        <strong>✅ Pre-Installation Checklist:</strong> Make sure you have these before starting. All are free to get!
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <h2>System Requirements</h2>
+                        <h2>💻 System Requirements</h2>
+                        <p style="font-size: 1.05rem; color: #666; margin-bottom: 1.5rem;">These are the basic tools you need on your computer:</p>
                         
                         <div class="requirements-grid">
                             <div class="req-item">
@@ -260,7 +536,10 @@
                             </div>
                         </div>
 
-                        <h3>Required API Keys (All Free Tiers Available)</h3>
+                        <h3>🔑 Required API Keys (All Free Tiers Available)</h3>
+                        <div style="background: #ecfdf5; border-left: 4px solid #10b981; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
+                            <strong style="color: #065f46;">💰 Great News:</strong> <span style="color: #065f46;">All required APIs offer generous FREE tiers! You can build and test your entire platform without spending money.</span>
+                        </div>
                         <div class="api-requirements">
                             <div class="api-item">
                                 <i class="fas fa-robot"></i>
@@ -287,6 +566,14 @@
                                 </div>
                             </div>
                             <div class="api-item">
+                                <i class="fas fa-coins"></i>
+                                <div>
+                                    <h4>CoinGecko API</h4>
+                                    <p>For cryptocurrency market data (Free tier - no key required)</p>
+                                    <a href="https://www.coingecko.com/en/api" target="_blank" class="link">Learn More <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                            <div class="api-item">
                                 <i class="fas fa-credit-card"></i>
                                 <div>
                                     <h4>Stripe</h4>
@@ -302,16 +589,24 @@
             <!-- Installation Section -->
             <section id="installation" class="doc-section">
                 <h1><i class="fas fa-download"></i> Installation</h1>
+                
+                <div class="info-box success" style="margin-bottom: 2rem;">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <strong>⏱️ Time Required:</strong> 5-10 minutes | <strong>💰 Cost:</strong> $0 (All free tiers available!)
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <h2>Step-by-Step Installation Guide</h2>
+                        <h2>📦 Step-by-Step Installation Guide</h2>
+                        <p style="font-size: 1.05rem; color: #666; margin-bottom: 2rem;">Follow these simple steps to install InvestStocks on your local machine. No prior experience required!</p>
 
                         <div class="step">
                             <div class="step-number">1</div>
                             <div class="step-content">
-                                <h3>Extract the Files</h3>
-                                <p>Extract the downloaded ZIP file to your desired location.</p>
+                                <h3>📂 Extract the Files</h3>
+                                <p style="font-size: 1.05rem;">Extract the downloaded ZIP file to your desired location (e.g., Desktop or Documents folder).</p>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <span>bash</span>
@@ -319,8 +614,14 @@
                                             <i class="fas fa-copy"></i> Copy
                                         </button>
                                     </div>
-                                    <pre><code>unzip StokAlert.zip
-cd StokAlert</code></pre>
+                                    <pre><code>unzip investstocks.zip
+cd investstocks</code></pre>
+                                </div>
+                                <div class="info-box tip" style="margin-top: 1rem;">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <div>
+                                        <strong>💡 Tip:</strong> On Windows, right-click the ZIP file and select "Extract All". On Mac, double-click the ZIP file.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -328,8 +629,8 @@ cd StokAlert</code></pre>
                         <div class="step">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <h3>Install Dependencies</h3>
-                                <p>Install all required npm packages using your preferred package manager.</p>
+                                <h3>📦 Install Dependencies</h3>
+                                <p style="font-size: 1.05rem;">Install all required packages. This will take 2-3 minutes depending on your internet speed.</p>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <span>bash</span>
@@ -337,19 +638,25 @@ cd StokAlert</code></pre>
                                             <i class="fas fa-copy"></i> Copy
                                         </button>
                                     </div>
-                                    <pre><code># Using npm
+                                    <pre><code># Using npm (comes with Node.js)
 npm install
 
-# Using pnpm (recommended for faster installation)
+# Using pnpm (⚡ faster, recommended)
 pnpm install
 
 # Using yarn
 yarn install</code></pre>
                                 </div>
-                                <div class="info-box tip">
-                                    <i class="fas fa-info-circle"></i>
+                                <div class="info-box tip" style="margin-top: 1rem;">
+                                    <i class="fas fa-lightbulb"></i>
                                     <div>
-                                        <strong>Tip:</strong> We recommend using <code>pnpm</code> for faster installation and better disk space efficiency.
+                                        <strong>💡 Recommended:</strong> Use <code>pnpm</code> for 2x faster installation! Install it with: <code>npm install -g pnpm</code>
+                                    </div>
+                                </div>
+                                <div class="info-box warning" style="margin-top: 1rem;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <div>
+                                        <strong>⚠️ Common Issue:</strong> If you see errors, make sure you have Node.js 18+ installed. Check with: <code>node --version</code>
                                     </div>
                                 </div>
                             </div>
@@ -358,8 +665,8 @@ yarn install</code></pre>
                         <div class="step">
                             <div class="step-number">3</div>
                             <div class="step-content">
-                                <h3>Configure Environment Variables</h3>
-                                <p>Copy the example environment file and configure your settings.</p>
+                                <h3>⚙️ Configure Environment Variables</h3>
+                                <p style="font-size: 1.05rem;">Create your configuration file. This is where you'll add your API keys later.</p>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <span>bash</span>
@@ -367,17 +674,24 @@ yarn install</code></pre>
                                             <i class="fas fa-copy"></i> Copy
                                         </button>
                                     </div>
-                                    <pre><code>cp .env.example .env.local</code></pre>
+                                    <pre><code># Create your environment file
+cp .env.example .env.local</code></pre>
                                 </div>
-                                <p>Then edit <code>.env.local</code> with your actual values. See the <a href="#configuration">Configuration</a> section for details.</p>
+                                <p style="margin-top: 1rem;">Then open <code>.env.local</code> in any text editor (VS Code, Notepad, TextEdit, etc.)</p>
+                                <div class="info-box info" style="margin-top: 1rem;">
+                                    <i class="fas fa-info-circle"></i>
+                                    <div>
+                                        <strong>📝 Note:</strong> Don't worry about filling in all values now. We'll get the API keys in the next steps. See the <a href="#configuration" style="color: inherit; text-decoration: underline;">Configuration section</a> for complete details.
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="step">
                             <div class="step-number">4</div>
                             <div class="step-content">
-                                <h3>Run Development Server</h3>
-                                <p>Start the development server to test your installation.</p>
+                                <h3>🚀 Run Development Server</h3>
+                                <p style="font-size: 1.05rem;">Start your local server and see InvestStocks in action!</p>
                                 <div class="code-block">
                                     <div class="code-header">
                                         <span>bash</span>
@@ -394,15 +708,39 @@ pnpm dev
 # Using yarn
 yarn dev</code></pre>
                                 </div>
-                                <p>Open <a href="http://localhost:3000" target="_blank">http://localhost:3000</a> in your browser to see the application.</p>
+                                <div class="info-box success" style="margin-top: 1.5rem; margin-bottom: 0;">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>🎉 Your platform is now running!</strong>
+                                        <p style="margin: 0.5rem 0 0 0;">Open your browser and visit:</p>
+                                        <a href="http://localhost:3000" target="_blank" style="display: inline-block; margin-top: 0.5rem; color: var(--success-color); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--success-color);">
+                                            🌐 http://localhost:3000
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="info-box success" style="margin-top: 1rem;">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div>
+                                        <strong>✅ What to expect:</strong> You should see the InvestStocks landing page. Some features may not work yet until you add API keys in the next steps.
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="step">
                             <div class="step-number">5</div>
                             <div class="step-content">
-                                <h3>Set Up Admin Access (Optional)</h3>
-                                <p>To access the admin panel, grant admin access to a user account:</p>
+                                <h3>👑 Set Up Admin Access (Optional but Recommended)</h3>
+                                <p style="font-size: 1.05rem;">Grant yourself admin powers to access the powerful admin dashboard!</p>
+                                
+                                <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                                    <strong style="color: #92400e;">⚠️ Do this AFTER you:</strong>
+                                    <ol style="margin: 0.5rem 0 0 1.5rem; color: #92400e;">
+                                        <li>Create a user account on your platform</li>
+                                        <li>Verify your database is connected</li>
+                                    </ol>
+                                </div>
+                                
                                 <div class="code-block">
                                     <div class="code-header">
                                         <span>bash</span>
@@ -410,22 +748,62 @@ yarn dev</code></pre>
                                             <i class="fas fa-copy"></i> Copy
                                         </button>
                                     </div>
-                                    <pre><code>node scripts/make-admin.mjs your-email@example.com</code></pre>
+                                    <pre><code># Replace with your actual email
+node scripts/make-admin.mjs your-email@example.com</code></pre>
                                 </div>
-                                <p>Then log out and log back in with that account. Navigate to <code>/admin</code> to access the admin panel.</p>
-                                <div class="info-box info">
+                                <p style="margin-top: 1rem;"><strong>Important:</strong> Log out and log back in for changes to take effect, then visit <code>/admin</code></p>
+                                <div class="info-box success" style="margin-top: 1rem;">
                                     <i class="fas fa-info-circle"></i>
                                     <div>
-                                        <strong>See Admin Panel section:</strong> For detailed admin panel setup instructions, see the <a href="#admin-panel">Admin Panel</a> section below.
+                                        <strong>🎯 What you can do as admin:</strong> Manage users, configure plans, view analytics, control feature flags, and much more! See the <a href="#admin-panel" style="color: inherit; text-decoration: underline;">Admin Panel section</a> for details.
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="info-box success">
-                            <i class="fas fa-check-circle"></i>
-                            <div>
-                                <strong>Success!</strong> If you see the StokAlert landing page, your installation is complete. Continue to the Configuration section to set up your API keys.
+                        <div class="card success-card" style="margin-top: 2rem;">
+                            <div class="card-body">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                                    <div style="width: 56px; height: 56px; background: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="fas fa-check-circle" style="font-size: 2rem; color: var(--success-color);"></i>
+                                    </div>
+                                    <div>
+                                        <h2 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+                                            Installation Complete!
+                                        </h2>
+                                        <p style="color: var(--text-secondary); margin: 0;">Your InvestStocks platform is now running locally!</p>
+                                    </div>
+                                </div>
+                                
+                                <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: var(--radius-md); border-left: 4px solid var(--success-color);">
+                                    <h3 style="margin-top: 0; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                        <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+                                        What's Next?
+                                    </h3>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                                <div style="width: 32px; height: 32px; background: var(--primary-gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0;">1</div>
+                                                <strong>Get API Keys</strong>
+                                            </div>
+                                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; padding-left: 2.75rem;">Head to the <a href="#api-keys" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">API Keys section</a> to get your free keys</p>
+                                        </div>
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                                <div style="width: 32px; height: 32px; background: var(--primary-gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0;">2</div>
+                                                <strong>Set Up Database</strong>
+                                            </div>
+                                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; padding-left: 2.75rem;">Follow the <a href="#database" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Database Setup</a> guide</p>
+                                        </div>
+                                        <div>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                                <div style="width: 32px; height: 32px; background: var(--primary-gradient); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0;">3</div>
+                                                <strong>Configure Stripe</strong>
+                                            </div>
+                                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; padding-left: 2.75rem;">Enable payments in the <a href="#stripe" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Stripe section</a></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -471,7 +849,7 @@ GROQ_API_KEY=gsk_your_groq_api_key_here</code></pre>
                                     </button>
                                 </div>
                                 <pre><code># MongoDB Atlas connection string
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/StokAlert?retryWrites=true&w=majority</code></pre>
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/investstocks?retryWrites=true&w=majority</code></pre>
                             </div>
                             <p>Replace <code>username</code>, <code>password</code>, and <code>cluster</code> with your actual MongoDB credentials.</p>
                         </div>
@@ -592,7 +970,7 @@ ADMIN_DEMO_MODE=false</code></pre>
                                 <ul>
                                     <li>Choose your cloud provider (AWS, Google Cloud, or Azure)</li>
                                     <li>Select your preferred region</li>
-                                    <li>Name your cluster (e.g., "StokAlert")</li>
+                                    <li>Name your cluster (e.g., "InvestStocks")</li>
                                 </ul>
                             </div>
                         </div>
@@ -635,7 +1013,7 @@ ADMIN_DEMO_MODE=false</code></pre>
                                             <i class="fas fa-copy"></i> Copy
                                         </button>
                                     </div>
-                                    <pre><code>mongodb+srv://&lt;username&gt;:&lt;password&gt;@cluster.mongodb.net/StokAlert?retryWrites=true&w=majority</code></pre>
+                                    <pre><code>mongodb+srv://&lt;username&gt;:&lt;password&gt;@cluster.mongodb.net/investstocks?retryWrites=true&w=majority</code></pre>
                                 </div>
                                 <p>Replace <code>&lt;username&gt;</code> and <code>&lt;password&gt;</code> with your database credentials.</p>
                             </div>
@@ -881,6 +1259,122 @@ db.users.updateOne(
                                 <i class="fas fa-cog"></i>
                                 <h4>Site Settings</h4>
                                 <p>Configure website branding, SEO, social media, maintenance mode, and theme customization.</p>
+                            </div>
+                            <div class="admin-feature-card">
+                                <i class="fas fa-flag"></i>
+                                <h4>Feature Flags</h4>
+                                <p>Enable or disable platform features globally or per plan. Control feature access without code changes.</p>
+                            </div>
+                        </div>
+
+                        <h3>Feature Flags Management</h3>
+                        <p>The feature flags system allows you to enable or disable platform features without deploying code changes. This is perfect for:</p>
+                        <ul>
+                            <li>Gradually rolling out new features</li>
+                            <li>Disabling features during maintenance</li>
+                            <li>Testing features with specific user groups</li>
+                            <li>Controlling feature access per subscription plan</li>
+                        </ul>
+
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Access Feature Flags</h3>
+                                <p>Navigate to <code>/admin/feature-flags</code> in the admin panel.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Manage Existing Flags</h3>
+                                <p>The system comes with 10 pre-configured feature flags:</p>
+                                <ul>
+                                    <li><strong>Stock Screener</strong> - Enable/disable stock screener feature</li>
+                                    <li><strong>Market Heatmaps</strong> - Control market heatmap access</li>
+                                    <li><strong>Crypto Heatmaps</strong> - Control crypto heatmap access</li>
+                                    <li><strong>Paper Trading</strong> - Enable/disable paper trading simulator</li>
+                                    <li><strong>Advanced Analytics</strong> - Control advanced analytics features</li>
+                                    <li>And more...</li>
+                                </ul>
+                                <p>For each flag, you can:</p>
+                                <ul>
+                                    <li>Toggle global enable/disable</li>
+                                    <li>Select which plans have access (Free, Pro, Enterprise)</li>
+                                    <li>Edit name, description, and category</li>
+                                    <li>Delete unused flags</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Create New Feature Flags</h3>
+                                <p>Click "Create New Flag" to add a custom feature flag:</p>
+                                <ul>
+                                    <li><strong>Key:</strong> Unique identifier (e.g., 'new_dashboard_v2')</li>
+                                    <li><strong>Name:</strong> Human-readable name (e.g., 'New Dashboard V2')</li>
+                                    <li><strong>Description:</strong> What this feature does</li>
+                                    <li><strong>Category:</strong> AI, Stocks, Crypto, Trading, Analytics, or Other</li>
+                                    <li><strong>Enabled:</strong> Global toggle</li>
+                                    <li><strong>Plans:</strong> Select which plans have access</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Using Feature Flags in Code</h3>
+                                <p><strong>Client-side (React components):</strong></p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>typescript</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>import { useFeatureFlag } from '@/lib/hooks/use-feature-flag'
+
+function MyComponent() {
+  const { enabled, loading } = useFeatureFlag('paper_trading')
+  
+  if (loading) return <div>Loading...</div>
+  if (!enabled) return <div>Feature disabled</div>
+  
+  return <div>Feature content</div>
+}</code></pre>
+                                </div>
+
+                                <p><strong>Server-side (API routes):</strong></p>
+                                <div class="code-block">
+                                    <div class="code-header">
+                                        <span>typescript</span>
+                                        <button class="copy-btn" onclick="copyCode(this)">
+                                            <i class="fas fa-copy"></i> Copy
+                                        </button>
+                                    </div>
+                                    <pre><code>import { canUseFeatureWithFlags } from '@/lib/plan-limits'
+
+export async function GET(request: NextRequest) {
+  const user = await getUserFromRequest(request)
+  const canUse = await canUseFeatureWithFlags(user.plan, 'hasPaperTrading')
+  
+  if (!canUse) {
+    return NextResponse.json({ error: 'Feature disabled' }, { status: 403 })
+  }
+  
+  // Feature is enabled, proceed...
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box info">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <strong>Note:</strong> Feature flags override plan limits. If a feature flag is disabled globally, users won't have access regardless of their plan. Feature flags are checked before plan limits.
                             </div>
                         </div>
 
@@ -1147,7 +1641,7 @@ git push -u origin main</code></pre>
 
                 <div class="card">
                     <div class="card-body">
-                        <h2>Getting Started with StokAlert</h2>
+                        <h2>Getting Started with InvestStocks</h2>
 
                         <div class="usage-section">
                             <h3><i class="fas fa-user-plus"></i> User Registration & Authentication</h3>
@@ -1332,22 +1826,35 @@ git push -u origin main</code></pre>
             <!-- Troubleshooting Section -->
             <section id="troubleshooting" class="doc-section">
                 <h1><i class="fas fa-wrench"></i> Troubleshooting</h1>
+                
+                <div class="info-box tip" style="margin-bottom: 2rem;">
+                    <i class="fas fa-lightbulb"></i>
+                    <div>
+                        <strong>💡 Quick Tip:</strong> 90% of issues can be solved by checking your .env.local file and restarting the development server. Also check the browser console (F12) for error messages!
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <h2>Common Issues & Solutions</h2>
+                        <h2>🔧 Common Issues & Solutions</h2>
+                        <p style="font-size: 1.05rem; color: #666; margin-bottom: 2rem;">Having trouble? Check these common issues and their solutions:</p>
 
-                        <div class="trouble-item">
-                            <h3><i class="fas fa-exclamation-triangle"></i> API Key Errors</h3>
+                        <div class="trouble-item" style="border-left: 4px solid #ef4444; padding-left: 1rem; margin-bottom: 2rem;">
+                            <h3 style="color: #dc2626;"><i class="fas fa-exclamation-triangle"></i> ❌ API Key Errors</h3>
                             <div class="trouble-content">
-                                <p><strong>Problem:</strong> "Missing API key" or "Invalid API key" errors</p>
-                                <p><strong>Solution:</strong></p>
-                                <ul>
-                                    <li>Verify all keys are correctly copied in <code>.env.local</code></li>
-                                    <li>Ensure no extra spaces or quotes around keys</li>
-                                    <li>Restart the development server after adding keys</li>
-                                    <li>Check API key validity in respective dashboards</li>
-                                </ul>
+                                <div style="background: #fef2f2; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+                                    <p style="margin: 0; color: #7f1d1d;"><strong>😰 Problem:</strong> Seeing "Missing API key" or "Invalid API key" errors</p>
+                                </div>
+                                <div style="background: #ecfdf5; padding: 1rem; border-radius: 6px;">
+                                    <p style="margin: 0 0 0.5rem 0; color: #065f46;"><strong>✅ Solution:</strong></p>
+                                    <ul style="margin: 0; color: #065f46;">
+                                        <li>✓ Verify all keys are correctly copied in <code>.env.local</code> (no typos!)</li>
+                                        <li>✓ Ensure no extra spaces or quotes around keys</li>
+                                        <li>✓ <strong>Restart the development server</strong> after adding keys (Ctrl+C then run again)</li>
+                                        <li>✓ Check API key validity in respective dashboards</li>
+                                        <li>✓ Make sure the file is named <code>.env.local</code> not <code>.env.local.txt</code></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -1417,10 +1924,41 @@ npm run build</code></pre>
                             </div>
                         </div>
 
-                        <div class="info-box info">
-                            <i class="fas fa-lightbulb"></i>
-                            <div>
-                                <strong>Still Having Issues?</strong> Check the browser console and terminal for detailed error messages. Most issues can be resolved by carefully reading the error output.
+                        <div class="card help-card" style="margin-top: 3rem;">
+                            <div class="card-body">
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                                    <div style="width: 48px; height: 48px; background: var(--info-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="fas fa-life-ring" style="font-size: 1.5rem; color: var(--info-color);"></i>
+                                    </div>
+                                    <div>
+                                        <h3 style="margin-bottom: 0.5rem;">Still Having Issues?</h3>
+                                        <p style="color: var(--text-secondary); margin: 0;">Don't worry! Here's how to get help:</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="help-steps-grid">
+                                    <div class="help-step-card">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                            <div class="help-step-number">1</div>
+                                            <strong>Check Browser Console</strong>
+                                        </div>
+                                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; padding-left: 2.75rem;">Press F12 to open dev tools and look for error messages</p>
+                                    </div>
+                                    <div class="help-step-card">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                            <div class="help-step-number">2</div>
+                                            <strong>Check Terminal</strong>
+                                        </div>
+                                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; padding-left: 2.75rem;">Look at your terminal/command prompt for error details</p>
+                                    </div>
+                                    <div class="help-step-card">
+                                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                                            <div class="help-step-number">3</div>
+                                            <strong>Get Support</strong>
+                                        </div>
+                                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0; padding-left: 2.75rem;">Visit the <a href="#support" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">Support section</a> for help options</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1607,7 +2145,7 @@ npm run build</code></pre>
                 <div class="card">
                     <div class="card-body">
                         <h2>Built With Amazing Technologies</h2>
-                        <p>StokAlert wouldn't be possible without these incredible tools, services, and open-source projects:</p>
+                        <p>InvestStocks wouldn't be possible without these incredible tools, services, and open-source projects:</p>
 
                         <div class="feature-category">
                             <h3><i class="fas fa-code"></i> Core Technologies</h3>
@@ -1676,14 +2214,14 @@ npm run build</code></pre>
                         <div class="info-box success">
                             <i class="fas fa-heart"></i>
                             <div>
-                                <strong>Special Thanks:</strong> To all the open-source contributors and maintainers who make projects like StokAlert possible. Your dedication to creating free, accessible tools empowers developers worldwide.
+                                <strong>Special Thanks:</strong> To all the open-source contributors and maintainers who make projects like InvestStocks possible. Your dedication to creating free, accessible tools empowers developers worldwide.
                             </div>
                         </div>
 
                         <div class="info-box info">
                             <i class="fas fa-code-branch"></i>
                             <div>
-                                <strong>License Information:</strong> Each library and service used in this project maintains its own license. Please refer to their respective documentation for license details. StokAlert itself is licensed under the CodeCanyon Regular License.
+                                <strong>License Information:</strong> Each library and service used in this project maintains its own license. Please refer to their respective documentation for license details. InvestStocks itself is licensed under the CodeCanyon Regular License.
                             </div>
                         </div>
                     </div>
@@ -1701,8 +2239,122 @@ npm run build</code></pre>
                         <div class="changelog-list">
                             <div class="changelog-item">
                                 <div class="version-header">
+                                    <span class="version-badge">v1.2.0</span>
+                                    <span class="date">November 21, 2025</span>
+                                </div>
+                                <div class="version-content">
+                                    <h3>Major Features Release 🎉</h3>
+                                    <p><strong>8 Major Feature Categories • 30+ API Endpoints • 15+ New Components</strong></p>
+                                    <h4>New Features:</h4>
+                                    <ul>
+                                        <li><strong>Price Alerts & Notifications</strong> - Smart alert system with multiple alert types, real-time monitoring, and dual notification channels</li>
+                                        <li><strong>Market News Hub</strong> - Comprehensive news feed with category filtering, personalized content, and saved articles</li>
+                                        <li><strong>Earnings Calendar</strong> - Track upcoming earnings announcements with 30-day view and iCal export</li>
+                                        <li><strong>Trade Ideas Engine</strong> - AI-powered recommendations from multiple sources including technical analysis and news</li>
+                                        <li><strong>Advanced Sentiment Analysis</strong> - Multi-source sentiment tracking with historical trends and visualization</li>
+                                        <li><strong>Email Notifications & Digests</strong> - Automated portfolio summaries and customizable email preferences</li>
+                                        <li><strong>Export/Import Tools</strong> - Complete data portability with CSV/JSON support for portfolio, transactions, and trades</li>
+                                        <li><strong>Feature Flagging System</strong> - Centralized control for all platform features at `/admin/feature-flags`</li>
+                                        <li><strong>Global Feature Toggle</strong> - Enable/disable features across the entire platform instantly without code deployment</li>
+                                        <li><strong>Plan-Specific Access Control</strong> - Enable features for specific plans (Free, Pro, Enterprise) with checkboxes</li>
+                                        <li><strong>Category Organization</strong> - Group flags by category (AI, Stocks, Crypto, Trading, Analytics, Other)</li>
+                                        <li><strong>Real-time Changes</strong> - Feature changes take effect immediately without restart</li>
+                                        <li><strong>Search & Filter</strong> - Find feature flags quickly by name, key, or filter by category</li>
+                                        <li><strong>Pre-configured Default Flags</strong> - 10 default flags for all existing features</li>
+                                        <li><strong>Custom Flag Creation</strong> - Create new feature flags with key, name, description, and category</li>
+                                        <li><strong>Client-Side Hooks</strong> - `useFeatureFlag()` and `useFeatureFlags()` for checking flags in components</li>
+                                        <li><strong>Server-Side Integration</strong> - `canUseFeatureWithFlags()` for API route and server component checks</li>
+                                        <li><strong>Complete virtual trading simulator</strong> allowing users to practice trading stocks and cryptocurrencies</li>
+                                        <li><strong>Virtual Trading Account</strong> - Start with $100,000 virtual cash</li>
+                                        <li><strong>Real-time Price Execution</strong> - Trades execute at current market prices</li>
+                                        <li><strong>Stock Trading</strong> - Buy and sell stocks with real-time quotes</li>
+                                        <li><strong>Crypto Trading</strong> - Buy and sell cryptocurrencies with real-time prices</li>
+                                        <li><strong>Portfolio Tracking</strong> - Track virtual holdings with real-time values</li>
+                                        <li><strong>Transaction History</strong> - Complete history of all trades with filtering</li>
+                                        <li><strong>Performance Analytics</strong> - Track total return, win rate, best/worst trades</li>
+                                        <li><strong>Account Summary</strong> - View cash balance, total portfolio value, and returns</li>
+                                        <li><strong>Professional trading interface</strong> with prominent order placement panel</li>
+                                        <li><strong>Clickable holdings</strong> for quick sell orders</li>
+                                        <li><strong>Real-time portfolio value updates</strong> every 30 seconds</li>
+                                    </ul>
+                                    <h4>Technical:</h4>
+                                    <ul>
+                                        <li><strong>Feature Flags:</strong> New database schema (`feature_flags` collection) with plan-specific settings</li>
+                                        <li><strong>Feature Flags:</strong> 2 new API routes (`/api/admin/feature-flags` and `/api/feature-flags/check`)</li>
+                                        <li><strong>Feature Flags:</strong> Admin page component (`FeatureFlagsPage`) for managing flags</li>
+                                        <li><strong>Feature Flags:</strong> 2 custom hooks (`useFeatureFlag` and `useFeatureFlags`) for client-side checks</li>
+                                        <li><strong>Feature Flags:</strong> Server-side integration with `canUseFeatureWithFlags()` function</li>
+                                        <li><strong>Feature Flags:</strong> Feature flags override plan limits when disabled globally</li>
+                                        <li>8 new API routes for paper trading functionality</li>
+                                        <li>New database schemas for paper accounts, stock holdings, crypto holdings, and transactions</li>
+                                        <li>5 new React components for paper trading UI</li>
+                                        <li>4 custom hooks for paper trading data fetching</li>
+                                        <li>Plan limits integration (Free: 10 trades/day, Pro/Enterprise: Unlimited)</li>
+                                        <li>Average cost basis calculation for multiple purchases</li>
+                                        <li>Real-time price fetching before trade execution</li>
+                                        <li>Fixed MongoDB client-side bundling issues with server-side checks</li>
+                                    </ul>
+                                    <h4>Improvements:</h4>
+                                    <ul>
+                                        <li>Fixed missing import in stock buy route</li>
+                                        <li>Fixed price fetching for both stocks and crypto</li>
+                                        <li>Fixed transaction recording with proper balance tracking</li>
+                                        <li>Fixed average cost basis calculation for multiple purchases</li>
+                                        <li>Fixed performance metrics not updating after trades</li>
+                                        <li>Enhanced error handling for undefined values</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="changelog-item">
+                                <div class="version-header">
+                                    <span class="version-badge">v1.2.0 - Part 2</span>
+                                    <span class="date">November 21, 2025</span>
+                                </div>
+                                <div class="version-content">
+                                    <h3>Cryptocurrency Features Release 🎉</h3>
+                                    <h4>New Features:</h4>
+                                    <ul>
+                                        <li>Complete cryptocurrency market tracking with CoinGecko integration</li>
+                                        <li>CoinMarketCap-style market overview page (`/crypto`)</li>
+                                        <li>Global market statistics (market cap, volume, dominance)</li>
+                                        <li>Top Gainers & Losers (24h) with visual indicators</li>
+                                        <li>Cryptocurrency categories (DeFi, NFT, Stablecoins, Meme)</li>
+                                        <li>Individual coin detail pages with comprehensive information</li>
+                                        <li>Interactive price charts with multiple timeframes</li>
+                                        <li>Crypto portfolio management integrated with stocks</li>
+                                        <li>Add crypto holdings with search functionality</li>
+                                        <li>Real-time price updates and gain/loss tracking</li>
+                                        <li>Crypto heatmap visualization (Pro feature)</li>
+                                        <li>Trending coins section</li>
+                                        <li>Market table with 50+ cryptocurrencies</li>
+                                        <li>Coin logo integration with fallback</li>
+                                    </ul>
+                                    <h4>Technical:</h4>
+                                    <ul>
+                                        <li>9 new API routes for crypto functionality</li>
+                                        <li>CoinGecko API integration (free tier)</li>
+                                        <li>New database schema for crypto holdings</li>
+                                        <li>9 new React components for crypto features</li>
+                                        <li>6 custom hooks for crypto data fetching</li>
+                                        <li>Plan limits integration (Free: 3 coins, Pro/Enterprise: Unlimited)</li>
+                                        <li>Mobile-responsive crypto pages</li>
+                                    </ul>
+                                    <h4>Improvements:</h4>
+                                    <ul>
+                                        <li>Fixed crypto logo visibility issues</li>
+                                        <li>Fixed navigation issues in coin detail pages</li>
+                                        <li>Fixed React hook errors in dynamic routes</li>
+                                        <li>Fixed URL encoding/decoding for coin IDs</li>
+                                        <li>Enhanced error handling and loading states</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="changelog-item">
+                                <div class="version-header">
                                     <span class="version-badge">v1.1.0</span>
-                                    <span class="date">January 2025</span>
+                                    <span class="date">October 31, 2025</span>
                                 </div>
                                 <div class="version-content">
                                     <h3>Admin Panel Release 🎉</h3>
@@ -1798,14 +2450,14 @@ npm run build</code></pre>
                     <div class="footer-left">
                         <div class="logo">
                             <i class="fas fa-chart-line"></i>
-                            <span>StokAlert</span>
+                            <span>InvestStocks</span>
                         </div>
                         <p>Built with ❤️ for investors and traders</p>
-                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">Powered by Next.js, React, Groq AI, TradingView, Finnhub, Stripe, Lottie & more</p>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">Powered by Next.js, React, Groq AI, TradingView, Finnhub, CoinGecko, Stripe, Lottie & more</p>
                     </div>
                     <div class="footer-right">
-                        <p>&copy; 2025 StokAlert. All rights reserved.</p>
-                        <p>Version 1.1.0</p>
+                        <p>&copy; 2025 InvestStocks. All rights reserved.</p>
+                        <p>Version 1.2.0 - Updated November 21, 2025</p>
                     </div>
                 </div>
             </footer>
@@ -1815,4 +2467,5 @@ npm run build</code></pre>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
+
 

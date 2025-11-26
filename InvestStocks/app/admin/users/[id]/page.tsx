@@ -6,10 +6,10 @@ import { useReadOnlyMode } from '@/lib/hooks/use-read-only-mode'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Mail, Phone, MapPin, Calendar, Shield, User as UserIcon, CreditCard, Edit, CheckCircle, XCircle, Zap, ChartCandlestick, Crown } from 'lucide-react'
-import { useRouter, useParams } from 'next/navigation'
+import { ArrowLeft, Mail, Calendar, Shield, User as UserIcon, CreditCard, Edit, CheckCircle, XCircle, Zap, TrendingUp, Crown } from 'lucide-react'
+import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { toast } from 'sonner'
 import {
   Dialog,
@@ -62,7 +62,13 @@ interface Subscription {
 
 function UserDetailsContent({ userId }: { userId: string }) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const readOnlyMode = useReadOnlyMode()
+  
+  // Get the 'from' parameter from URL
+  const fromPageParam = searchParams?.get('from')
+  const fromPage = fromPageParam === 'subscriptions' ? 'subscriptions' : 'users'
+  
   const [user, setUser] = useState<User | null>(null)
   const [subscription, setSubscription] = useState<Subscription | null>(null)
   const [loading, setLoading] = useState(true)
@@ -87,7 +93,7 @@ function UserDetailsContent({ userId }: { userId: string }) {
           setUser(userData.user)
         } else {
           toast.error(userData.error || 'Failed to fetch user')
-          router.push('/admin/users')
+          router.push(fromPage === 'subscriptions' ? '/admin/subscriptions' : '/admin/users')
           return
         }
 
@@ -105,14 +111,14 @@ function UserDetailsContent({ userId }: { userId: string }) {
       } catch (error) {
         console.error('Error fetching data:', error)
         toast.error('Failed to fetch user data')
-        router.push('/admin/users')
+        router.push(fromPage === 'subscriptions' ? '/admin/subscriptions' : '/admin/users')
       } finally {
         setLoading(false)
       }
     }
 
     fetchData()
-  }, [userId, router])
+  }, [userId, router, fromPage])
 
   const handleSaveSubscription = async () => {
     try {
@@ -168,9 +174,11 @@ function UserDetailsContent({ userId }: { userId: string }) {
             <UserIcon className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
             <h3 className="text-lg font-semibold text-foreground mb-2">User not found</h3>
             <p className="text-sm text-muted-foreground mb-6">The user you&apos;re looking for doesn&apos;t exist.</p>
-            <Button onClick={() => router.push('/admin/users')}>
+            <Button onClick={() => {
+              router.push(fromPage === 'subscriptions' ? '/admin/subscriptions' : '/admin/users')
+            }}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Users
+              Back to {fromPage === 'subscriptions' ? 'Subscribers' : 'Users'}
             </Button>
           </div>
         </div>
@@ -195,14 +203,14 @@ function UserDetailsContent({ userId }: { userId: string }) {
       <div className="space-y-6 max-w-full">
         {/* Header */}
         <div className="ml-12 lg:ml-0">
-          <Link href="/admin/users">
-            <Button variant="ghost" size="sm" className="mb-4">
+          <Link href={fromPage === 'subscriptions' ? '/admin/subscriptions' : '/admin/users'}>
+            <Button variant="ghost" size="sm" className="mb-4 w-full sm:w-auto">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Users
+              Back to {fromPage === 'subscriptions' ? 'Subscribers' : 'Users'}
             </Button>
           </Link>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex-1 min-w-0">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight">
                 User Details
               </h1>
@@ -216,38 +224,38 @@ function UserDetailsContent({ userId }: { userId: string }) {
         {/* User Info Card */}
         <Card className="border-0 shadow-lg">
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+            <div className="flex flex-col gap-4">
+              <div className="flex items-start gap-4 flex-1 min-w-0">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0">
                   <span className="text-2xl font-bold text-primary">
                     {(user.name || 'U').charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <div>
-                  <CardTitle className="text-2xl font-bold text-foreground mb-1">
+                <div className="min-w-0 flex-1">
+                  <CardTitle className="text-xl sm:text-2xl font-bold text-foreground mb-1 break-words">
                     {user.name || 'Unknown'}
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Mail className="w-4 h-4" />
-                    {user.email || 'No email'}
+                  <p className="text-sm text-muted-foreground flex items-center gap-2 break-words">
+                    <Mail className="w-4 h-4 flex-shrink-0" />
+                    <span className="break-all">{user.email || 'No email'}</span>
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 {user.role === 'admin' ? (
-                  <Badge variant="outline" className="border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 px-3 py-1">
+                  <Badge variant="outline" className="border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 px-3 py-1 whitespace-nowrap flex-shrink-0">
                     <Shield className="w-4 h-4 mr-1.5" />
                     Admin
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="bg-muted/50 px-3 py-1">
+                  <Badge variant="outline" className="bg-muted/50 px-3 py-1 whitespace-nowrap flex-shrink-0">
                     <UserIcon className="w-4 h-4 mr-1.5" />
                     User
                   </Badge>
                 )}
                 <Badge 
                   variant={user.isActive !== false ? 'default' : 'destructive'}
-                  className="px-3 py-1"
+                  className="px-3 py-1 whitespace-nowrap flex-shrink-0"
                 >
                   {user.isActive !== false ? 'Active' : 'Suspended'}
                 </Badge>
@@ -258,9 +266,9 @@ function UserDetailsContent({ userId }: { userId: string }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-4 rounded-lg bg-muted/30">
                 <p className="text-sm font-medium text-muted-foreground mb-2">Email Address</p>
-                <p className="flex items-center gap-2 text-foreground font-medium">
-                  <Mail className="w-4 h-4 text-muted-foreground" />
-                  {user.email || 'Not provided'}
+                <p className="flex items-start gap-2 text-foreground font-medium break-words">
+                  <Mail className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  <span className="break-all min-w-0">{user.email || 'Not provided'}</span>
                 </p>
               </div>
               <div className="p-4 rounded-lg bg-muted/30">
@@ -282,9 +290,9 @@ function UserDetailsContent({ userId }: { userId: string }) {
               {subscription && subscription.subscriptionId && (
                 <div className="p-4 rounded-lg bg-muted/30">
                   <p className="text-sm font-medium text-muted-foreground mb-2">Subscription ID</p>
-                  <p className="flex items-center gap-2 text-foreground font-medium font-mono text-sm">
-                    <CreditCard className="w-4 h-4 text-muted-foreground" />
-                    {subscription.subscriptionId}
+                  <p className="flex items-start gap-2 text-foreground font-medium font-mono text-sm break-all">
+                    <CreditCard className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                    <span className="break-all min-w-0">{subscription.subscriptionId}</span>
                   </p>
                 </div>
               )}
@@ -316,24 +324,6 @@ function UserDetailsContent({ userId }: { userId: string }) {
                       hour: '2-digit',
                       minute: '2-digit'
                     })}
-                  </p>
-                </div>
-              )}
-              {user.phone && (
-                <div className="p-4 rounded-lg bg-muted/30">
-                  <p className="text-sm font-medium text-muted-foreground mb-2">Phone Number</p>
-                  <p className="flex items-center gap-2 text-foreground font-medium">
-                    <Phone className="w-4 h-4 text-muted-foreground" />
-                    {user.phone}
-                  </p>
-                </div>
-              )}
-              {user.location && (
-                <div className="p-4 rounded-lg bg-muted/30">
-                  <p className="text-sm font-medium text-muted-foreground mb-2">Location</p>
-                  <p className="flex items-center gap-2 text-foreground font-medium">
-                    <MapPin className="w-4 h-4 text-muted-foreground" />
-                    {user.location}
                   </p>
                 </div>
               )}
@@ -444,9 +434,9 @@ function UserDetailsContent({ userId }: { userId: string }) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="free">Explorer</SelectItem>
-                  <SelectItem value="pro">Alpha Hunter</SelectItem>
-                  <SelectItem value="enterprise">Market Master</SelectItem>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="pro">Pro</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -512,7 +502,18 @@ export default function UserDetails() {
 
   return (
     <AdminProtectedRoute>
-      <UserDetailsContent userId={userId} />
+      <Suspense fallback={
+        <AdminLayout>
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+              <p className="text-muted-foreground mt-4 text-sm">Loading...</p>
+            </div>
+          </div>
+        </AdminLayout>
+      }>
+        <UserDetailsContent userId={userId} />
+      </Suspense>
     </AdminProtectedRoute>
   )
 }

@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { IconUser, IconEdit } from '@/components/ui/icons'
 import { Crown, Sparkles, Star, Lock, Eye, EyeOff } from 'lucide-react'
+import { EmailPreferences } from '@/components/profile/email-preferences'
 import { toast } from 'sonner'
 
 interface ProfileModalProps {
@@ -37,8 +38,6 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
   const [formData, setFormData] = useState({
     name: user.name,
     email: user.email,
-    phone: user.phone || '',
-    location: user.location || '',
     joinDate: user.joinDate || new Date().toLocaleDateString()
   })
   const [passwordData, setPasswordData] = useState({
@@ -52,8 +51,6 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
     setFormData({
       name: user.name,
       email: user.email,
-      phone: user.phone || '',
-      location: user.location || '',
       joinDate: user.joinDate || new Date().toLocaleDateString()
     })
   }, [user])
@@ -75,8 +72,6 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
     setFormData({
       name: user.name,
       email: user.email,
-      phone: user.phone || '',
-      location: user.location || '',
       joinDate: user.joinDate || new Date().toLocaleDateString()
     })
     setIsEditing(false)
@@ -167,7 +162,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
         <div className="space-y-6">
           {/* Profile Picture Section */}
           <div className="flex items-center space-x-4">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full" style={{ backgroundColor: '#FF9900' }}>
+            <div className="flex h-20 w-20 items-center justify-center rounded-full" style={{ backgroundColor: '#ff4618' }}>
               <IconUser className="h-8 w-8 text-white" />
             </div>
             <div className="space-y-1">
@@ -191,7 +186,14 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
                   <Star className="h-5 w-5 text-primary" />
                 )}
                 <div>
-                  <p className="font-semibold capitalize">{user.plan || 'Free'} Plan</p>
+                  <p className="font-semibold">
+                    {user.plan === 'enterprise' 
+                      ? 'Professional Plan' 
+                      : user.plan === 'pro'
+                      ? 'Investor Plan'
+                      : 'Starter Plan'
+                    }
+                  </p>
                   <p className="text-sm text-muted-foreground">
                     {user.plan === 'enterprise' 
                       ? 'Professional tier with all features' 
@@ -206,7 +208,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
                 variant={user.plan === 'free' ? 'secondary' : 'default'}
                 className={user.plan !== 'free' ? 'bg-primary' : ''}
               >
-                {user.plan === 'free' ? 'Basic' : 'Premium'}
+                {user.plan === 'enterprise' ? 'Professional' : user.plan === 'pro' ? 'Investor' : 'Starter'}
               </Badge>
             </div>
           </div>
@@ -345,7 +347,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
                   <Button 
                     onClick={handleChangePassword}
                     disabled={changingPassword}
-                    style={{ backgroundColor: '#FF9900' }}
+                    style={{ backgroundColor: '#ff4618' }}
                     className="text-white"
                   >
                     {changingPassword ? (
@@ -362,6 +364,11 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
             )}
           </div>
 
+          <Separator />
+
+          {/* Email Preferences */}
+          <EmailPreferences />
+
           {/* Action Buttons */}
           {isEditing && (
             <div className="flex justify-end space-x-2 pt-4">
@@ -370,7 +377,7 @@ export function ProfileModal({ isOpen, onClose, user, onUpdateProfile }: Profile
               </Button>
               <Button 
                 onClick={handleSave}
-                style={{ backgroundColor: '#FF9900' }}
+                style={{ backgroundColor: '#ff4618' }}
                 className="text-white"
               >
                 Save Changes

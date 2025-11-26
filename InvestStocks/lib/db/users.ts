@@ -23,7 +23,7 @@ export interface User {
 export async function findUserByEmail(email: string): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     const user = await collection.findOne({ email: email.toLowerCase() })
@@ -37,7 +37,7 @@ export async function findUserByEmail(email: string): Promise<User | null> {
 export async function findUserById(userId: string): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     const user = await collection.findOne({ _id: new ObjectId(userId) })
@@ -51,7 +51,7 @@ export async function findUserById(userId: string): Promise<User | null> {
 export async function createUser(userData: Omit<User, '_id' | 'createdAt' | 'updatedAt'>): Promise<User> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     const now = new Date().toISOString()
@@ -73,7 +73,7 @@ export async function createUser(userData: Omit<User, '_id' | 'createdAt' | 'upd
 export async function updateUser(userId: string, updateData: Partial<User>): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     console.log(`[DB updateUser] Updating user ${userId} with data:`, updateData)
@@ -168,7 +168,7 @@ export async function updateUser(userId: string, updateData: Partial<User>): Pro
 export async function updateUserPlan(userId: string, plan: 'free' | 'pro' | 'enterprise'): Promise<User | null> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     const result = await collection.findOneAndUpdate(
@@ -192,7 +192,7 @@ export async function updateUserPlan(userId: string, plan: 'free' | 'pro' | 'ent
 export async function deleteUser(userId: string): Promise<boolean> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     const result = await collection.deleteOne({ _id: new ObjectId(userId) })
@@ -206,7 +206,7 @@ export async function deleteUser(userId: string): Promise<boolean> {
 export async function getAllUsers(): Promise<User[]> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     console.log('[DB] Connecting to MongoDB and fetching users...')
@@ -224,7 +224,7 @@ export async function getAllUsers(): Promise<User[]> {
 export async function updateUserPassword(userId: string, newPassword: string): Promise<boolean> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('users')
     
     if (!ObjectId.isValid(userId)) {
@@ -247,6 +247,97 @@ export async function updateUserPassword(userId: string, newPassword: string): P
     return result.matchedCount > 0 && result.modifiedCount > 0
   } catch (error) {
     console.error('Error updating user password:', error)
+    return false
+  }
+}
+
+// Password reset token functions
+export interface PasswordResetToken {
+  _id?: ObjectId
+  userId: ObjectId
+  token: string
+  expiresAt: Date
+  createdAt: Date
+  used: boolean
+}
+
+export async function createPasswordResetToken(userId: string, token: string): Promise<boolean> {
+  try {
+    console.log('[DB] createPasswordResetToken called for userId:', userId)
+    const client = await clientPromise
+    const db = client.db('investstocks')
+    const collection = db.collection('password_reset_tokens')
+    
+    if (!ObjectId.isValid(userId)) {
+      console.error(`[DB] ✗ Invalid ObjectId: ${userId}`)
+      return false
+    }
+    
+    // Expires in 1 hour
+    const expiresAt = new Date()
+    expiresAt.setHours(expiresAt.getHours() + 1)
+    console.log('[DB] Token expires at:', expiresAt.toISOString())
+    
+    // Invalidate any existing tokens for this user
+    console.log('[DB] Invalidating existing tokens for user...')
+    const invalidateResult = await collection.updateMany(
+      { userId: new ObjectId(userId), used: false },
+      { $set: { used: true } }
+    )
+    console.log('[DB] Invalidated', invalidateResult.modifiedCount, 'existing tokens')
+    
+    // Create new token
+    console.log('[DB] Inserting new password reset token...')
+    const insertResult = await collection.insertOne({
+      userId: new ObjectId(userId),
+      token,
+      expiresAt,
+      createdAt: new Date(),
+      used: false,
+    })
+    
+    console.log('[DB] ✓ Password reset token created successfully, ID:', insertResult.insertedId)
+    return true
+  } catch (error) {
+    console.error('[DB] ✗ Error creating password reset token:', error)
+    console.error('[DB] Error details:', error instanceof Error ? error.message : 'Unknown error')
+    return false
+  }
+}
+
+export async function findPasswordResetToken(token: string): Promise<PasswordResetToken | null> {
+  try {
+    const client = await clientPromise
+    const db = client.db('investstocks')
+    const collection = db.collection('password_reset_tokens')
+    
+    const resetToken = await collection.findOne({
+      token,
+      used: false,
+      expiresAt: { $gt: new Date() },
+    })
+    
+    return resetToken as PasswordResetToken | null
+  } catch (error) {
+    console.error('Error finding password reset token:', error)
+    return null
+  }
+}
+
+export async function markPasswordResetTokenAsUsed(token: string): Promise<boolean> {
+  try {
+    const client = await clientPromise
+    const db = client.db('investstocks')
+    const collection = db.collection('password_reset_tokens')
+    
+    const result = await collection.updateOne(
+      { token },
+      { $set: { used: true } }
+    )
+    
+    return result.modifiedCount > 0
+  } catch (error) {
+    console.error('Error marking password reset token as used:', error)
     return false
   }
 } 

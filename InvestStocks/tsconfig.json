@@ -13,8 +13,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "experimentalDecorators": true,
-    "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]

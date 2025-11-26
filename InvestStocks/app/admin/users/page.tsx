@@ -365,9 +365,9 @@ function UsersManagementContent() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Plans</SelectItem>
-                  <SelectItem value="free">Explorer</SelectItem>
-                  <SelectItem value="pro">Alpha Hunter</SelectItem>
-                  <SelectItem value="enterprise">Market Master</SelectItem>
+                  <SelectItem value="free">Free</SelectItem>
+                  <SelectItem value="pro">Pro</SelectItem>
+                  <SelectItem value="enterprise">Enterprise</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={roleFilter} onValueChange={setRoleFilter}>
@@ -662,9 +662,9 @@ function UsersManagementContent() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="free">Explorer</SelectItem>
-                    <SelectItem value="pro">Alpha Hunter</SelectItem>
-                    <SelectItem value="enterprise">Market Master</SelectItem>
+                    <SelectItem value="free">Free</SelectItem>
+                    <SelectItem value="pro">Pro</SelectItem>
+                    <SelectItem value="enterprise">Enterprise</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

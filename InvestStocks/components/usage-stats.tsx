@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   MessageSquare, 
   BarChart3, 
-  ChartCandlestick, 
+  TrendingUp, 
   Search, 
   Map, 
   Calculator,
@@ -116,7 +116,7 @@ export function UsageStats({ userEmail, userPlan }: UsageStatsProps) {
     },
     {
       label: 'Stock Tracking',
-      icon: ChartCandlestick,
+      icon: TrendingUp,
       current: usage.stockTracking,
       limit: usage.stockTrackingLimit,
       color: 'text-purple-600'

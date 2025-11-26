@@ -1,8 +1,8 @@
 {
-  "name": "StokAlert",
+  "name": "investstocks",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,10 +13,7 @@
     "change-password": "node scripts/change-password.mjs",
     "type-check": "tsc --noEmit",
     "format:write": "prettier --write \"{app,lib,components}/**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache",
-    "test": "node scripts/run-tests.js",
-    "test:local": "TEST_BASE_URL=http://localhost:3000 node scripts/run-tests.js",
-    "test:production": "TEST_BASE_URL=https://your-domain.vercel.app node scripts/run-tests.js"
+    "format:check": "prettier --check \"{app,lib,components}**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.2",
@@ -34,6 +31,7 @@
     "@stripe/stripe-js": "^7.8.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/nodemailer": "^7.0.4",
     "@vercel/og": "^0.6.2",
     "ai": "^3.2.16",
     "bcryptjs": "^3.0.2",
@@ -51,6 +49,7 @@
     "nanoid": "^5.0.7",
     "next": "^14.2.31",
     "next-themes": "^0.3.0",
+    "nodemailer": "^7.0.10",
     "openai": "^4.52.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

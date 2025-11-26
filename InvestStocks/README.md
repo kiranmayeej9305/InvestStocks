@@ -1,4 +1,4 @@
-# StokAlert - AI-Powered Stock Market Investment Platform
+# InvestStocks - AI-Powered Stock Market Investment Platform
 
 A comprehensive, production-ready stock market investment platform with AI assistance, real-time data, portfolio management, and complete admin panel.
 
@@ -6,7 +6,9 @@ A comprehensive, production-ready stock market investment platform with AI assis
 
 - **AI-Powered Chat** - Get investment advice using Groq LLaMA 3 70B
 - **Real-Time Stock Data** - Live quotes, charts, and market data
-- **Portfolio Management** - Track and manage your investments
+- **Cryptocurrency Market** - Complete crypto tracking with CoinGecko integration
+- **Paper Trading Simulator** - Practice trading with virtual money using real market data
+- **Portfolio Management** - Track and manage stocks and crypto investments
 - **Admin Panel** - Complete management system for users, subscriptions, and settings
 - **Subscription System** - Stripe integration with multiple plans
 - **Analytics Dashboard** - Track usage and platform statistics
@@ -108,6 +110,7 @@ ADMIN_DEMO_MODE=true
 - **Groq API** - AI chat functionality
 - **Finnhub API** - Real-time stock data
 - **Alpha Vantage API** - Sentiment analysis
+- **CoinGecko API** - Cryptocurrency market data and prices
 - **Stripe API** - Payment processing
 - **elbstream.com** - Stock logos (400k+ logos)
 
@@ -121,8 +124,27 @@ Regular License from CodeCanyon - Envato Market
 - **Community:** [Telegram Bot](https://t.me/webbuddyenvato_bot)
 - **Direct Support:** [WebBuddy Support](https://envato.webbuddy.agency/)
 
-## 📋 Recent Updates (v1.1.0)
+## 📋 Recent Updates
 
+### v1.3.0 (Latest)
+- ✅ Paper Trading Simulator with $100,000 virtual account
+- ✅ Buy/sell stocks and crypto with real-time prices
+- ✅ Virtual portfolio tracking with performance analytics
+- ✅ Transaction history with filtering
+- ✅ Win rate and trade statistics
+- ✅ Real-time portfolio value updates
+
+### v1.2.0
+- ✅ Complete cryptocurrency market tracking
+- ✅ Crypto portfolio management
+- ✅ CoinMarketCap-style market overview
+- ✅ Individual coin detail pages
+- ✅ Crypto categories (DeFi, NFT, Stablecoins, Meme)
+- ✅ Market heatmaps and trending coins
+- ✅ Real-time crypto price updates
+- ✅ Integrated crypto/stocks portfolio
+
+### v1.1.0
 - ✅ Complete admin panel system
 - ✅ Read-only demo mode for CodeCanyon
 - ✅ User management with full CRUD
@@ -130,9 +152,6 @@ Regular License from CodeCanyon - Envato Market
 - ✅ Site settings configuration
 - ✅ Analytics dashboard
 - ✅ Audit logging system
-- ✅ Performance optimizations
-- ✅ Fixed excessive API calls
-- ✅ Build error fixes
 
 See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 

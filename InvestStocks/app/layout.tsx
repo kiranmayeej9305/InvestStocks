@@ -1,3 +1,4 @@
+import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
 
 import '@/app/globals.css'
@@ -9,17 +10,20 @@ import { generateMetadata } from '@/lib/metadata'
 import { SiteSettingsProvider } from '@/components/site-settings-provider'
 import { MaintenanceMode } from '@/components/maintenance-mode'
 import { SiteSettingsContextProvider } from '@/components/site-settings-context'
+import { InstallPrompt } from '@/components/pwa/install-prompt'
+import Script from 'next/script'
 
 export { generateMetadata }
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' }
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' }
   ]
 }
 
@@ -29,27 +33,36 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Overpass:wght@100;200;300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
+        <meta name="theme-color" content="#FF4618" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="InvestStocks" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-TileColor" content="#FF4618" />
+        <meta name="msapplication-tap-highlight" content="no" />
       </head>
       <body
         className={cn(
           'font-sans antialiased min-h-screen',
+          GeistSans.variable,
           GeistMono.variable
         )}
-        style={{ fontFamily: 'Overpass, sans-serif' }}
       >
         <SiteSettingsProvider />
         <Toaster position="top-center" />
         <Providers
           attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          forcedTheme="dark"
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
           <SiteSettingsContextProvider>
@@ -57,8 +70,28 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               {children}
             </MaintenanceMode>
           </SiteSettingsContextProvider>
-          {/* Theme toggle disabled - dark mode only */}
+          <ThemeToggle />
+          <InstallPrompt />
         </Providers>
+        <Script
+          id="service-worker-registration"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('Service Worker registered:', registration.scope);
+                    })
+                    .catch(function(error) {
+                      console.log('Service Worker registration failed:', error);
+                    });
+                });
+              }
+            `,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `

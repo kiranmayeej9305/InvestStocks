@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ChartCandlestick, TrendingDown } from 'lucide-react'
+import { TrendingUp, TrendingDown } from 'lucide-react'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { StockLogo } from './stock-logo'
 
@@ -68,10 +68,10 @@ export function StockPortfolioCard({
             <p className="text-xs text-muted-foreground">Total Share</p>
             <p className="text-sm font-medium text-foreground flex items-center gap-1">
               <span className={isPositive ? 'text-emerald-500' : 'text-red-500'}>
-                {isPositive ? '+' : ''} {(shares ?? 0).toFixed(2)}
+                {isPositive ? '+' : ''} {shares.toFixed(2)}
               </span>
               {isPositive ? (
-                <ChartCandlestick className="w-3 h-3 text-emerald-500" />
+                <TrendingUp className="w-3 h-3 text-emerald-500" />
               ) : (
                 <TrendingDown className="w-3 h-3 text-red-500" />
               )}
@@ -82,7 +82,7 @@ export function StockPortfolioCard({
         <div>
           <p className="text-xs text-muted-foreground">Total Return</p>
           <p className="text-xl font-bold text-foreground">
-            ${(totalValue ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            ${totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
         </div>
 
@@ -93,7 +93,7 @@ export function StockPortfolioCard({
               : 'bg-red-500/10 text-red-500 border-red-500/20'
           }`}
         >
-          {isPositive ? '+' : ''}{(changePercent ?? 0).toFixed(2)}%
+          {isPositive ? '+' : ''}{changePercent.toFixed(2)}%
         </Badge>
       </CardContent>
     </Card>

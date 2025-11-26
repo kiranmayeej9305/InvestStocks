@@ -4,8 +4,12 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ProtectedRoute } from '@/components/protected-route'
-import { ChartCandlestick, TrendingDown, Activity, Info, AlertTriangle, Smile, Frown, Meh } from 'lucide-react'
+import { useAuth } from '@/lib/contexts/auth-context'
+import { useFeatureFlag } from '@/lib/hooks/use-feature-flag'
+import { Button } from '@/components/ui/button'
+import { TrendingUp, TrendingDown, Activity, Info, AlertTriangle, Smile, Frown, Meh } from 'lucide-react'
 import { Line, LineChart, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart, CartesianGrid } from 'recharts'
+import Link from 'next/link'
 
 interface FearGreedData {
   current: {
@@ -23,13 +27,17 @@ interface FearGreedData {
 }
 
 export default function FearGreedPage() {
+  const { user } = useAuth()
+  const { enabled: fearGreedEnabled, loading: flagLoading } = useFeatureFlag('fear_greed_index', user?.plan)
   const [data, setData] = useState<FearGreedData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    fetchFearGreedData()
-  }, [])
+    if (fearGreedEnabled) {
+      fetchFearGreedData()
+    }
+  }, [fearGreedEnabled])
 
   const fetchFearGreedData = async () => {
     try {
@@ -103,9 +111,54 @@ export default function FearGreedPage() {
     return '#059669' // emerald-600
   }
 
+  // Check if feature flag is loading
+  if (flagLoading) {
+    return (
+      <ProtectedRoute requireAuth={true}>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="text-muted-foreground mt-4 text-sm">Checking feature availability...</p>
+          </div>
+        </div>
+      </ProtectedRoute>
+    )
+  }
+
+  // Check if feature is disabled
+  if (!fearGreedEnabled) {
+    return (
+      <ProtectedRoute requireAuth={true}>
+        <div className="flex items-center justify-center min-h-[400px] p-4">
+          <Card className="max-w-md w-full">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-orange-500" />
+                Feature Disabled
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground">
+                Fear & Greed Index is currently disabled by the administrator. Please check back later or contact support if you believe this is an error.
+              </p>
+              <div className="flex gap-2">
+                <Button variant="outline" asChild className="flex-1">
+                  <Link href="/">Go Home</Link>
+                </Button>
+                <Button variant="outline" asChild className="flex-1">
+                  <Link href="/contact">Contact Support</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </ProtectedRoute>
+    )
+  }
+
   if (loading) {
     return (
-      <ProtectedRoute>
+      <ProtectedRoute requireAuth={true}>
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
           <div className="flex items-center justify-between">
             <Skeleton className="h-8 w-64" />
@@ -122,7 +175,7 @@ export default function FearGreedPage() {
 
   if (error || !data) {
     return (
-      <ProtectedRoute>
+      <ProtectedRoute requireAuth={true}>
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
           <Card>
             <CardContent className="p-6">
@@ -141,7 +194,7 @@ export default function FearGreedPage() {
   }))
 
   return (
-    <ProtectedRoute>
+    <ProtectedRoute requireAuth={true}>
       <div className="flex-1 space-y-6 p-4 md:p-8 pt-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 ml-12 lg:ml-0">

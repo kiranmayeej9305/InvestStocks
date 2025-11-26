@@ -97,8 +97,8 @@ function LogsContent() {
       <div className="space-y-6 max-w-full">
         {/* Header */}
         <div className="ml-12 lg:ml-0">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex-1 min-w-0">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight">
                 Audit Logs
               </h1>
@@ -110,7 +110,7 @@ function LogsContent() {
               variant="outline"
               onClick={fetchLogs}
               disabled={loading}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 flex-shrink-0 w-full sm:w-auto"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               Refresh
@@ -278,81 +278,88 @@ function LogsContent() {
                 {filteredLogs.map((log) => (
                   <div
                     key={log.id}
-                    className="p-5 rounded-xl border border-border bg-card hover:bg-accent/30 transition-all group"
+                    className="p-4 sm:p-5 rounded-xl border border-border bg-card hover:bg-accent/30 transition-all group"
                   >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="text-2xl">{getActionIcon(log.action)}</div>
-                          <Badge variant="outline" className={`${getActionColor(log.action)} font-medium`}>
+                    <div className="flex flex-col gap-4">
+                      {/* Top section: Icon, Badge, Admin, Timestamp */}
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                          <div className="text-xl sm:text-2xl flex-shrink-0">{getActionIcon(log.action)}</div>
+                          <Badge variant="outline" className={`${getActionColor(log.action)} font-medium whitespace-nowrap flex-shrink-0`}>
                             {log.action.replace('_', ' ').replace(/([A-Z])/g, ' $1').trim()}
                           </Badge>
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <Shield className="w-3 h-3" />
-                            <span className="font-medium">{log.adminEmail}</span>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground min-w-0">
+                            <Shield className="w-3 h-3 flex-shrink-0" />
+                            <span className="font-medium truncate">{log.adminEmail}</span>
                           </div>
                         </div>
-                        <div className="pl-11 space-y-2">
-                          <p className="text-sm font-medium text-foreground">
-                            {log.action === 'user_updated' && `Updated user ${log.targetId}`}
-                            {log.action === 'user_deleted' && `Deleted user ${log.targetId}`}
-                            {log.action === 'user_created' && `Created user ${log.targetId}`}
-                            {log.action === 'plan_updated' && `Updated plan ${log.targetId}`}
-                            {log.action === 'site_settings_updated' && 'Updated site settings'}
-                            {!['user_updated', 'user_deleted', 'user_created', 'plan_updated', 'site_settings_updated'].includes(log.action) && 
-                              `${log.action.replace(/_/g, ' ')} on ${log.targetType}`}
-                          </p>
-                          {log.changes && (log.changes.before || log.changes.after) && (
-                            <div className="p-3 rounded-lg bg-muted/50 border border-border">
-                              <p className="text-xs font-medium text-muted-foreground mb-2">Changes:</p>
-                              <div className="space-y-2">
-                                {log.changes.before && (
-                                  <div>
-                                    <p className="text-xs font-medium text-red-600 dark:text-red-400 mb-1">Before:</p>
-                                    <div className="space-y-1 pl-2">
-                                      {Object.entries(log.changes.before).map(([key, value]) => (
-                                        <div key={key} className="flex items-center gap-2 text-xs">
-                                          <span className="text-muted-foreground">{key}:</span>
-                                          <code className="px-1.5 py-0.5 bg-background rounded text-red-600 dark:text-red-400 font-mono">
-                                            {String(value)}
-                                          </code>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                                {log.changes.after && (
-                                  <div>
-                                    <p className="text-xs font-medium text-green-600 dark:text-green-400 mb-1">After:</p>
-                                    <div className="space-y-1 pl-2">
-                                      {Object.entries(log.changes.after).map(([key, value]) => (
-                                        <div key={key} className="flex items-center gap-2 text-xs">
-                                          <span className="text-muted-foreground">{key}:</span>
-                                          <code className="px-1.5 py-0.5 bg-background rounded text-green-600 dark:text-green-400 font-mono">
-                                            {String(value)}
-                                          </code>
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          )}
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground whitespace-nowrap flex-shrink-0 w-full sm:w-auto">
+                          <Clock className="w-3 h-3 flex-shrink-0" />
+                          <span className="text-left sm:text-right">
+                            {new Date(log.timestamp).toLocaleDateString('en-US', { 
+                              month: 'short', 
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground whitespace-nowrap">
-                        <Clock className="w-3 h-3" />
-                        <span>
-                          {new Date(log.timestamp).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </span>
+                      
+                      {/* Action description */}
+                      <div className="pl-0 sm:pl-11">
+                        <p className="text-sm font-medium text-foreground break-words">
+                          {log.action === 'user_updated' && `Updated user ${log.targetId}`}
+                          {log.action === 'user_deleted' && `Deleted user ${log.targetId}`}
+                          {log.action === 'user_created' && `Created user ${log.targetId}`}
+                          {log.action === 'plan_updated' && `Updated plan ${log.targetId}`}
+                          {log.action === 'site_settings_updated' && 'Updated site settings'}
+                          {!['user_updated', 'user_deleted', 'user_created', 'plan_updated', 'site_settings_updated'].includes(log.action) && 
+                            `${log.action.replace(/_/g, ' ')} on ${log.targetType}`}
+                        </p>
                       </div>
+                      
+                      {/* Changes section */}
+                      {log.changes && (log.changes.before || log.changes.after) && (
+                        <div className="pl-0 sm:pl-11">
+                          <div className="p-3 rounded-lg bg-muted/50 border border-border">
+                            <p className="text-xs font-medium text-muted-foreground mb-2">Changes:</p>
+                            <div className="space-y-3">
+                              {log.changes.before && (
+                                <div>
+                                  <p className="text-xs font-medium text-red-600 dark:text-red-400 mb-1">Before:</p>
+                                  <div className="space-y-1 pl-2 overflow-x-auto">
+                                    {Object.entries(log.changes.before).map(([key, value]) => (
+                                      <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs">
+                                        <span className="text-muted-foreground font-medium flex-shrink-0">{key}:</span>
+                                        <code className="px-1.5 py-0.5 bg-background rounded text-red-600 dark:text-red-400 font-mono break-all min-w-0">
+                                          {String(value)}
+                                        </code>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              {log.changes.after && (
+                                <div>
+                                  <p className="text-xs font-medium text-green-600 dark:text-green-400 mb-1">After:</p>
+                                  <div className="space-y-1 pl-2 overflow-x-auto">
+                                    {Object.entries(log.changes.after).map(([key, value]) => (
+                                      <div key={key} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs">
+                                        <span className="text-muted-foreground font-medium flex-shrink-0">{key}:</span>
+                                        <code className="px-1.5 py-0.5 bg-background rounded text-green-600 dark:text-green-400 font-mono break-all min-w-0">
+                                          {String(value)}
+                                        </code>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

@@ -47,16 +47,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(data.user)
         setIsAuthenticated(true)
         // Update localStorage for backwards compatibility
-        localStorage.setItem('StokAlert_user', JSON.stringify(data.user))
-        localStorage.setItem('StokAlert_authenticated', 'true')
-        localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
+        localStorage.setItem('investstocks_user', JSON.stringify(data.user))
+        localStorage.setItem('investstocks_authenticated', 'true')
+        localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
       } else {
         setUser(null)
         setIsAuthenticated(false)
         // Clear localStorage
-        localStorage.removeItem('StokAlert_user')
-        localStorage.removeItem('StokAlert_authenticated')
-        localStorage.removeItem('StokAlert_session_timestamp')
+        localStorage.removeItem('investstocks_user')
+        localStorage.removeItem('investstocks_authenticated')
+        localStorage.removeItem('investstocks_session_timestamp')
       }
     } catch (error) {
       console.error('Auth check failed:', error)
@@ -87,9 +87,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(true)
       
       // Update localStorage
-      localStorage.setItem('StokAlert_user', JSON.stringify(data.user))
-      localStorage.setItem('StokAlert_authenticated', 'true')
-      localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
+      localStorage.setItem('investstocks_user', JSON.stringify(data.user))
+      localStorage.setItem('investstocks_authenticated', 'true')
+      localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
 
       // Redirect to dashboard
       router.push('/')
@@ -119,9 +119,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(true)
       
       // Update localStorage
-      localStorage.setItem('StokAlert_user', JSON.stringify(data.user))
-      localStorage.setItem('StokAlert_authenticated', 'true')
-      localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
+      localStorage.setItem('investstocks_user', JSON.stringify(data.user))
+      localStorage.setItem('investstocks_authenticated', 'true')
+      localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
 
       // Redirect to dashboard
       router.push('/')
@@ -141,9 +141,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(false)
       
       // Clear localStorage
-      localStorage.removeItem('StokAlert_user')
-      localStorage.removeItem('StokAlert_authenticated')
-      localStorage.removeItem('StokAlert_session_timestamp')
+      localStorage.removeItem('investstocks_user')
+      localStorage.removeItem('investstocks_authenticated')
+      localStorage.removeItem('investstocks_session_timestamp')
 
       // Redirect to main page
       router.push('/')

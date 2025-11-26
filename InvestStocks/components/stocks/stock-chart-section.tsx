@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { ChartCandlestick, TrendingDown } from 'lucide-react'
+import { TrendingUp, TrendingDown } from 'lucide-react'
 import { StockLogo } from './stock-logo'
 import { useTheme } from 'next-themes'
 
@@ -109,16 +109,16 @@ export function StockChartSection({
               {/* Price and Change */}
               <div className="mt-3 flex items-end gap-4 flex-wrap">
                 <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                  ${(currentPrice ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ${currentPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </div>
                 <div className="flex items-center gap-2 mb-1">
                   {isPositive ? (
-                    <ChartCandlestick className="w-5 h-5 text-emerald-500" />
+                    <TrendingUp className="w-5 h-5 text-emerald-500" />
                   ) : (
                     <TrendingDown className="w-5 h-5 text-red-500" />
                   )}
                   <span className={`text-lg font-semibold ${isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
-                    {isPositive ? '+' : ''}{(change ?? 0).toFixed(2)} ({isPositive ? '+' : ''}{(changePercent ?? 0).toFixed(2)}%)
+                    {isPositive ? '+' : ''}{change.toFixed(2)} ({isPositive ? '+' : ''}{changePercent.toFixed(2)}%)
                   </span>
                 </div>
               </div>

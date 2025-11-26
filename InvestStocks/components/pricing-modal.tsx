@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { X, Check } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -25,10 +26,10 @@ interface Plan {
 
 const plans: Plan[] = [
   {
-    name: 'Explorer',
-    price: 'Free',
-    period: ' forever',
-    description: 'Perfect for market curious',
+    name: 'Starter',
+    price: '$0',
+    period: '/month',
+    description: 'Perfect for individual investors',
     planType: 'free',
     features: [
       '5 AI conversations per day',
@@ -40,10 +41,10 @@ const plans: Plan[] = [
     popular: false,
   },
   {
-    name: 'Alpha Hunter',
-    price: '$4.99',
+    name: 'Investor',
+    price: '$19',
     period: '/month',
-    description: 'For profit-focused traders',
+    description: 'For active investors and traders',
     planType: 'pro',
     features: [
       'Unlimited AI conversations',
@@ -57,13 +58,13 @@ const plans: Plan[] = [
     popular: true,
   },
   {
-    name: 'Market Master',
-    price: '$9.99',
+    name: 'Professional',
+    price: '$49',
     period: '/month',
-    description: 'For wealth builders',
+    description: 'For financial professionals',
     planType: 'enterprise',
     features: [
-      'Everything in Alpha Hunter',
+      'Everything in Investor',
       'Unlimited symbol comparisons',
       'Advanced analytics',
       'Custom integrations',
@@ -79,6 +80,9 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
   const { user } = useAuth()
 
   if (!isOpen) return null
+
+  // Get user's current plan (only if user is logged in)
+  const currentUserPlan = user?.email ? (user.plan === 'free' || !user.plan ? 'free' : user.plan) : null
 
   const handleSelectPlan = async (planType: string, planName: string) => {
     // If it's the free plan, just show a toast
@@ -156,20 +160,30 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
             {plans.map((plan) => (
               <Card 
                 key={plan.name} 
-                className={`relative ${plan.popular ? 'border-2 shadow-xl' : ''}`}
+                className={`relative ${plan.popular ? 'border-2 shadow-xl' : ''} ${plan.planType === currentUserPlan ? 'ring-2 ring-primary' : ''}`}
                 style={plan.popular ? {
-                  borderColor: '#FF9900'
+                  borderColor: 'rgb(255, 70, 24)'
                 } : {}}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
                     <Badge 
                       className="text-white px-4 py-1"
                       style={{
-                        background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
+                        background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
                       }}
                     >
                       Most Popular
+                    </Badge>
+                  </div>
+                )}
+                {currentUserPlan && plan.planType === currentUserPlan && (
+                  <div className="absolute -top-4 right-4 z-10">
+                    <Badge 
+                      variant="secondary"
+                      className="px-3 py-1 bg-primary text-white"
+                    >
+                      Current Plan
                     </Badge>
                   </div>
                 )}
@@ -197,12 +211,16 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
                     className={`w-full ${plan.popular ? 'text-white' : ''}`}
                     variant={plan.popular ? 'default' : 'outline'}
                     style={plan.popular ? {
-                      background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)'
+                      background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
                     } : {}}
                     onClick={() => handleSelectPlan(plan.planType, plan.name)}
-                    disabled={loading !== null}
+                    disabled={loading !== null || !!(currentUserPlan && plan.planType === currentUserPlan)}
                   >
-                    {loading === plan.planType ? 'Processing...' : (plan.name === 'Explorer' ? 'Current Plan' : 'Upgrade Now')}
+                    {loading === plan.planType 
+                      ? 'Processing...' 
+                      : (currentUserPlan && plan.planType === currentUserPlan)
+                        ? 'Current Plan' 
+                        : 'Get Started'}
                   </Button>
                 </CardContent>
               </Card>
@@ -215,7 +233,7 @@ export function PricingModal({ isOpen, onClose }: PricingModalProps) {
               All plans include 14-day free trial • Cancel anytime
             </p>
             <p className="text-xs text-muted-foreground">
-              Need help choosing? <button className="text-primary hover:underline">Contact our sales team</button>
+              Need help choosing? <Link href="/contact" className="text-primary hover:underline" onClick={() => onClose()}>Contact our sales team</Link>
             </p>
           </div>
         </div>

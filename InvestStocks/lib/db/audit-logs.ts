@@ -20,7 +20,7 @@ export interface AuditLog {
 export async function createAuditLog(logData: Omit<AuditLog, '_id' | 'timestamp'>): Promise<AuditLog> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('audit_logs')
 
     const auditLog: Omit<AuditLog, '_id'> = {
@@ -51,7 +51,7 @@ export async function getAuditLogs(options: {
 } = {}): Promise<AuditLog[]> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('audit_logs')
 
     const query: any = {}
@@ -101,7 +101,7 @@ export async function getAuditLogCount(options: {
 } = {}): Promise<number> {
   try {
     const client = await clientPromise
-    const db = client.db('StokAlert')
+    const db = client.db('investstocks')
     const collection = db.collection('audit_logs')
 
     const query: any = {}

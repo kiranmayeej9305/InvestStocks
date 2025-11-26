@@ -3,17 +3,7 @@
 import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 
-interface StockScreenerProps {
-  filters?: {
-    priceRange?: { min?: number; max?: number }
-    marketCapRange?: { min?: number; max?: number }
-    peRatioRange?: { min?: number; max?: number }
-    sectors?: string[]
-    exchanges?: string[]
-  }
-}
-
-export function StockScreener({ filters = {} }: StockScreenerProps) {
+export function StockScreener({}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -22,20 +12,6 @@ export function StockScreener({ filters = {} }: StockScreenerProps) {
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  // Convert filters to TradingView screener format
-  const getDefaultScreen = () => {
-    if (filters.marketCapRange?.min && filters.marketCapRange.min >= 10000000000) {
-      return 'general' // Large cap
-    }
-    if (filters.marketCapRange?.max && filters.marketCapRange.max <= 2000000000) {
-      return 'general' // Small cap
-    }
-    if (filters.peRatioRange?.max && filters.peRatioRange.max <= 15) {
-      return 'general' // Value stocks
-    }
-    return 'most_capitalized' // Default
-  }
 
   useEffect(() => {
     if (!containerRef.current || !mounted) return
@@ -49,23 +25,20 @@ export function StockScreener({ filters = {} }: StockScreenerProps) {
     const widgetDiv = document.createElement('div')
     widgetDiv.className = 'tradingview-widget-container__widget'
 
-    // Create screener configuration based on filters
-    const screenerConfig = {
+    const script = document.createElement('script')
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-screener.js'
+    script.async = true
+    script.textContent = JSON.stringify({
       width: '100%',
       height: 1000,
       defaultColumn: 'overview',
-      defaultScreen: getDefaultScreen(),
+      defaultScreen: 'most_capitalized',
       market: 'america',
       showToolbar: true,
       colorTheme: theme === 'dark' ? 'dark' : 'light',
       locale: 'en',
-      isTransparent: false
-    }
-
-    const script = document.createElement('script')
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-screener.js'
-    script.async = true
-    script.textContent = JSON.stringify(screenerConfig)
+      isTransparent: false // Must be false for dark mode to work
+    })
 
     widgetDiv.appendChild(script)
     currentContainer.appendChild(widgetDiv)
@@ -80,7 +53,7 @@ export function StockScreener({ filters = {} }: StockScreenerProps) {
         currentContainer.removeChild(currentContainer.firstChild)
       }
     }
-  }, [theme, mounted, filters])
+  }, [theme, mounted])
 
   return (
     <div className="overflow-auto max-h-[1000px] rounded-lg border border-border">

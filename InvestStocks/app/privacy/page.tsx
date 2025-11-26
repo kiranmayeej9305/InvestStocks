@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
         {/* Header */}
         <div className="text-center space-y-4 py-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" 
-            style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
+            style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
             <Shield className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
@@ -34,12 +34,12 @@ export default function PrivacyPolicy() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              Welcome to StokAlert. We respect your privacy and are committed to protecting your personal data. 
+              Welcome to InvestStocks. We respect your privacy and are committed to protecting your personal data. 
               This privacy policy will inform you about how we look after your personal data when you visit our 
               platform and tell you about your privacy rights and how the law protects you.
             </p>
             <p>
-              StokAlert (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the StokAlert platform. This page informs you of 
+              InvestStocks (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) operates the InvestStocks platform. This page informs you of 
               our policies regarding the collection, use, and disclosure of personal data when you use our Service 
               and the choices you have associated with that data.
             </p>
@@ -183,7 +183,7 @@ export default function PrivacyPolicy() {
             <div>
               <h3 className="font-semibold text-foreground mb-2">Business Transfers</h3>
               <p>
-                If StokAlert is involved in a merger, acquisition, or asset sale, your personal data may be 
+                If InvestStocks is involved in a merger, acquisition, or asset sale, your personal data may be 
                 transferred. We will provide notice before your personal data is transferred and becomes subject 
                 to a different privacy policy.
               </p>
@@ -212,8 +212,8 @@ export default function PrivacyPolicy() {
             </ul>
             <p className="pt-2">
               To exercise any of these rights, please contact us at{' '}
-              <a href="mailto:privacy@StokAlert.com" className="text-primary hover:underline">
-                privacy@StokAlert.com
+              <a href="mailto:privacy@investstocks.co" className="text-primary hover:underline">
+                privacy@investstocks.co
               </a>
             </p>
           </CardContent>
@@ -289,14 +289,14 @@ export default function PrivacyPolicy() {
             <div className="space-y-2 pt-2">
               <p>
                 <strong className="text-foreground">Email:</strong>{' '}
-                <a href="mailto:privacy@StokAlert.com" className="text-primary hover:underline">
-                  privacy@StokAlert.com
+                <a href="mailto:privacy@investstocks.co" className="text-primary hover:underline">
+                  privacy@investstocks.co
                 </a>
               </p>
               <p>
                 <strong className="text-foreground">Website:</strong>{' '}
-                <a href="https://StokAlert.com" className="text-primary hover:underline">
-                  www.StokAlert.com
+                <a href="https://investstocks.co" className="text-primary hover:underline">
+                  www.investstocks.co
                 </a>
               </p>
             </div>
@@ -308,7 +308,7 @@ export default function PrivacyPolicy() {
           <a 
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}
+            style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}
           >
             Back to Home
           </a>

@@ -15,7 +15,8 @@ export default function PricingPage() {
 
   const handleClose = () => {
     setShowModal(false)
-    router.push('/dashboard')
+    // Navigate back to previous page instead of forcing redirect to dashboard
+    router.back()
   }
 
   return (

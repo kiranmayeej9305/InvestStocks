@@ -20,15 +20,16 @@ interface FavoritesListProps {
   title?: string
   onStockClick?: (symbol: string) => void
   selectedSymbol?: string
+  seeAllLink?: string
 }
 
-export function FavoritesList({ stocks, title = 'My Favorite', onStockClick, selectedSymbol }: FavoritesListProps) {
+export function FavoritesList({ stocks, title = 'My Favorite', onStockClick, selectedSymbol, seeAllLink = '/stocks' }: FavoritesListProps) {
   return (
     <Card className="bg-white/70 dark:bg-slate-800/40 backdrop-blur-xl border-gray-200/50 dark:border-slate-700/50">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-bold text-foreground">{title}</CardTitle>
-          <Link href="/stocks">
+          <Link href={seeAllLink}>
             <Button variant="link" className="text-blue-500 hover:text-blue-600 text-sm">
               See All
             </Button>
@@ -65,16 +66,16 @@ export function FavoritesList({ stocks, title = 'My Favorite', onStockClick, sel
 
             <div className="text-right flex-shrink-0">
               <p className="font-semibold text-foreground">
-                ${(stock.price ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                ${stock.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </p>
               <Badge 
                 className={`text-xs ${
-                  (stock.change ?? 0) >= 0 
+                  stock.change >= 0 
                     ? 'bg-success/10 text-success border-success/20' 
                     : 'bg-destructive/10 text-destructive border-destructive/20'
                 }`}
               >
-                {(stock.change ?? 0) >= 0 ? '+' : ''}{((typeof stock.changePercent === 'number' ? stock.changePercent : parseFloat(stock.changePercent || '0')) ?? 0).toFixed(2)}%
+                {stock.change >= 0 ? '+' : ''}{typeof stock.changePercent === 'number' ? stock.changePercent.toFixed(2) : parseFloat(stock.changePercent || '0').toFixed(2)}%
               </Badge>
             </div>
           </div>

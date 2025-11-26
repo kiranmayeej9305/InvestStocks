@@ -13,7 +13,7 @@ export default function TermsOfService() {
         {/* Header */}
         <div className="text-center space-y-4 py-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" 
-            style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}>
+            style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
             <Scale className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
@@ -34,9 +34,9 @@ export default function TermsOfService() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              Welcome to StokAlert! These Terms of Service (&quot;Terms&quot;, &quot;Terms of Service&quot;) govern your 
-              use of our web application located at StokAlert.com (together or individually &quot;Service&quot;) 
-              operated by StokAlert.
+              Welcome to InvestStocks! These Terms of Service (&quot;Terms&quot;, &quot;Terms of Service&quot;) govern your 
+              use of our web application located at investstocks.co (together or individually &quot;Service&quot;) 
+              operated by InvestStocks.
             </p>
             <p>
               Your access to and use of the Service is conditioned on your acceptance of and compliance with 
@@ -101,7 +101,7 @@ export default function TermsOfService() {
             <div>
               <h3 className="font-semibold text-foreground mb-2">Subscription Plans</h3>
               <p>
-                StokAlert offers both free and paid subscription plans. Details of each plan, including 
+                InvestStocks offers both free and paid subscription plans. Details of each plan, including 
                 features and pricing, are available on our Pricing page.
               </p>
             </div>
@@ -179,7 +179,7 @@ export default function TermsOfService() {
               <p className="font-semibold text-foreground mb-2">Important Notice:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>
-                  <strong>Not Financial Advice:</strong> StokAlert provides information and tools for 
+                  <strong>Not Financial Advice:</strong> InvestStocks provides information and tools for 
                   educational purposes only. Nothing on this platform should be construed as financial, 
                   investment, or professional advice.
                 </li>
@@ -202,7 +202,7 @@ export default function TermsOfService() {
               </ul>
             </div>
             <p className="pt-2">
-              By using StokAlert, you acknowledge that you understand these risks and agree that we are not 
+              By using InvestStocks, you acknowledge that you understand these risks and agree that we are not 
               responsible for any financial losses you may incur.
             </p>
           </CardContent>
@@ -219,12 +219,12 @@ export default function TermsOfService() {
           <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
               The Service and its original content (excluding user-generated content and third-party data), 
-              features, and functionality are and will remain the exclusive property of StokAlert and its 
+              features, and functionality are and will remain the exclusive property of InvestStocks and its 
               licensors.
             </p>
             <p>
               Our trademarks and trade dress may not be used in connection with any product or service without 
-              the prior written consent of StokAlert.
+              the prior written consent of InvestStocks.
             </p>
             <div>
               <h3 className="font-semibold text-foreground mb-2">User Content</h3>
@@ -303,7 +303,7 @@ export default function TermsOfService() {
           </CardHeader>
           <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              To the maximum extent permitted by applicable law, StokAlert and its affiliates, officers, 
+              To the maximum extent permitted by applicable law, InvestStocks and its affiliates, officers, 
               directors, employees, and agents shall not be liable for any indirect, incidental, special, 
               consequential, or punitive damages, including without limitation:
             </p>
@@ -398,14 +398,14 @@ export default function TermsOfService() {
             <div className="space-y-2 pt-2">
               <p>
                 <strong className="text-foreground">Email:</strong>{' '}
-                <a href="mailto:legal@StokAlert.com" className="text-primary hover:underline">
-                  legal@StokAlert.com
+                <a href="mailto:legal@investstocks.co" className="text-primary hover:underline">
+                  legal@investstocks.co
                 </a>
               </p>
               <p>
                 <strong className="text-foreground">Website:</strong>{' '}
-                <a href="https://StokAlert.com" className="text-primary hover:underline">
-                  www.StokAlert.com
+                <a href="https://investstocks.co" className="text-primary hover:underline">
+                  www.investstocks.co
                 </a>
               </p>
             </div>
@@ -417,7 +417,7 @@ export default function TermsOfService() {
           <a 
             href="/"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all hover:shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #FF9900 0%, #FF7700 100%)' }}
+            style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}
           >
             Back to Home
           </a>

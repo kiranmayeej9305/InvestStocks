@@ -3,19 +3,20 @@
 import { useState, useMemo, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { DashboardLayout } from '@/components/dashboard-layout'
+import { ProtectedRoute } from '@/components/protected-route'
+import { useAuth } from '@/lib/contexts/auth-context'
+import { useFeatureFlag } from '@/lib/hooks/use-feature-flag'
 import { StockLogo } from '@/components/stocks/stock-logo'
-import { StockInfoWidget } from '@/components/stocks/stock-info-widget'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Bookmark, Search, Bell, Filter } from 'lucide-react'
+import { Bookmark, Search, AlertTriangle } from 'lucide-react'
 import { useStockSymbols, useBatchQuotes } from '@/lib/hooks/use-stock-data'
 import { useWatchlist } from '@/lib/hooks/use-watchlist'
 import { LineChart, Line, ResponsiveContainer } from 'recharts'
 import { GlobalLoader } from '@/components/global-loader'
 import { Skeleton } from '@/components/ui/skeleton'
-import { CreateAlertDialog } from '@/components/alerts/create-alert-dialog'
-import { ComprehensiveStockAnalysis } from '@/components/stocks/comprehensive-stock-analysis'
+import Link from 'next/link'
 
 // Stock categories with expanded stock lists for pagination
 const categorizedStocks: Record<string, string[]> = {
@@ -71,16 +72,17 @@ const categorizedStocks: Record<string, string[]> = {
   ],
 }
 
+// Popular stocks for sidebar
+const popularStocks = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX']
 
 function StockMarketContent() {
   const searchParams = useSearchParams()
+  const { user } = useAuth()
+  const { enabled: stockTrackingEnabled, loading: flagLoading } = useFeatureFlag('stock_tracking', user?.plan)
   const [selectedCategory, setSelectedCategory] = useState('All Stocks')
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [selectedStock, setSelectedStock] = useState<{symbol: string, name: string} | null>(null)
-  const [alertDialogOpen, setAlertDialogOpen] = useState(false)
-  const [alertSymbol, setAlertSymbol] = useState('')
 
   // Use watchlist hook
   const { watchlist: watchlistItems, toggleWatchlist: handleToggleWatchlist, isInWatchlist } = useWatchlist()
@@ -153,18 +155,10 @@ function StockMarketContent() {
 
   const symbols = displayedStocks.map(s => s.symbol)
   const { data: quotes, loading: quotesLoading } = useBatchQuotes(symbols)
+  const { data: popularQuotes } = useBatchQuotes(popularStocks)
 
   const toggleWatchlist = async (symbol: string, name: string) => {
     await handleToggleWatchlist(symbol, name)
-  }
-
-  const handleCreateAlert = (symbol: string, name: string) => {
-    setAlertSymbol(symbol)
-    setAlertDialogOpen(true)
-  }
-
-  const handleStockClick = (symbol: string, name: string) => {
-    setSelectedStock({ symbol, name })
   }
 
   // Sparklines would require historical data API call
@@ -172,9 +166,55 @@ function StockMarketContent() {
 
   const loading = stocksLoading || quotesLoading
 
+  // Check if feature is enabled (after all hooks)
+  if (flagLoading) {
+    return (
+      <ProtectedRoute requireAuth={true}>
+        <DashboardLayout>
+          <div className="flex items-center justify-center min-h-[400px]">
+            <GlobalLoader size="lg" text="Checking feature availability..." />
+          </div>
+        </DashboardLayout>
+      </ProtectedRoute>
+    )
+  }
+  
+  if (!stockTrackingEnabled) {
+    return (
+      <ProtectedRoute requireAuth={true}>
+        <DashboardLayout>
+          <div className="flex items-center justify-center min-h-[400px] p-4">
+            <Card className="max-w-md w-full">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-orange-500" />
+                  Feature Disabled
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground">
+                  Stock Market is currently disabled by the administrator. Please check back later or contact support if you believe this is an error.
+                </p>
+                <div className="flex gap-2">
+                  <Button variant="outline" asChild className="flex-1">
+                    <Link href="/">Go Home</Link>
+                  </Button>
+                  <Button variant="outline" asChild className="flex-1">
+                    <Link href="/contact">Contact Support</Link>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </DashboardLayout>
+      </ProtectedRoute>
+    )
+  }
+
   return (
-    <DashboardLayout>
-      <div className="space-y-6 max-w-full">
+    <ProtectedRoute requireAuth={true}>
+      <DashboardLayout>
+        <div className="space-y-6 max-w-full">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ml-12 lg:ml-0">
           <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Stock Market</h1>
@@ -202,7 +242,7 @@ function StockMarketContent() {
           </div>
         </div>
 
-        <div className="grid gap-6 grid-cols-1 xl:grid-cols-3">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* Main Stock Market Section */}
           <div className="xl:col-span-2">
             <Card className="bg-white/70 dark:bg-slate-800/40 backdrop-blur-xl border-gray-200/50 dark:border-slate-700/50">
@@ -245,11 +285,12 @@ function StockMarketContent() {
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-border">
-                        <th className="text-left py-2 px-2 text-xs font-medium text-muted-foreground">Name</th>
-                        <th className="text-right py-2 px-2 text-xs font-medium text-muted-foreground">Price</th>
-                        <th className="text-right py-2 px-2 text-xs font-medium text-muted-foreground hidden sm:table-cell">Change</th>
-                        <th className="text-right py-2 px-2 text-xs font-medium text-muted-foreground hidden sm:table-cell">Change %</th>
-                        <th className="text-center py-2 px-2 text-xs font-medium text-muted-foreground">Actions</th>
+                        <th className="text-left py-3 px-4 text-xs font-medium text-muted-foreground">Name</th>
+                        <th className="text-right py-3 px-4 text-xs font-medium text-muted-foreground">Price</th>
+                        <th className="text-right py-3 px-4 text-xs font-medium text-muted-foreground">Change</th>
+                        <th className="text-right py-3 px-4 text-xs font-medium text-muted-foreground">Change %</th>
+                        <th className="text-center py-3 px-4 text-xs font-medium text-muted-foreground">Watchlist</th>
+                        <th className="text-right py-3 px-4 text-xs font-medium text-muted-foreground"></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -304,66 +345,58 @@ function StockMarketContent() {
                           return (
                             <tr 
                               key={symbol}
-                              className="border-b border-gray-200/50 dark:border-slate-700/50 last:border-b-0 hover:bg-gradient-to-r hover:from-blue-50/30 hover:to-purple-50/30 dark:hover:bg-slate-700/30 transition-colors cursor-pointer"
-                              onClick={() => handleStockClick(symbol, stock.name)}
+                              className="border-b border-gray-200/50 dark:border-slate-700/50 last:border-b-0 hover:bg-gradient-to-r hover:from-blue-50/30 hover:to-purple-50/30 dark:hover:bg-slate-700/30 transition-colors"
                             >
-                              <td className="py-3 px-2">
-                                <div className="flex items-center gap-2">
-                                  <StockLogo ticker={symbol} size="sm" />
-                                  <div className="min-w-0">
-                                    <p className="font-medium text-foreground text-sm">{symbol}</p>
-                                    <p className="text-xs text-muted-foreground truncate max-w-[100px]">
+                              <td className="py-4 px-4">
+                                <div className="flex items-center gap-3">
+                                  <StockLogo ticker={symbol} size="md" />
+                                  <div>
+                                    <p className="font-medium text-foreground">{symbol}</p>
+                                    <p className="text-xs text-muted-foreground truncate max-w-[200px]">
                                       {stock.name || symbol}
                                     </p>
                                   </div>
                                 </div>
                               </td>
-                              <td className="py-3 px-2 text-right">
-                                <p className="font-semibold text-foreground text-sm">
+                              <td className="py-4 px-4 text-right">
+                                <p className="font-semibold text-foreground">
                                   {price > 0 ? `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '-'}
                                 </p>
                               </td>
-                              <td className="py-3 px-2 text-right hidden sm:table-cell">
-                                <p className={`font-medium text-sm ${isPositive ? 'text-success' : 'text-destructive'}`}>
-                                  {price > 0 ? `${isPositive ? '+' : ''}${(change ?? 0).toFixed(2)}` : '-'}
+                              <td className="py-4 px-4 text-right">
+                                <p className={`font-medium ${isPositive ? 'text-success' : 'text-destructive'}`}>
+                                  {price > 0 ? `${isPositive ? '+' : ''}${change.toFixed(2)}` : '-'}
                                 </p>
                               </td>
-                              <td className="py-3 px-2 text-right hidden sm:table-cell">
-                                <p className={`font-medium flex items-center justify-end gap-1 text-sm ${isPositive ? 'text-success' : 'text-destructive'}`}>
+                              <td className="py-4 px-4 text-right">
+                                <p className={`font-medium flex items-center justify-end gap-1 ${isPositive ? 'text-success' : 'text-destructive'}`}>
                                   {price > 0 ? (
                                     <>
-                                      {isPositive ? '+' : ''}{(changePercent ?? 0).toFixed(2)}%
+                                      {isPositive ? '+' : ''}{changePercent.toFixed(2)}%
                                       <span className="text-xs">{isPositive ? '▲' : '▼'}</span>
                                     </>
                                   ) : '-'}
                                 </p>
                               </td>
-                              <td className="py-3 px-2 text-center">
-                                <div className="flex items-center justify-center gap-1">
-                                  <button 
-                                    onClick={(e) => {
-                                      e.stopPropagation()
-                                      toggleWatchlist(symbol, stock.name)
-                                    }}
-                                    className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                                    title={isInWatchlist(symbol) ? 'Remove from watchlist' : 'Add to watchlist'}
-                                  >
-                                    <Bookmark 
-                                      className={`w-4 h-4 ${isInWatchlist(symbol) ? 'fill-current text-blue-500' : ''}`}
-                                    />
-                                  </button>
-                                  <button 
-                                    onClick={(e) => {
-                                      e.stopPropagation()
-                                      handleCreateAlert(symbol, stock.name)
-                                    }}
-                                    disabled={!price || price === 0}
-                                    className="p-1.5 text-muted-foreground hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors disabled:opacity-50"
-                                    title="Create Alert"
-                                  >
-                                    <Bell className="w-4 h-4" />
-                                  </button>
-                                </div>
+                              <td className="py-4 px-4 text-center">
+                                <button 
+                                  onClick={() => toggleWatchlist(symbol, stock.name)}
+                                  className="text-muted-foreground hover:text-foreground transition-colors"
+                                  title={isInWatchlist(symbol) ? 'Remove from watchlist' : 'Add to watchlist'}
+                                >
+                                  <Bookmark 
+                                    className={`w-5 h-5 ${isInWatchlist(symbol) ? 'fill-current text-blue-500' : ''}`}
+                                  />
+                                </button>
+                              </td>
+                              <td className="py-4 px-4 text-right">
+                                <Button 
+                                  size="sm" 
+                                  disabled={!price || price === 0}
+                                  className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 disabled:opacity-50"
+                                >
+                                  Buy
+                                </Button>
                               </td>
                             </tr>
                           )
@@ -462,46 +495,75 @@ function StockMarketContent() {
             </Card>
           </div>
 
-          {/* Comprehensive Stock Analysis - Always visible */}
+          {/* Sidebar - Popular Stocks */}
           <div className="xl:col-span-1">
-            {selectedStock ? (
-              <ComprehensiveStockAnalysis
-                symbol={selectedStock.symbol}
-                name={selectedStock.name}
-                onClose={() => setSelectedStock(null)}
-              />
-            ) : (
-              <Card className="bg-white/70 dark:bg-slate-800/40 backdrop-blur-xl border-gray-200/50 dark:border-slate-700/50">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold">📊 Stock Analysis</CardTitle>
-                </CardHeader>
-                <CardContent className="flex items-center justify-center py-12">
-                  <div className="text-center">
-                    <div className="text-6xl mb-4">📈</div>
-                    <h3 className="font-semibold text-lg mb-2">Comprehensive Analysis</h3>
-                    <p className="text-muted-foreground text-sm max-w-sm">
-                      Click on any stock to view detailed analysis including fundamentals, 
-                      technical indicators, performance charts, and financial statements
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            <Card className="bg-white/70 dark:bg-slate-800/40 backdrop-blur-xl border-gray-200/50 dark:border-slate-700/50">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-xl font-bold">Popular Stocks</CardTitle>
+                  <Button 
+                    variant="link" 
+                    className="text-blue-500 hover:text-blue-600 text-sm p-0"
+                    onClick={() => {
+                      setSelectedCategory('All Stocks')
+                      setSearchQuery('')
+                      setCurrentPage(1)
+                      // Scroll to top of the page
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }}
+                  >
+                    See All
+                  </Button>
+                </div>
+              </CardHeader>
+
+              <CardContent className="space-y-3">
+                {popularStocks.map((symbol) => {
+                  const quote = popularQuotes[symbol]
+                  const change = quote?.change || 0
+                  const isPositive = change >= 0
+                  const isInWatchlistAlready = isInWatchlist(symbol)
+
+                  return (
+                    <div 
+                      key={symbol}
+                      className="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-slate-800/50 dark:to-slate-700/50 rounded-xl border border-gray-200/30 dark:border-slate-600/30 hover:border-blue-300/50 dark:hover:border-blue-500/50 hover:shadow-lg transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <StockLogo ticker={symbol} size="md" />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-foreground truncate">{symbol}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {quote?.currentPrice ? `$${quote.currentPrice.toFixed(2)}` : 'Loading...'}
+                          </p>
           </div>
         </div>
-        
-        {/* Alert Dialog */}
-        <CreateAlertDialog
-          open={alertDialogOpen}
-          onOpenChange={setAlertDialogOpen}
-          symbol={alertSymbol}
-          onCreateSuccess={() => {
-            // Optionally refresh data or show success message
-            console.log('Alert created successfully')
-          }}
-        />
+
+                      <div className="flex items-center gap-3">
+
+                        <Button 
+                          size="sm" 
+                          variant={isInWatchlistAlready ? "default" : "outline"}
+                          className={`text-xs px-3 py-1 h-auto rounded-full ${
+                            isInWatchlistAlready 
+                              ? 'bg-blue-500 hover:bg-blue-600 text-white border-blue-500' 
+                              : 'border-gray-300 dark:border-slate-600'
+                          }`}
+                          onClick={() => toggleWatchlist(symbol, symbol)}
+                        >
+                          {isInWatchlistAlready ? 'Added' : 'Get Started'}
+                        </Button>
+                      </div>
+          </div>
+                  )
+                })}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </div>
     </DashboardLayout>
+    </ProtectedRoute>
   )
 }
 

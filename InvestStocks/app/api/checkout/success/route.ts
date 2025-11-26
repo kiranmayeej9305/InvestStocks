@@ -58,8 +58,15 @@ export async function GET(request: NextRequest) {
         return NextResponse.redirect(new URL('/?error=user_not_found', request.url));
       }
 
-      // Redirect to dashboard with success message
-      return NextResponse.redirect(new URL('/?upgrade=success&plan=' + planType, request.url));
+      // Redirect to dashboard with success message and trigger billing modal to refresh session
+      const successUrl = new URL('/', request.url);
+      successUrl.searchParams.set('success', 'true');
+      successUrl.searchParams.set('plan', planType);
+      successUrl.searchParams.set('billing', 'open');
+      successUrl.searchParams.set('tab', 'overview');
+      successUrl.searchParams.set('email', customerEmail);
+      
+      return NextResponse.redirect(successUrl);
     }
 
     return NextResponse.redirect(new URL('/?error=payment_failed', request.url));

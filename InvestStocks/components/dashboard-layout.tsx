@@ -10,7 +10,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <ProtectedRoute>
+    <ProtectedRoute requireAuth={true}>
       <div className="flex h-screen w-full relative overflow-hidden">
         {/* Beautiful Gradient Background */}
         <div className="fixed inset-0 bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 z-0" />

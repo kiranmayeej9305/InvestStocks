@@ -72,10 +72,3 @@ export async function isAdminFromRequest(request: any): Promise<boolean> {
   const user = await getUserFromRequest(request)
   return user?.role === 'admin'
 }
-
-/**
- * Alias for verifyToken for backwards compatibility
- */
-export function verifyJWT(token: string): JWTPayload | null {
-  return verifyToken(token)
-}

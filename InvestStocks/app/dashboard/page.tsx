@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { 
-  ChartCandlestick, 
+  TrendingUp, 
   TrendingDown, 
   DollarSign, 
   Activity, 
@@ -14,8 +14,7 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Clock,
-  Briefcase,
-  TrendingUp
+  Briefcase
 } from 'lucide-react'
 import { StockLogo } from '@/components/stocks/stock-logo'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -81,9 +80,9 @@ function PaymentNotifications() {
 
 function DashboardContent() {
   const router = useRouter()
+  const { isAuthenticated, isLoading: authLoading } = useAuth()
   const [portfolioHoldings, setPortfolioHoldings] = useState<any[]>([])
   const [loadingPortfolio, setLoadingPortfolio] = useState(true)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [mounted, setMounted] = useState(false)
   
   // Handle client-side mounting
@@ -91,22 +90,14 @@ function DashboardContent() {
     setMounted(true)
   }, [])
   
-  // Check authentication
+  // Redirect to login if not authenticated
   useEffect(() => {
-    if (!mounted) return
+    if (!mounted || authLoading) return
     
-    const checkAuth = async () => {
-      try {
-        const response = await fetch('/api/auth/status')
-        const data = await response.json()
-        setIsAuthenticated(data.authenticated)
-      } catch (error) {
-        console.error('Auth check failed:', error)
-        setIsAuthenticated(false)
-      }
+    if (!isAuthenticated) {
+      router.push('/login')
     }
-    checkAuth()
-  }, [mounted])
+  }, [mounted, isAuthenticated, authLoading, router])
   
   // Fetch watchlist
   const { watchlist: watchlistSymbols } = useWatchlist()
@@ -174,6 +165,20 @@ function DashboardContent() {
     .sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent))
 
   const isLoading = loadingPortfolio || quotesLoading
+
+  // Don't render dashboard content if not authenticated or still loading auth (will redirect)
+  if (!mounted || authLoading || !isAuthenticated) {
+    return (
+      <DashboardLayout>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <Skeleton className="h-8 w-48 mx-auto mb-4" />
+            <Skeleton className="h-4 w-64 mx-auto" />
+          </div>
+        </div>
+      </DashboardLayout>
+    )
+  }
 
   if (isLoading) {
     return (
@@ -326,11 +331,11 @@ function DashboardContent() {
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/20 to-transparent" />
             <CardHeader className="pb-4 relative z-10 px-4 sm:px-6">
               <CardTitle className="text-base font-medium flex items-center gap-2"
-                style={{ color: '#FF9900' }}
+                style={{ color: 'rgb(255, 70, 24)' }}
               >
                 <div className="p-2.5 sm:p-3 rounded-xl"
                   style={{
-                    background: 'linear-gradient(135deg, #FF7700 0%, rgb(255, 140, 90) 100%)',
+                    background: 'linear-gradient(135deg, rgb(255, 107, 53) 0%, rgb(255, 140, 90) 100%)',
                   }}
                 >
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-white" />

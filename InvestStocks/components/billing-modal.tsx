@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { useState } from 'react'
+import Link from 'next/link'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -36,10 +37,10 @@ interface BillingModalProps {
 const plans = [
   {
     id: 'free',
-    name: 'Explorer',
-    price: 'Free',
-    period: ' forever',
-    description: 'Perfect for market curious',
+    name: 'Starter',
+    price: '$0',
+    period: '/month',
+    description: 'Perfect for individual investors and students',
     features: [
       '5 AI conversations per day',
       'Basic stock charts (1 symbol)',
@@ -64,10 +65,10 @@ const plans = [
   },
   {
     id: 'pro',
-    name: 'Alpha Hunter',
-    price: '$4.99',
+    name: 'Investor',
+    price: '$19',
     period: '/month',
-    description: 'For profit-focused traders',
+    description: 'For active investors and day traders',
     features: [
       'Unlimited AI conversations',
       'Advanced stock charts (5 symbols)',
@@ -84,15 +85,15 @@ const plans = [
     ],
     limitations: [],
     popular: true,
-    cta: 'Start Trial',
+    cta: 'Upgrade to Pro',
     disabled: false
   },
   {
     id: 'enterprise',
-    name: 'Market Master',
-    price: '$9.99',
+    name: 'Professional',
+    price: '$49',
     period: '/month',
-    description: 'For wealth builders',
+    description: 'For financial institutions and professionals',
     features: [
       'Everything in Pro Plan',
       'Unlimited symbol comparisons',
@@ -104,7 +105,7 @@ const plans = [
     ],
     limitations: [],
     popular: false,
-    cta: 'Start Trial',
+    cta: 'Upgrade to Enterprise',
     disabled: false
   }
 ]
@@ -115,11 +116,60 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
   const [isProcessing, setIsProcessing] = useState(false)
   const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const [showCancelMessage, setShowCancelMessage] = useState(false)
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
-  // Update selected plan when userPlan changes
+  // Fetch fresh user data when modal opens
   React.useEffect(() => {
+    if (isOpen && userEmail) {
+      const refreshUserData = async () => {
+        setIsRefreshing(true)
+        try {
+          const response = await fetch('/api/users/refresh-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: userEmail }),
+          })
+          
+          if (response.ok) {
+            const result = await response.json()
+            if (result.user && result.user.plan) {
+              console.log('[Billing Modal] Fetched fresh user data:', result.user.plan)
+              setSelectedPlan(result.user.plan)
+              
+              // Update localStorage
+              const currentUser = JSON.parse(localStorage.getItem('investstocks_user') || '{}')
+              const updatedUser = { ...currentUser, ...result.user }
+              localStorage.setItem('investstocks_user', JSON.stringify(updatedUser))
+              
+              // Dispatch event to update header
+              window.dispatchEvent(new CustomEvent('userPlanUpdated', { 
+                detail: { user: updatedUser }
+              }))
+            }
+          }
+        } catch (error) {
+          console.error('[Billing Modal] Error refreshing user data:', error)
+        } finally {
+          setIsRefreshing(false)
+        }
+      }
+      
+      refreshUserData()
+    }
+  }, [isOpen, userEmail])
+
+  // Update selected plan when userPlan prop changes
+  React.useEffect(() => {
+    console.log('[Billing Modal] userPlan prop changed to:', userPlan)
     setSelectedPlan(userPlan)
   }, [userPlan])
+  
+  // Debug: Log when modal opens
+  React.useEffect(() => {
+    if (isOpen) {
+      console.log('[Billing Modal] Modal opened with plan:', selectedPlan, 'userPlan prop:', userPlan)
+    }
+  }, [isOpen, selectedPlan, userPlan])
 
   // Ensure overview tab is active when modal opens
   React.useEffect(() => {
@@ -165,7 +215,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
         // Refresh user session to get updated plan
         const refreshUserSession = async () => {
           try {
-            const savedUser = localStorage.getItem('StokAlert_user')
+            const savedUser = localStorage.getItem('investstocks_user')
             const emailToRefresh = emailParam || (savedUser ? JSON.parse(savedUser).email : null)
             
             if (emailToRefresh) {
@@ -182,20 +232,23 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                 const result = await response.json()
                 const updatedUser = result.user
                 
-                // Update localStorage with fresh user data
-                localStorage.setItem('StokAlert_user', JSON.stringify(updatedUser))
-                localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
-                localStorage.setItem('StokAlert_authenticated', 'true')
+                console.log('[Billing Modal] Successfully refreshed user session:', updatedUser)
                 
-                // Dispatch event to refresh user state in header
+                // Update localStorage with fresh user data
+                localStorage.setItem('investstocks_user', JSON.stringify(updatedUser))
+                localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+                localStorage.setItem('investstocks_authenticated', 'true')
+                
+                // Dispatch event to refresh user state in header and other components
                 window.dispatchEvent(new CustomEvent('userPlanUpdated', { 
                   detail: { user: updatedUser }
                 }))
                 
-                // Force re-render of the modal with updated plan
-                setTimeout(() => {
-                  window.location.reload()
-                }, 1000)
+                // Update local state immediately
+                setSelectedPlan(updatedUser.plan)
+                
+                // Show success message
+                console.log('[Billing Modal] Plan upgraded successfully to:', updatedUser.plan)
               } else {
                 // If refresh fails, keep user logged in anyway
                 console.log('Session refresh failed, but user will stay logged in')
@@ -204,8 +257,8 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           } catch (error) {
             console.error('Error refreshing user session:', error)
             // Even if refresh fails, ensure authentication flags are set
-            localStorage.setItem('StokAlert_authenticated', 'true')
-            localStorage.setItem('StokAlert_session_timestamp', Date.now().toString())
+            localStorage.setItem('investstocks_authenticated', 'true')
+            localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
           }
         }
         
@@ -322,7 +375,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
     }
   }
 
-  const getCurrentPlan = () => plans.find(plan => plan.id === userPlan)
+  const getCurrentPlan = () => plans.find(plan => plan.id === selectedPlan)
   const currentPlan = getCurrentPlan()
 
   const handleDownloadInvoice = (invoiceId: string) => {
@@ -391,7 +444,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           <Button
             variant={activeTab === 'overview' ? 'default' : 'ghost'}
             className={`flex-1 ${activeTab === 'overview' ? 'text-white' : ''}`}
-            style={activeTab === 'overview' ? { backgroundColor: '#FF9900' } : {}}
+            style={activeTab === 'overview' ? { backgroundColor: '#ff4618' } : {}}
             onClick={() => setActiveTab('overview')}
           >
             <DollarSign className="w-4 h-4 mr-2" />
@@ -400,7 +453,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           <Button
             variant={activeTab === 'subscription' ? 'default' : 'ghost'}
             className={`flex-1 ${activeTab === 'subscription' ? 'text-white' : ''}`}
-            style={activeTab === 'subscription' ? { backgroundColor: '#FF9900' } : {}}
+            style={activeTab === 'subscription' ? { backgroundColor: '#ff4618' } : {}}
             onClick={() => setActiveTab('subscription')}
           >
             <Crown className="w-4 h-4 mr-2" />
@@ -409,7 +462,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           <Button
             variant={activeTab === 'usage' ? 'default' : 'ghost'}
             className={`flex-1 ${activeTab === 'usage' ? 'text-white' : ''}`}
-            style={activeTab === 'usage' ? { backgroundColor: '#FF9900' } : {}}
+            style={activeTab === 'usage' ? { backgroundColor: '#ff4618' } : {}}
             onClick={() => setActiveTab('usage')}
           >
             <BarChart2 className="w-4 h-4 mr-2" />
@@ -440,13 +493,13 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                       <div>
                         <p className="font-medium">Plan</p>
                         <p className="text-sm text-muted-foreground">
-                          {userPlan === 'free' ? 'Explorer (Free)' : 
-                           userPlan === 'pro' ? 'Alpha Hunter Pro' : 
-                           userPlan === 'enterprise' ? 'Market Master Elite' : 'Unknown Plan'}
+                          {selectedPlan === 'free' ? 'Starter (Free)' : 
+                           selectedPlan === 'pro' ? 'Investor Pro' : 
+                           selectedPlan === 'enterprise' ? 'Professional Enterprise' : 'Unknown Plan'}
                         </p>
                       </div>
-                      <Badge variant={userPlan === 'free' ? 'secondary' : 'default'} className="capitalize">
-                        {userPlan}
+                      <Badge variant={selectedPlan === 'free' ? 'secondary' : 'default'} className="capitalize">
+                        {selectedPlan}
                       </Badge>
                     </div>
                     
@@ -458,7 +511,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                       <div>
                         <p className="text-muted-foreground">Billing Cycle</p>
                         <p className="font-medium">
-                          {userPlan === 'free' ? 'N/A' : 'Monthly'}
+                          {selectedPlan === 'free' ? 'N/A' : 'Monthly'}
                         </p>
                       </div>
                     </div>
@@ -479,14 +532,14 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                   <div>
                     <h3 className="font-semibold">Current Plan</h3>
                     <p className="text-sm text-muted-foreground">
-                      {userPlan === 'free' ? 'Explorer (Free)' : 
-                       userPlan === 'pro' ? 'Alpha Hunter Pro - $4.99/month' : 
-                       userPlan === 'enterprise' ? 'Market Master Elite - $9.99/month' : 
+                      {selectedPlan === 'free' ? 'Starter (Free)' : 
+                       selectedPlan === 'pro' ? 'Investor Pro - $19/month' : 
+                       selectedPlan === 'enterprise' ? 'Professional Enterprise - $49/month' : 
                        'Unknown Plan'}
                     </p>
                   </div>
-                  <Badge variant={userPlan === 'free' ? 'secondary' : 'default'}>
-                    {userPlan === 'free' ? 'Free' : 'Active'}
+                  <Badge variant={selectedPlan === 'free' ? 'secondary' : 'default'}>
+                    {selectedPlan === 'free' ? 'Free' : 'Active'}
                   </Badge>
                 </div>
               </div>
@@ -494,21 +547,21 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
               {/* Pricing Plans */}
               <div className="grid md:grid-cols-3 gap-6">
                 {plans.map((plan) => {
-                  const isCurrentPlan = plan.id === userPlan
-                  const isUpgrade = ['pro', 'enterprise'].includes(plan.id) && userPlan === 'free'
-                  const isDowngrade = plan.id === 'free' && userPlan !== 'free'
+                  const isCurrentPlan = plan.id === selectedPlan
+                  const isUpgrade = ['pro', 'enterprise'].includes(plan.id) && selectedPlan === 'free'
+                  const isDowngrade = plan.id === 'free' && selectedPlan !== 'free'
                   
                   return (
                     <Card 
                       key={plan.id}
                       className={`relative ${
-                        plan.popular ? 'border-2 border-[#FF9900] shadow-lg' : 'border'
-                      } ${isCurrentPlan ? 'ring-2 ring-[#FF9900]' : ''}`}
+                        plan.popular ? 'border-2 border-[#ff4618] shadow-lg' : 'border'
+                      } ${isCurrentPlan ? 'ring-2 ring-[#ff4618]' : ''}`}
                     >
                       {plan.popular && (
                         <Badge 
                           className="absolute -top-3 left-1/2 transform -translate-x-1/2"
-                          style={{ backgroundColor: '#FF9900' }}
+                          style={{ backgroundColor: '#ff4618' }}
                         >
                           Most Popular
                         </Badge>
@@ -581,7 +634,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                                 ? 'text-white' 
                                 : 'variant-outline'
                           }`}
-                          style={plan.popular && !isCurrentPlan ? { backgroundColor: '#FF9900' } : {}}
+                          style={plan.popular && !isCurrentPlan ? { backgroundColor: '#ff4618' } : {}}
                           disabled={isCurrentPlan || isProcessing}
                           onClick={() => !isCurrentPlan && handleUpgrade(plan.id)}
                         >
@@ -620,13 +673,13 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                   <div>
                     <p className="text-muted-foreground">Next Billing</p>
                     <p className="font-medium">
-                      {userPlan === 'free' ? 'N/A' : 'Monthly'}
+                      {selectedPlan === 'free' ? 'N/A' : 'Monthly'}
                     </p>
                   </div>
                 </div>
                 
                 {/* Manage Billing Button for paid plans */}
-                {userPlan !== 'free' && (
+                {selectedPlan !== 'free' && (
                   <Button 
                     variant="outline" 
                     onClick={handleManageBilling}
@@ -658,7 +711,15 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
             <div className="grid md:grid-cols-1 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">Questions about billing?</p>
-                <p className="font-medium">Contact: billing@StokAlert.com</p>
+                <a href="mailto:billing@investstocks.co" className="font-medium text-primary hover:underline">
+                  billing@investstocks.co
+                </a>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Need help choosing a plan?</p>
+                <a href="/contact" className="font-medium text-primary hover:underline" onClick={() => onClose()}>
+                  Contact our sales team
+                </a>
               </div>
             </div>
           </div>

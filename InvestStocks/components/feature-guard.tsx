@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Lock, ChartCandlestick, BarChart3, Shield } from 'lucide-react';
+import { Lock, TrendingUp, BarChart3, Shield } from 'lucide-react';
 
 interface FeatureGuardProps {
   feature: string;
@@ -32,7 +32,7 @@ export function FeatureGuard({
       case 'stockScreener':
         return <BarChart3 className="h-12 w-12 text-orange-500" />;
       case 'marketHeatmap':
-        return <ChartCandlestick className="h-12 w-12 text-orange-500" />;
+        return <TrendingUp className="h-12 w-12 text-orange-500" />;
       case 'advancedAnalytics':
         return <Shield className="h-12 w-12 text-orange-500" />;
       default:
@@ -90,10 +90,19 @@ export function FeatureGuard({
         </div>
 
         <Button 
-          onClick={onUpgrade}
-          className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            if (onUpgrade) {
+              onUpgrade()
+            } else {
+              // Fallback: navigate to pricing page if handler not provided
+              window.location.href = '/pricing'
+            }
+          }}
+          className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
         >
-          Upgrade to Alpha Hunter - $4.99/month
+          Upgrade to Pro - $19/month
         </Button>
 
         <p className="text-xs text-slate-500">

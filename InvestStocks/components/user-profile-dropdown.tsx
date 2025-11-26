@@ -35,7 +35,7 @@ export function UserProfileDropdown({ user, onLogout, onOpenProfile, onOpenBilli
         <Button
           variant="ghost"
           className="relative h-10 w-10 sm:h-8 sm:w-8 rounded-full touch-target"
-          style={{ backgroundColor: '#FF9900' }}
+          style={{ backgroundColor: '#ff4618' }}
         >
           <div className="flex h-10 w-10 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/10">
             <IconUser className="h-5 w-5 sm:h-4 sm:w-4 text-white" />
@@ -44,7 +44,7 @@ export function UserProfileDropdown({ user, onLogout, onOpenProfile, onOpenBilli
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64 sm:w-56" align="end" forceMount>
         <div className="flex items-center justify-start gap-2 p-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: '#FF9900' }}>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ backgroundColor: '#ff4618' }}>
             <IconUser className="h-4 w-4 text-white" />
           </div>
           <div className="flex flex-col space-y-1">

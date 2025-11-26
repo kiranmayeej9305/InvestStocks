@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { StockLogo } from './stock-logo'
-import { Trash2, ChartCandlestick, TrendingDown, MoreHorizontal, AlertTriangle, StickyNote } from 'lucide-react'
+import { Trash2, TrendingUp, TrendingDown, MoreHorizontal, AlertTriangle, StickyNote } from 'lucide-react'
 import { AddHoldingDialog } from './add-holding-dialog'
 import {
   DropdownMenu,
@@ -102,7 +102,7 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Total Gain/Loss</p>
               <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                 {totalGainLoss >= 0 ? (
-                  <ChartCandlestick className="w-4 h-4 text-success flex-shrink-0" />
+                  <TrendingUp className="w-4 h-4 text-success flex-shrink-0" />
                 ) : (
                   <TrendingDown className="w-4 h-4 text-destructive flex-shrink-0" />
                 )}
@@ -188,7 +188,7 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
                       </div>
                       <div className="min-w-0">
                         <p className="text-xs text-muted-foreground mb-0.5">Buy Price</p>
-                        <p className="font-medium text-foreground truncate">${(holding.buyPrice ?? 0).toFixed(2)}</p>
+                        <p className="font-medium text-foreground truncate">${holding.buyPrice.toFixed(2)}</p>
                       </div>
                       <div className="min-w-0">
                         <p className="text-xs text-muted-foreground mb-0.5">Current Price</p>
@@ -209,9 +209,9 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
                       <div className="min-w-0">
                         <p className="text-xs text-muted-foreground mb-0.5">Gain/Loss</p>
                         <div className={`font-semibold ${isPositive ? 'text-success' : 'text-destructive'}`}>
-                          <span className="truncate block">{isPositive ? '+' : ''}${Math.abs(gainLoss ?? 0).toFixed(2)}</span>
+                          <span className="truncate block">{isPositive ? '+' : ''}${Math.abs(gainLoss).toFixed(2)}</span>
                           <div className="text-xs truncate">
-                            ({isPositive ? '+' : ''}{(gainLossPercent ?? 0).toFixed(2)}%)
+                            ({isPositive ? '+' : ''}{gainLossPercent.toFixed(2)}%)
                           </div>
                         </div>
                       </div>
@@ -263,7 +263,7 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
                         {holding.shares.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 3 })}
                       </td>
                       <td className="py-4 text-right text-foreground">
-                        ${(holding.buyPrice ?? 0).toFixed(2)}
+                        ${holding.buyPrice.toFixed(2)}
                       </td>
                       <td className="py-4 text-right font-medium text-foreground">
                         ${(holding.currentPrice || 0).toFixed(2)}
@@ -276,9 +276,9 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
                       </td>
                       <td className="py-4 text-right">
                         <div className={`font-semibold ${isPositive ? 'text-success' : 'text-destructive'}`}>
-                          {isPositive ? '+' : ''}${Math.abs(gainLoss ?? 0).toFixed(2)}
+                          {isPositive ? '+' : ''}${Math.abs(gainLoss).toFixed(2)}
                           <div className="text-xs">
-                            ({isPositive ? '+' : ''}{(gainLossPercent ?? 0).toFixed(2)}%)
+                            ({isPositive ? '+' : ''}{gainLossPercent.toFixed(2)}%)
                           </div>
                         </div>
                       </td>

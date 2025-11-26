@@ -1,6 +1,6 @@
-# StokAlert Documentation
+# InvestStocks Documentation
 
-Welcome to the StokAlert comprehensive documentation!
+Welcome to the InvestStocks comprehensive documentation!
 
 ## Quick Start
 
@@ -12,9 +12,15 @@ Open `index.html` in your web browser to view the complete documentation.
 - **API Setup Tutorials** - Get all required API keys
 - **Configuration Guide** - Environment variables and settings
 - **Usage Examples** - How to use all features
+- **Cryptocurrency Features** - Complete crypto tracking documentation
 - **Customization Guide** - Make it your own
 - **Troubleshooting** - Common issues and solutions
 - **FAQ** - Frequently asked questions
+
+## Documentation Files
+
+- **[CRYPTO_FEATURES.md](CRYPTO_FEATURES.md)** - Complete cryptocurrency features documentation
+- **[index.html](index.html)** - Interactive HTML documentation
 
 ## Features
 
@@ -69,9 +75,9 @@ You can customize the documentation by:
 
 ## License
 
-This documentation is part of the StokAlert CodeCanyon product.
+This documentation is part of the InvestStocks CodeCanyon product.
 
 ---
 
-Built with ❤️ for StokAlert
+Built with ❤️ for InvestStocks
 

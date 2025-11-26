@@ -18,7 +18,7 @@ interface SubscriptionModalProps {
 const plans = [
   {
     id: 'free',
-    name: 'Explorer',
+    name: 'Starter',
     price: '$0',
     period: '/month',
     description: 'Perfect for individual investors and students',
@@ -46,8 +46,8 @@ const plans = [
   },
   {
     id: 'pro',
-    name: 'Alpha Hunter',
-    price: '$4.99',
+    name: 'Investor',
+    price: '$19',
     period: '/month',
     description: 'For active investors and day traders',
     features: [
@@ -66,17 +66,17 @@ const plans = [
     ],
     limitations: [],
     popular: true,
-    cta: 'Upgrade to Alpha Hunter',
+    cta: 'Upgrade to Pro',
     disabled: false
   },
   {
     id: 'enterprise',
-    name: 'Market Master',
-    price: '$9.99',
+    name: 'Professional',
+    price: '$49',
     period: '/month',
     description: 'For financial institutions and professionals',
     features: [
-      'Everything in Alpha Hunter Plan',
+      'Everything in Pro Plan',
       'Unlimited symbol comparisons',
       'Advanced stock screener',
       'Dedicated support (phone + email)',
@@ -86,7 +86,7 @@ const plans = [
     ],
     limitations: [],
     popular: false,
-    cta: 'Upgrade to Market Master',
+    cta: 'Upgrade to Enterprise',
     disabled: false
   }
 ]
@@ -171,13 +171,13 @@ export function SubscriptionModal({ isOpen, onClose, userPlan = 'free', userEmai
                 <Card 
                   key={plan.id}
                   className={`relative ${
-                    plan.popular ? 'border-2 border-[#FF9900] shadow-lg' : 'border'
-                  } ${isCurrentPlan ? 'ring-2 ring-[#FF9900]' : ''}`}
+                    plan.popular ? 'border-2 border-[#ff4618] shadow-lg' : 'border'
+                  } ${isCurrentPlan ? 'ring-2 ring-[#ff4618]' : ''}`}
                 >
                   {plan.popular && (
                     <Badge 
                       className="absolute -top-3 left-1/2 transform -translate-x-1/2"
-                      style={{ backgroundColor: '#FF9900' }}
+                      style={{ backgroundColor: '#ff4618' }}
                     >
                       Most Popular
                     </Badge>
@@ -250,7 +250,7 @@ export function SubscriptionModal({ isOpen, onClose, userPlan = 'free', userEmai
                             ? 'text-white' 
                             : 'variant-outline'
                       }`}
-                      style={plan.popular && !isCurrentPlan ? { backgroundColor: '#FF9900' } : {}}
+                      style={plan.popular && !isCurrentPlan ? { backgroundColor: '#ff4618' } : {}}
                       disabled={isCurrentPlan || isProcessing}
                       onClick={() => !isCurrentPlan && handleUpgrade(plan.id)}
                     >
@@ -297,7 +297,7 @@ export function SubscriptionModal({ isOpen, onClose, userPlan = 'free', userEmai
 
           {/* Support Info */}
           <div className="text-center text-sm text-muted-foreground">
-            <p>Need help? Contact our support team at support@StokAlert.com</p>
+            <p>Need help? Contact our support team at support@investstocks.com</p>
           </div>
         </div>
       </DialogContent>
