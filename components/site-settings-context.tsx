@@ -41,14 +41,17 @@ export function SiteSettingsContextProvider({ children }: SiteSettingsContextPro
   const [settings, setSettings] = useState<SiteSettings | null>(null)
 
   useEffect(() => {
-    fetch('/api/site-settings')
-      .then(res => res.json())
-      .then(data => {
-        if (data.settings) {
-          setSettings(data.settings)
-        }
-      })
-      .catch(err => console.error('Failed to load site settings:', err))
+    // Only fetch on client side
+    if (typeof window !== 'undefined') {
+      fetch('/api/site-settings')
+        .then(res => res.json())
+        .then(data => {
+          if (data.settings) {
+            setSettings(data.settings)
+          }
+        })
+        .catch(err => console.error('Failed to load site settings:', err))
+    }
   }, [])
 
   return (
