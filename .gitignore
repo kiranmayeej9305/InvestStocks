@@ -1,48 +1,42 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+local.env
+*.env
+tsconfig.tsbuildinfo
 
 # dependencies
-node_modules/
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
+node_modules
+.pnp
+.pnp.js
 
-# Native
-.kotlin/
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
+# testing
+coverage
 
-# Metro
-.metro-health-check*
+# next.js
+.next/
+out/
+build
 
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
+# misc
 .DS_Store
 *.pem
 
-# 🔒 SECURITY: Environment files containing secrets
-.env
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# turbo
+.turbo
+
+.env
+.vercel
+.vscode
 .env*.local
-.env.production
-.env.development
-.env.staging
-.env.secure
-.env.example
-# Backup environment files
-.env.backup
-.env.old
-seed.mjs
-make-admin.mjs
-# typescript
-*.tsbuildinfo
-__MACOSX/
