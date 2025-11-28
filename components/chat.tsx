@@ -42,7 +42,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
 
   // Get user info from localStorage
   useEffect(() => {
-    const storedUser = localStorage.getItem('investstocks_user')
+    const storedUser = localStorage.getItem('InvestSentry_user')
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser)

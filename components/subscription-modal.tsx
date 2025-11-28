@@ -297,7 +297,7 @@ export function SubscriptionModal({ isOpen, onClose, userPlan = 'free', userEmai
 
           {/* Support Info */}
           <div className="text-center text-sm text-muted-foreground">
-            <p>Need help? Contact our support team at support@investstocks.com</p>
+            <p>Need help? Contact our support team at support@InvestSentry.comm</p>
           </div>
         </div>
       </DialogContent>

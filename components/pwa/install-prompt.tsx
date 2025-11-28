@@ -118,7 +118,7 @@ export function InstallPrompt() {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Download className="h-5 w-5 text-primary" />
-            Install InvestStocks
+            Install InvestSentry
           </DialogTitle>
           <DialogDescription>
             {isIOS ? (
@@ -145,7 +145,7 @@ export function InstallPrompt() {
                   </li>
                 </ol>
                 <p className="text-xs text-muted-foreground mt-3">
-                  You&apos;ll be able to launch InvestStocks from your home screen like a native app!
+                  You&apos;ll be able to launch InvestSentry from your home screen like a native app!
                 </p>
               </div>
             ) : (

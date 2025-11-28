@@ -56,7 +56,7 @@ export async function sendEmail({ to, subject, html, text }: SendEmailOptions): 
     }
     
     const mailOptions = {
-      from: `InvestStocks <${smtpEmail}>`,
+      from: `InvestSentry <${smtpEmail}>`,
       to,
       subject,
       html,
@@ -103,7 +103,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string, us
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">InvestStocks</h1>
+          <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
         </div>
         <div style="background: #ffffff; padding: 40px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
           <h2 style="color: #1f2937; margin-top: 0;">Reset Your Password</h2>
@@ -111,7 +111,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string, us
             ${userName ? `Hi ${userName},` : 'Hi there,'}
           </p>
           <p style="color: #6b7280; font-size: 16px;">
-            We received a request to reset your password for your InvestStocks account. Click the button below to reset your password:
+            We received a request to reset your password for your InvestSentry account. Click the button below to reset your password:
           </p>
           <div style="text-align: center; margin: 30px 0;">
             <a href="${resetUrl}" style="display: inline-block; background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(255, 70, 24, 0.3);">
@@ -129,36 +129,36 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string, us
           </p>
           <p style="color: #9ca3af; font-size: 14px; margin-top: 20px;">
             Best regards,<br>
-            The InvestStocks Team
+            The InvestSentry Team
           </p>
         </div>
         <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
-          <p>© ${new Date().getFullYear()} InvestStocks. All rights reserved.</p>
+          <p>© ${new Date().getFullYear()} InvestSentry. All rights reserved.</p>
         </div>
       </body>
     </html>
   `
 
   const text = `
-Reset Your Password - InvestStocks
+Reset Your Password - InvestSentry
 
 ${userName ? `Hi ${userName},` : 'Hi there,'}
 
-We received a request to reset your password for your InvestStocks account. Click the link below to reset your password:
+We received a request to reset your password for your InvestSentry account. Click the link below to reset your password:
 
 ${resetUrl}
 
 This link will expire in 1 hour. If you didn't request a password reset, please ignore this email or contact support if you have concerns.
 
 Best regards,
-The InvestStocks Team
+The InvestSentry Team
 
-© ${new Date().getFullYear()} InvestStocks. All rights reserved.
+© ${new Date().getFullYear()} InvestSentry. All rights reserved.
   `
 
   return sendEmail({
     to: email,
-    subject: 'Reset Your InvestStocks Password',
+    subject: 'Reset Your InvestSentry Password',
     html,
     text,
   })
@@ -201,7 +201,7 @@ export async function sendAlertEmail(
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">InvestStocks</h1>
+          <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
         </div>
         <div style="background: #ffffff; padding: 40px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
           <h2 style="color: #1f2937; margin-top: 0;">🔔 Price Alert Triggered</h2>
@@ -225,22 +225,22 @@ export async function sendAlertEmail(
             </a>
           </div>
           <p style="color: #9ca3af; font-size: 14px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-            You can manage your alerts in your InvestStocks dashboard.
+            You can manage your alerts in your InvestSentry dashboard.
           </p>
           <p style="color: #9ca3af; font-size: 14px; margin-top: 20px;">
             Best regards,<br>
-            The InvestStocks Team
+            The InvestSentry Team
           </p>
         </div>
         <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
-          <p>© ${new Date().getFullYear()} InvestStocks. All rights reserved.</p>
+          <p>© ${new Date().getFullYear()} InvestSentry. All rights reserved.</p>
         </div>
       </body>
     </html>
   `
 
   const text = `
-Price Alert Triggered - InvestStocks
+Price Alert Triggered - InvestSentry
 
 ${userName ? `Hi ${userName},` : 'Hi there,'}
 
@@ -251,12 +251,12 @@ Current Price: $${alert.currentValue.toFixed(2)}
 
 View ${alert.assetType === 'stock' ? 'Stock' : 'Crypto'}: ${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${alert.assetType === 'stock' ? 'stocks' : 'crypto'}
 
-You can manage your alerts in your InvestStocks dashboard.
+You can manage your alerts in your InvestSentry dashboard.
 
 Best regards,
-The InvestStocks Team
+The InvestSentry Team
 
-© ${new Date().getFullYear()} InvestStocks. All rights reserved.
+© ${new Date().getFullYear()} InvestSentry. All rights reserved.
   `
 
   return sendEmail({

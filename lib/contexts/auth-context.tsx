@@ -47,16 +47,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(data.user)
         setIsAuthenticated(true)
         // Update localStorage for backwards compatibility
-        localStorage.setItem('investstocks_user', JSON.stringify(data.user))
-        localStorage.setItem('investstocks_authenticated', 'true')
-        localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+        localStorage.setItem('InvestSentry_user', JSON.stringify(data.user))
+        localStorage.setItem('InvestSentry_authenticated', 'true')
+        localStorage.setItem('InvestSentry_session_timestamp', Date.now().toString())
       } else {
         setUser(null)
         setIsAuthenticated(false)
         // Clear localStorage
-        localStorage.removeItem('investstocks_user')
-        localStorage.removeItem('investstocks_authenticated')
-        localStorage.removeItem('investstocks_session_timestamp')
+        localStorage.removeItem('InvestSentry_user')
+        localStorage.removeItem('InvestSentry_authenticated')
+        localStorage.removeItem('InvestSentry_session_timestamp')
       }
     } catch (error) {
       console.error('Auth check failed:', error)
@@ -87,9 +87,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(true)
       
       // Update localStorage
-      localStorage.setItem('investstocks_user', JSON.stringify(data.user))
-      localStorage.setItem('investstocks_authenticated', 'true')
-      localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+      localStorage.setItem('InvestSentry_user', JSON.stringify(data.user))
+      localStorage.setItem('InvestSentry_authenticated', 'true')
+      localStorage.setItem('InvestSentry_session_timestamp', Date.now().toString())
 
       // Redirect to dashboard
       router.push('/')
@@ -119,9 +119,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(true)
       
       // Update localStorage
-      localStorage.setItem('investstocks_user', JSON.stringify(data.user))
-      localStorage.setItem('investstocks_authenticated', 'true')
-      localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+      localStorage.setItem('InvestSentry_user', JSON.stringify(data.user))
+      localStorage.setItem('InvestSentry_authenticated', 'true')
+      localStorage.setItem('InvestSentry_session_timestamp', Date.now().toString())
 
       // Redirect to dashboard
       router.push('/')
@@ -141,9 +141,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsAuthenticated(false)
       
       // Clear localStorage
-      localStorage.removeItem('investstocks_user')
-      localStorage.removeItem('investstocks_authenticated')
-      localStorage.removeItem('investstocks_session_timestamp')
+      localStorage.removeItem('InvestSentry_user')
+      localStorage.removeItem('InvestSentry_authenticated')
+      localStorage.removeItem('InvestSentry_session_timestamp')
 
       // Redirect to main page
       router.push('/')

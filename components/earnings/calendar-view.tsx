@@ -117,7 +117,7 @@ export function CalendarView({ symbol }: CalendarViewProps) {
     const icalContent = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//InvestStocks//Earnings Calendar//EN',
+      'PRODID:-//InvestSentry//Earnings Calendar//EN',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
       ...earnings.map(earning => {

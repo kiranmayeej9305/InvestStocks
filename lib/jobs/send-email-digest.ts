@@ -127,7 +127,7 @@ export async function sendWeeklyEmailDigest(dayOfWeek: number = new Date().getDa
             </head>
             <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
               <div style="background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-                <h1 style="color: white; margin: 0; font-size: 28px;">InvestStocks</h1>
+                <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
                 <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Weekly Portfolio Summary</p>
               </div>
               <div style="background: #ffffff; padding: 40px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
@@ -194,11 +194,11 @@ export async function sendWeeklyEmailDigest(dayOfWeek: number = new Date().getDa
                 </p>
                 <p style="color: #9ca3af; font-size: 14px; margin-top: 20px;">
                   Best regards,<br>
-                  The InvestStocks Team
+                  The InvestSentry Team
                 </p>
               </div>
               <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
-                <p>© ${new Date().getFullYear()} InvestStocks. All rights reserved.</p>
+                <p>© ${new Date().getFullYear()} InvestSentry. All rights reserved.</p>
               </div>
             </body>
           </html>
@@ -221,9 +221,9 @@ export async function sendWeeklyEmailDigest(dayOfWeek: number = new Date().getDa
           Manage email preferences: ${baseUrl}/profile
           
           Best regards,
-          The InvestStocks Team
+          The InvestSentry Team
           
-          © ${new Date().getFullYear()} InvestStocks. All rights reserved.
+          © ${new Date().getFullYear()} InvestSentry. All rights reserved.
         `
         
         await sendEmail({

@@ -1,6 +1,6 @@
 {
-  "name": "InvestStocks - AI-Powered Stock Market Analysis",
-  "short_name": "InvestStocks",
+  "name": "InvestSentry - AI-Powered Stock Market Analysis",
+  "short_name": "InvestSentry",
   "description": "AI-powered stock market analysis and investment platform with real-time data, portfolio tracking, and advanced analytics",
   "start_url": "/",
   "display": "standalone",

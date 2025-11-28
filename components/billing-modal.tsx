@@ -137,9 +137,9 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
               setSelectedPlan(result.user.plan)
               
               // Update localStorage
-              const currentUser = JSON.parse(localStorage.getItem('investstocks_user') || '{}')
+              const currentUser = JSON.parse(localStorage.getItem('InvestSentry_user') || '{}')
               const updatedUser = { ...currentUser, ...result.user }
-              localStorage.setItem('investstocks_user', JSON.stringify(updatedUser))
+              localStorage.setItem('InvestSentry_user', JSON.stringify(updatedUser))
               
               // Dispatch event to update header
               window.dispatchEvent(new CustomEvent('userPlanUpdated', { 
@@ -215,7 +215,7 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
         // Refresh user session to get updated plan
         const refreshUserSession = async () => {
           try {
-            const savedUser = localStorage.getItem('investstocks_user')
+            const savedUser = localStorage.getItem('InvestSentry_user')
             const emailToRefresh = emailParam || (savedUser ? JSON.parse(savedUser).email : null)
             
             if (emailToRefresh) {
@@ -235,9 +235,9 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
                 console.log('[Billing Modal] Successfully refreshed user session:', updatedUser)
                 
                 // Update localStorage with fresh user data
-                localStorage.setItem('investstocks_user', JSON.stringify(updatedUser))
-                localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
-                localStorage.setItem('investstocks_authenticated', 'true')
+                localStorage.setItem('InvestSentry_user', JSON.stringify(updatedUser))
+                localStorage.setItem('InvestSentry_session_timestamp', Date.now().toString())
+                localStorage.setItem('InvestSentry_authenticated', 'true')
                 
                 // Dispatch event to refresh user state in header and other components
                 window.dispatchEvent(new CustomEvent('userPlanUpdated', { 
@@ -257,8 +257,8 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
           } catch (error) {
             console.error('Error refreshing user session:', error)
             // Even if refresh fails, ensure authentication flags are set
-            localStorage.setItem('investstocks_authenticated', 'true')
-            localStorage.setItem('investstocks_session_timestamp', Date.now().toString())
+            localStorage.setItem('InvestSentry_authenticated', 'true')
+            localStorage.setItem('InvestSentry_session_timestamp', Date.now().toString())
           }
         }
         
@@ -711,8 +711,8 @@ export function BillingModal({ isOpen, onClose, userPlan = 'pro', userEmail }: B
             <div className="grid md:grid-cols-1 gap-4 text-sm">
               <div>
                 <p className="text-muted-foreground">Questions about billing?</p>
-                <a href="mailto:billing@investstocks.co" className="font-medium text-primary hover:underline">
-                  billing@investstocks.co
+                <a href="mailto:billing@InvestSentry.com" className="font-medium text-primary hover:underline">
+                  billing@InvestSentry.com
                 </a>
               </div>
               <div>

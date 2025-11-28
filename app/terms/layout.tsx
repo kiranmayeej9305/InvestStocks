@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Terms of Service | InvestStocks',
-  description: 'Read the terms and conditions for using InvestStocks platform.',
+  title: 'Terms of Service | InvestSentry',
+  description: 'Read the terms and conditions for using InvestSentry platform.',
 }
 
 export default function TermsLayout({

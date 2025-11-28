@@ -1,5 +1,5 @@
-const CACHE_NAME = 'investstocks-v1'
-const RUNTIME_CACHE = 'investstocks-runtime-v1'
+const CACHE_NAME = 'InvestSentry-v1'
+const RUNTIME_CACHE = 'InvestSentry-runtime-v1'
 
 // Assets to cache on install
 const STATIC_ASSETS = [
@@ -91,12 +91,12 @@ self.addEventListener('push', (event) => {
     icon: '/icon.svg',
     badge: '/icon.svg',
     vibrate: [200, 100, 200],
-    tag: 'investstocks-notification',
+    tag: 'InvestSentry-notification',
     requireInteraction: false,
   }
 
   event.waitUntil(
-    self.registration.showNotification('InvestStocks', options)
+    self.registration.showNotification('InvestSentry', options)
   )
 })
 

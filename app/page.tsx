@@ -103,7 +103,7 @@ export default function LandingPage() {
                   <TrendingUp className="h-6 w-6 text-white" />
                 </div>
                 <span className="hidden sm:block text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  InvestStocks
+                  InvestSentry
                 </span>
               </div>
               
@@ -825,7 +825,7 @@ export default function LandingPage() {
             Ready to Transform Your <span className="text-primary">Investment Journey?</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of investors who are making smarter decisions with InvestStocks
+            Join thousands of investors who are making smarter decisions with InvestSentry
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup">
@@ -865,7 +865,7 @@ export default function LandingPage() {
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
                     <TrendingUp className="h-6 w-6 text-white" />
                   </div>
-                  <span className="text-2xl font-bold text-primary">InvestStocks</span>
+                  <span className="text-2xl font-bold text-primary">InvestSentry</span>
                 </div>
                 <p className="text-muted-foreground mb-6 max-w-sm">
                   Smart investing made simple with AI-powered insights, real-time data, and professional trading tools.
@@ -905,7 +905,7 @@ export default function LandingPage() {
             {/* Bottom Bar */}
             <div className="pt-8 border-t border-primary/10 flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-sm text-muted-foreground">
-                © 2025 InvestStocks. All rights reserved.
+                © 2025 InvestSentry. All rights reserved.
               </p>
               <div className="flex items-center gap-2">
                 <Badge variant="outline" className="border-primary/20 text-xs">

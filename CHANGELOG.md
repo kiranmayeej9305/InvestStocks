@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to InvestStocks will be documented in this file.
+All notable changes to InvestSentry will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -938,7 +938,7 @@ No migration needed. The admin panel is ready to use after deployment.
 
 ### 🎉 Initial Release
 
-The first public release of InvestStocks - AI-Powered Stock Market Investment Platform.
+The first public release of InvestSentry - AI-Powered Stock Market Investment Platform.
 
 ### ✨ Features Added
 
@@ -1236,7 +1236,7 @@ Massive features release including cryptocurrency market tracking, paper trading
 Complete admin panel system with comprehensive management features for user administration, subscription management, analytics, and site configuration.
 
 ### What's New in v1.0.0
-This is the initial release of InvestStocks, a complete AI-powered stock market platform. We've built a comprehensive solution that combines real-time market data, AI assistance, portfolio management, and monetization features all in one beautiful package.
+This is the initial release of InvestSentry, a complete AI-powered stock market platform. We've built a comprehensive solution that combines real-time market data, AI assistance, portfolio management, and monetization features all in one beautiful package.
 
 ### Installation
 1. Extract the ZIP file

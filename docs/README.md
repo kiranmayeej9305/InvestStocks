@@ -1,6 +1,6 @@
-# InvestStocks Documentation
+# InvestSentry Documentation
 
-Welcome to the InvestStocks comprehensive documentation!
+Welcome to the InvestSentry comprehensive documentation!
 
 ## Quick Start
 
@@ -75,9 +75,9 @@ You can customize the documentation by:
 
 ## License
 
-This documentation is part of the InvestStocks CodeCanyon product.
+This documentation is part of the InvestSentry CodeCanyon product.
 
 ---
 
-Built with ❤️ for InvestStocks
+Built with ❤️ for InvestSentry
 

@@ -144,7 +144,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">Email</p>
-                    <p className="text-sm text-muted-foreground">support@investstocks.co</p>
+                    <p className="text-sm text-muted-foreground">support@InvestSentry.com</p>
                   </div>
                 </div>
                 

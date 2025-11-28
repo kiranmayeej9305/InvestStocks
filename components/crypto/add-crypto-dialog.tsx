@@ -41,7 +41,7 @@ export function AddCryptoDialog({ onSuccess }: AddCryptoDialogProps) {
 
   useEffect(() => {
     // Get user plan and current holdings count
-    const savedUser = localStorage.getItem('investstocks_user')
+    const savedUser = localStorage.getItem('InvestSentry_user')
     if (savedUser) {
       try {
         const userData = JSON.parse(savedUser)

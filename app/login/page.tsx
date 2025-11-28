@@ -94,7 +94,7 @@ export default function LoginPage() {
               <TrendingUp className="h-10 w-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent mb-2">
-              InvestStocks
+              InvestSentry
             </h1>
             <p className="text-muted-foreground mt-2 text-base font-medium">Welcome back! Sign in to your account</p>
           </div>

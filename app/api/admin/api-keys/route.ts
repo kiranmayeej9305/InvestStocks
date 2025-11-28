@@ -52,7 +52,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+        const db = client.db('stokalert')
+
     const collection = db.collection('api_keys')
 
     const apiKeys = await collection.find({}).toArray()

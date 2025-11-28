@@ -24,7 +24,7 @@ export default function CryptoPage() {
 
   useEffect(() => {
     // Get user plan from localStorage
-    const savedUser = localStorage.getItem('investstocks_user')
+    const savedUser = localStorage.getItem('InvestSentry_user')
     if (savedUser) {
       try {
         const userData = JSON.parse(savedUser)

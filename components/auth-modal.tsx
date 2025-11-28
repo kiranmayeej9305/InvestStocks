@@ -103,7 +103,7 @@ export function AuthModal({ isOpen, onClose, mode, onLogin }: AuthModalProps) {
           </DialogTitle>
           <p className="text-center mobile-text text-muted-foreground">
             {isSignUp 
-              ? 'Join InvestStocks to get personalized investment insights'
+              ? 'Join InvestSentry to get personalized investment insights'
               : 'Sign in to access your investment dashboard'
             }
           </p>

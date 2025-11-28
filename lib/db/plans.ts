@@ -27,7 +27,8 @@ export interface Plan {
 export async function getAllPlans(): Promise<Plan[]> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+        const db = client.db('stokalert')
+
     const collection = db.collection('plans')
     
     const plans = await collection.find({}).toArray()
@@ -78,7 +79,8 @@ export async function getAllPlans(): Promise<Plan[]> {
 export async function getPlanById(planId: string): Promise<Plan | null> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+        const db = client.db('stokalert')
+
     const collection = db.collection('plans')
     
     const plan = await collection.findOne({ planId })
@@ -92,7 +94,8 @@ export async function getPlanById(planId: string): Promise<Plan | null> {
 export async function updatePlan(planId: string, updateData: Partial<Plan>): Promise<Plan | null> {
   try {
     const client = await clientPromise
-    const db = client.db('investstocks')
+        const db = client.db('stokalert')
+
     const collection = db.collection('plans')
     
     const updateDoc: any = {

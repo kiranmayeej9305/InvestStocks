@@ -40,7 +40,7 @@ import { PricingModal } from './pricing-modal'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: MdDashboard },
-  { name: 'InvestStocks AI', href: '/ai-chat', icon: RiRobot2Line },
+  { name: 'InvestSentry AI', href: '/ai-chat', icon: RiRobot2Line },
   { name: 'Stock', href: '/stocks', icon: RiStockLine },
   { name: 'Portfolio', href: '/portfolio', icon: MdPieChart },
   { name: 'Crypto', href: '/crypto', icon: MdAccountBalanceWallet },
@@ -60,7 +60,7 @@ const accountNavigation = [
 
 export function Sidebar() {
   const settings = useSiteSettings()
-  const siteName = settings?.siteName || 'InvestStocks'
+  const siteName = settings?.siteName || 'InvestSentry'
   const siteLogo = settings?.siteLogo
   const primaryColor = settings?.primaryColor || '#ff4618'
   const [isOpen, setIsOpen] = useState(false)
