@@ -1,7 +1,14 @@
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'
+import { Overpass } from 'next/font/google'
 
 import '@/app/globals.css'
+
+const overpass = Overpass({
+  subsets: ['latin'],
+  variable: '--font-overpass',
+  display: 'swap',
+})
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Providers } from '@/components/providers'
@@ -11,6 +18,7 @@ import { SiteSettingsProvider } from '@/components/site-settings-provider'
 import { MaintenanceMode } from '@/components/maintenance-mode'
 import { SiteSettingsContextProvider } from '@/components/site-settings-context'
 import { InstallPrompt } from '@/components/pwa/install-prompt'
+import { ProfessionalThemeProvider } from '@/components/theme/professional-theme-provider'
 import Script from 'next/script'
 
 export { generateMetadata }
@@ -22,8 +30,8 @@ export const viewport = {
   userScalable: true,
   viewportFit: 'cover',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#000000' }
+    { media: '(prefers-color-scheme: light)', color: '#2B46B9' },
+    { media: '(prefers-color-scheme: dark)', color: '#3C63FF' }
   ]
 }
 
@@ -33,7 +41,7 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark:dark">
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -41,20 +49,21 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
-        <meta name="theme-color" content="#FF4618" />
+        <meta name="theme-color" content="#2B46B9" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="InvestSentry" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-TileColor" content="#FF4618" />
+        <meta name="msapplication-TileColor" content="#2B46B9" />
         <meta name="msapplication-tap-highlight" content="no" />
       </head>
       <body
         className={cn(
-          'font-sans antialiased min-h-screen',
+          'font-sans antialiased min-h-screen bg-background text-foreground',
           GeistSans.variable,
-          GeistMono.variable
+          GeistMono.variable,
+          overpass.variable
         )}
       >
         <SiteSettingsProvider />
@@ -65,13 +74,15 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <SiteSettingsContextProvider>
-            <MaintenanceMode>
-              {children}
-            </MaintenanceMode>
-          </SiteSettingsContextProvider>
-          <ThemeToggle />
-          <InstallPrompt />
+          <ProfessionalThemeProvider defaultTheme={true}>
+            <SiteSettingsContextProvider>
+              <MaintenanceMode>
+                {children}
+              </MaintenanceMode>
+            </SiteSettingsContextProvider>
+            <ThemeToggle />
+            <InstallPrompt />
+          </ProfessionalThemeProvider>
         </Providers>
         <Script
           id="service-worker-registration"

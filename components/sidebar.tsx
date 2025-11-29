@@ -62,7 +62,7 @@ export function Sidebar() {
   const settings = useSiteSettings()
   const siteName = settings?.siteName || 'InvestSentry'
   const siteLogo = settings?.siteLogo
-  const primaryColor = settings?.primaryColor || '#ff4618'
+  const primaryColor = settings?.primaryColor || '#2B46B9'
   const [isOpen, setIsOpen] = useState(false)
   const [showProfileModal, setShowProfileModal] = useState(false)
   const [showPricingModal, setShowPricingModal] = useState(false)
@@ -97,25 +97,31 @@ export function Sidebar() {
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed top-4 left-4 z-[60] p-2.5 rounded-xl border-2 shadow-xl transition-all touch-target"
         style={{
-          background: isOpen ? 'rgba(255, 70, 24, 0.1)' : 'rgba(255, 255, 255, 0.95)',
+          background: isOpen ? 'rgba(43, 70, 185, 0.1)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(12px)',
-          borderColor: isOpen ? 'rgb(255, 70, 24)' : 'rgba(200, 200, 200, 0.3)'
+          borderColor: isOpen ? '#2B46B9' : 'rgba(200, 200, 200, 0.3)'
         }}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? (
-          <X className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <X className="w-5 h-5" style={{ color: '#2B46B9' }} />
         ) : (
-          <Menu className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <Menu className="w-5 h-5" style={{ color: '#2B46B9' }} />
         )}
       </button>
 
       {/* Sidebar - Fixed */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transform transition-transform duration-300 ease-in-out flex-shrink-0",
-        "lg:translate-x-0 lg:static lg:h-screen border-r border-gray-200/50 dark:border-slate-700/50 overflow-y-auto",
+        "fixed inset-y-0 left-0 z-50 w-64 transform transition-transform duration-300 ease-in-out flex-shrink-0",
+        "lg:translate-x-0 lg:static lg:h-screen border-r overflow-y-auto",
         isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-      )}>
+      )}
+      style={{
+        backgroundColor: 'rgba(255,255,255,0.95)',
+        backdropFilter: 'blur(20px)',
+        borderColor: 'rgba(43,70,185,0.1)',
+        fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+      }}>
         <div className="flex flex-col h-full min-h-screen">
           {/* Logo */}
           <div className="flex items-center px-6 py-6 pt-20 lg:pt-6">
@@ -123,16 +129,26 @@ export function Sidebar() {
               {siteLogo ? (
                 <Image src={siteLogo} alt={siteName} width={40} height={40} className="rounded-xl shadow-lg" />
               ) : (
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
-                  style={{
-                    background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}DD 100%)`,
-                    boxShadow: `0 4px 14px 0 ${primaryColor}63`
-                  }}
-                >
-                  <RiLineChartLine className="w-6 h-6 text-white" />
+                <div style={{
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  borderRadius: '0.75rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
+                  boxShadow: '0 4px 12px rgba(43,70,185,0.3)'
+                }}>
+                  <RiLineChartLine style={{width: '1.5rem', height: '1.5rem', color: 'white'}} />
                 </div>
               )}
-              <span className="ml-3 text-xl font-bold text-foreground">{siteName}</span>
+              <span style={{
+                marginLeft: '0.75rem',
+                fontSize: '1.5rem',
+                fontWeight: '800',
+                color: '#1e293b',
+                fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+              }}>{siteName}</span>
             </div>
           </div>
 
@@ -145,68 +161,168 @@ export function Sidebar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={cn(
-                    "flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all group relative overflow-hidden",
-                    isActive
-                      ? "text-foreground border"
-                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
-                  )}
-                  style={isActive ? {
-                    background: 'linear-gradient(to right, rgba(255, 70, 24, 0.1), rgba(255, 107, 53, 0.1))',
-                    borderColor: 'rgba(255, 70, 24, 0.2)'
-                  } : {}}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.75rem 1rem',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    borderRadius: '0.75rem',
+                    transition: 'all 0.2s ease',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    textDecoration: 'none',
+                    fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+                    ...(isActive ? {
+                      background: 'linear-gradient(to right, rgba(43, 70, 185, 0.1), rgba(57, 160, 237, 0.1))',
+                      border: '1px solid rgba(43, 70, 185, 0.2)',
+                      color: '#1e293b'
+                    } : {
+                      color: '#64748b',
+                      border: '1px solid transparent'
+                    })
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#1e293b';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#64748b';
+                    }
+                  }}
                 >
                   {isActive && (
-                    <div className="absolute inset-0 blur-xl" style={{ 
-                      background: 'linear-gradient(to right, rgba(255, 70, 24, 0.05), rgba(255, 107, 53, 0.05))' 
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to right, rgba(43, 70, 185, 0.05), rgba(57, 160, 237, 0.05))',
+                      filter: 'blur(10px)'
                     }} />
                   )}
-                  <Icon className={cn(
-                    "mr-3 w-5 h-5 transition-all relative z-10",
-                    isActive ? "" : "text-muted-foreground"
-                  )} 
-                  style={isActive ? { color: 'rgb(255, 70, 24)' } : {}}
-                  />
-                  <span className="truncate relative z-10">{item.name}</span>
+                  <Icon style={{
+                    marginRight: '0.75rem',
+                    width: '1.25rem',
+                    height: '1.25rem',
+                    transition: 'all 0.2s ease',
+                    position: 'relative',
+                    zIndex: 10,
+                    color: isActive ? '#2B46B9' : '#64748b'
+                  }} />
+                  <span style={{
+                    position: 'relative',
+                    zIndex: 10,
+                    fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                  }}>{item.name}</span>
                 </Link>
               )
             })}
           </nav>
 
           {/* Account Section */}
-          <div className="px-4 py-4 border-t border-border mt-auto">
-            <div className="mb-3">
-              <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <div style={{
+            padding: '1rem',
+            borderTop: '1px solid rgba(43,70,185,0.1)',
+            marginTop: 'auto'
+          }}>
+            <div style={{marginBottom: '0.75rem'}}>
+              <h3 style={{
+                padding: '0 1rem',
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                color: '#64748b',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+              }}>
                 Account
               </h3>
             </div>
-            <nav className="space-y-1">
+            <nav style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
               {/* Profile Button */}
               <button
                 onClick={() => setShowProfileModal(true)}
-                className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.625rem 1rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#64748b',
+                  borderRadius: '0.75rem',
+                  transition: 'all 0.2s ease',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  cursor: 'pointer',
+                  fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#1e293b';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#64748b';
+                }}
               >
-                <MdPerson className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                  style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-                />
-                <span className="truncate">Profile</span>
+                <MdPerson style={{
+                  marginRight: '0.75rem',
+                  width: '1rem',
+                  height: '1rem',
+                  color: '#64748b',
+                  transition: 'color 0.2s ease'
+                }} />
+                <span style={{fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"}}>Profile</span>
               </button>
 
               {/* Admin Panel Link - Only show if user is admin */}
               {user?.role === 'admin' && (
                 <Link
                   href="/admin"
-                  className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0.625rem 1rem',
+                    fontSize: '0.875rem',
+                    fontWeight: '500',
+                    color: '#64748b',
+                    borderRadius: '0.75rem',
+                    transition: 'all 0.2s ease',
+                    textDecoration: 'none',
+                    fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#1e293b';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#64748b';
+                  }}
                 >
-                  <MdAdminPanelSettings className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                    style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-                  />
-                  <span className="truncate">Admin Panel</span>
-                  <span className="ml-auto px-2 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary">
+                  <MdAdminPanelSettings style={{
+                    marginRight: '0.75rem',
+                    width: '1rem',
+                    height: '1rem',
+                    color: '#64748b',
+                    transition: 'color 0.2s ease'
+                  }} />
+                  <span style={{flex: 1, fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"}}>Admin Panel</span>
+                  <span style={{
+                    marginLeft: 'auto',
+                    padding: '0.125rem 0.5rem',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    borderRadius: '9999px',
+                    backgroundColor: 'rgba(43, 70, 185, 0.1)',
+                    color: '#2B46B9',
+                    fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                  }}>
                     Admin
                   </span>
                 </Link>
@@ -218,14 +334,35 @@ export function Sidebar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '0.625rem 1rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      color: '#64748b',
+                      borderRadius: '0.75rem',
+                      transition: 'all 0.2s ease',
+                      textDecoration: 'none',
+                      fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#1e293b';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#64748b';
+                    }}
                   >
-                    <Icon className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
-                      style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-                    />
-                    <span className="truncate">{item.name}</span>
+                    <Icon style={{
+                      marginRight: '0.75rem',
+                      width: '1rem',
+                      height: '1rem',
+                      color: '#64748b',
+                      transition: 'color 0.2s ease'
+                    }} />
+                    <span style={{fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"}}>{item.name}</span>
                   </Link>
                 )
               })}
@@ -233,34 +370,97 @@ export function Sidebar() {
               {/* Logout Button */}
               <button
                 onClick={() => logout()}
-                className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all group"
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0.625rem 1rem',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#64748b',
+                  borderRadius: '0.75rem',
+                  transition: 'all 0.2s ease',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  cursor: 'pointer',
+                  fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#fef2f2';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#64748b';
+                }}
               >
-                <MdLogout className="mr-3 w-4 h-4 text-muted-foreground group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors" />
-                <span className="truncate">Logout</span>
+                <MdLogout style={{
+                  marginRight: '0.75rem',
+                  width: '1rem',
+                  height: '1rem',
+                  color: '#64748b',
+                  transition: 'color 0.2s ease'
+                }} />
+                <span style={{fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"}}>Logout</span>
               </button>
             </nav>
           </div>
 
           {/* User Profile */}
-          <div className="px-4 py-4 border-t border-border">
-            <div className="flex items-center px-2">
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center ring-2"
-                  style={{
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                    boxShadow: '0 0 0 2px rgba(255, 70, 24, 0.2)'
-                  }}
-                >
-                  <span className="text-sm font-bold text-white">
+          <div style={{
+            padding: '1rem',
+            borderTop: '1px solid rgba(43,70,185,0.1)'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0.5rem'
+            }}>
+              <div style={{flexShrink: 0}}>
+                <div style={{
+                  width: '2.5rem',
+                  height: '2.5rem',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
+                  boxShadow: '0 0 0 2px rgba(43, 70, 185, 0.2)'
+                }}>
+                  <span style={{
+                    fontSize: '0.875rem',
+                    fontWeight: 'bold',
+                    color: 'white',
+                    fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                  }}>
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </span>
                 </div>
               </div>
-              <div className="ml-3 flex-1 min-w-0">
-                <p className="text-sm font-medium text-foreground truncate">
+              <div style={{
+                marginLeft: '0.75rem',
+                flex: 1,
+                minWidth: 0
+              }}>
+                <p style={{
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#1e293b',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                }}>
                   {user?.name || 'User'}
                 </p>
-                <p className="text-xs text-muted-foreground truncate">
+                <p style={{
+                  fontSize: '0.75rem',
+                  color: '#64748b',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+                }}>
                   {user?.email || 'user@example.com'}
                 </p>
               </div>
@@ -390,7 +590,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
         {/* Header */}
         <div className="relative p-6 pb-8"
           style={{
-            background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+            background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)'
           }}
         >
           <button
@@ -403,7 +603,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
           <div className="flex flex-col items-center">
             <div className="w-24 h-24 rounded-full flex items-center justify-center bg-white shadow-xl">
               <span className="text-4xl font-bold"
-                style={{ color: 'rgb(255, 70, 24)' }}
+                style={{ color: '#2B46B9' }}
               >
                 {user?.name?.charAt(0).toUpperCase() || 'U'}
               </span>
@@ -534,7 +734,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
                     disabled={changingPassword}
                     size="sm"
                     className="h-8 text-xs text-white"
-                    style={{ backgroundColor: '#ff4618' }}
+                    style={{ backgroundColor: '#2B46B9' }}
                   >
                     {changingPassword ? (
                       <>
@@ -561,7 +761,7 @@ function ProfileModal({ user, onClose, onUpgrade }: { user: any, onClose: () => 
               onClick={handleUpgrade}
               className="flex-1 px-4 py-2.5 rounded-xl text-white text-sm font-medium transition-colors"
               style={{
-                background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)'
+                background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)'
               }}
             >
               Upgrade Plan

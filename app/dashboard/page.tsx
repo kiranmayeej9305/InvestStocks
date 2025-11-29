@@ -323,19 +323,17 @@ function DashboardContent() {
           {/* Large Feature Card - Portfolio Value (Spans 2x2) */}
           <Card className="relative overflow-hidden border shadow-xl hover:shadow-2xl group md:col-span-2 md:row-span-2"
             style={{
-              background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 140, 90, 0.12) 100%)',
-              borderColor: 'rgba(255, 107, 53, 0.15)',
+              background: 'linear-gradient(135deg, rgba(43, 70, 185, 0.08) 0%, rgba(57, 160, 237, 0.12) 100%)',
+              borderColor: 'rgba(43, 70, 185, 0.15)',
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             <CardHeader className="pb-4 relative z-10 px-4 sm:px-6">
-              <CardTitle className="text-base font-medium flex items-center gap-2"
-                style={{ color: 'rgb(255, 70, 24)' }}
-              >
+              <CardTitle className="text-base font-medium flex items-center gap-2 text-primary">
                 <div className="p-2.5 sm:p-3 rounded-xl"
                   style={{
-                    background: 'linear-gradient(135deg, rgb(255, 107, 53) 0%, rgb(255, 140, 90) 100%)',
+                    background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
                   }}
                 >
                   <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
@@ -350,8 +348,8 @@ function DashboardContent() {
               <div className="space-y-3 mt-6">
                 <div className="flex items-center justify-between p-3 rounded-xl"
                   style={{
-                    background: 'rgba(255, 107, 53, 0.08)',
-                    border: '1px solid rgba(255, 107, 53, 0.12)'
+                    background: 'rgba(43, 70, 185, 0.08)',
+                    border: '1px solid rgba(43, 70, 185, 0.12)'
                   }}
                 >
                   <span className="text-sm text-muted-foreground">Holdings</span>
@@ -359,8 +357,8 @@ function DashboardContent() {
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl"
                   style={{
-                    background: 'rgba(255, 107, 53, 0.08)',
-                    border: '1px solid rgba(255, 107, 53, 0.12)'
+                    background: 'rgba(43, 70, 185, 0.08)',
+                    border: '1px solid rgba(43, 70, 185, 0.12)'
                   }}
                 >
                   <span className="text-sm text-muted-foreground">Watchlist</span>

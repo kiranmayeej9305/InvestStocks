@@ -52,8 +52,28 @@ export default function LoginPage() {
   // Show loading spinner while checking auth
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-        <IconSpinner className="h-8 w-8 animate-spin" style={{ color: 'rgb(255, 70, 24)' }} />
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+        fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+      }}>
+        <div style={{
+          width: '3rem',
+          height: '3rem',
+          border: '3px solid #e2e8f0',
+          borderTop: '3px solid #2B46B9',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     )
   }
@@ -64,52 +84,138 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4">
-      {/* Enhanced Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative',
+      overflow: 'hidden',
+      padding: '1rem',
+      fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+      background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
+    }}>
+      {/* Professional Background Elements */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        zIndex: -1
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '20%',
+          left: '20%',
+          width: '24rem',
+          height: '24rem',
+          backgroundColor: 'rgba(43,70,185,0.03)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          animation: 'pulse 4s ease-in-out infinite'
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '20%',
+          right: '20%',
+          width: '20rem',
+          height: '20rem',
+          backgroundColor: 'rgba(57,160,237,0.03)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          animation: 'pulse 4s ease-in-out infinite reverse'
+        }} />
+      </div>
       
-      {/* Animated Gradient Orbs with better movement */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
-      
-      {/* Subtle Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }} />
-      
-      {/* Glass Card with enhanced styling */}
-      <Card className="w-full max-w-md relative z-10 border-primary/30 shadow-2xl backdrop-blur-xl bg-white/80 dark:bg-slate-900/80">
-        <div className="p-8 sm:p-10">
-          {/* Back Button */}
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-all duration-200 mb-8 group">
-            <ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
-            <span className="group-hover:underline">Back to Home</span>
-          </Link>
-          
-          {/* Enhanced Logo/Brand */}
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-              <TrendingUp className="h-10 w-10 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent mb-2">
-              InvestSentry
-            </h1>
-            <p className="text-muted-foreground mt-2 text-base font-medium">Welcome back! Sign in to your account</p>
+      {/* Professional Card */}
+      <div style={{
+        width: '100%',
+        maxWidth: '28rem',
+        position: 'relative',
+        zIndex: 10,
+        backgroundColor: 'rgba(255,255,255,0.95)',
+        border: '1px solid rgba(43,70,185,0.1)',
+        borderRadius: '1.5rem',
+        boxShadow: '0 25px 50px -12px rgba(43,70,185,0.15)',
+        backdropFilter: 'blur(20px)',
+        padding: '2rem'
+      }}>
+        {/* Back Button */}
+        <Link href="/" style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          fontSize: '0.875rem',
+          color: '#64748b',
+          textDecoration: 'none',
+          marginBottom: '2rem',
+          transition: 'color 0.2s ease'
+        }}
+        onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.color = '#2B46B9'}
+        onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.color = '#64748b'}>
+          <ArrowLeft style={{width: '1rem', height: '1rem'}} />
+          <span>Back to Home</span>
+        </Link>
+        
+        {/* Professional Logo/Brand */}
+        <div style={{textAlign: 'center', marginBottom: '2.5rem'}}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '5rem',
+            height: '5rem',
+            borderRadius: '1rem',
+            marginBottom: '1.25rem',
+            boxShadow: '0 8px 20px rgba(43,70,185,0.3)',
+            background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
+            transition: 'transform 0.2s ease'
+          }}
+          onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'}>
+            <TrendingUp style={{width: '2.5rem', height: '2.5rem', color: 'white'}} />
           </div>
+          <h1 style={{
+            fontSize: '2.5rem',
+            fontWeight: '900',
+            background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '0.5rem'
+          }}>
+            InvestSentry
+          </h1>
+          <p style={{
+            color: '#64748b',
+            marginTop: '0.5rem',
+            fontSize: '1rem',
+            fontWeight: '500'
+          }}>
+            Welcome back! Sign in to your account
+          </p>
+        </div>
 
-          {/* Enhanced Error Message */}
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded-lg text-red-700 dark:text-red-400 text-sm flex items-start gap-3 animate-in slide-in-from-top-2 duration-300">
-              <div className="flex-shrink-0 mt-0.5">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <span className="flex-1">{error}</span>
+        {/* Professional Error Message */}
+        {error && (
+          <div style={{
+            marginBottom: '1.5rem',
+            padding: '1rem',
+            backgroundColor: '#fef2f2',
+            borderLeft: '4px solid #ef4444',
+            borderRadius: '0.5rem',
+            color: '#dc2626',
+            fontSize: '0.875rem',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '0.75rem'
+          }}>
+            <div style={{flexShrink: 0, marginTop: '0.125rem'}}>
+              <svg style={{width: '1.25rem', height: '1.25rem'}} fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
             </div>
-          )}
+            <span style={{flex: 1}}>{error}</span>
+          </div>
+        )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Enhanced Email Field */}
@@ -170,45 +276,116 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Enhanced Submit Button */}
-            <Button
+            {/* Professional Submit Button */}
+            <button
               type="submit"
-              className="w-full h-12 font-semibold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mt-8 transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ 
-                background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                boxShadow: '0 4px 20px rgba(255, 70, 24, 0.4)'
-              }}
               disabled={isLoading}
+              style={{
+                width: '100%',
+                height: '3rem',
+                fontWeight: '700',
+                fontSize: '1rem',
+                borderRadius: '0.75rem',
+                border: 'none',
+                background: isLoading ? '#9ca3af' : 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
+                color: 'white',
+                boxShadow: isLoading ? '0 4px 12px rgba(156,163,175,0.3)' : '0 8px 25px rgba(43,70,185,0.3)',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                marginTop: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem'
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoading) {
+                  (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 12px 35px rgba(43,70,185,0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading) {
+                  (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 25px rgba(43,70,185,0.3)';
+                }
+              }}
             >
               {isLoading ? (
                 <>
-                  <IconSpinner className="mr-2 h-5 w-5 animate-spin" />
+                  <div style={{
+                    width: '1.25rem',
+                    height: '1.25rem',
+                    border: '2px solid transparent',
+                    borderTop: '2px solid white',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }} />
                   Signing in...
                 </>
               ) : (
                 <>
                   Sign In
-                  <TrendingUp className="ml-2 h-5 w-5" />
+                  <TrendingUp style={{width: '1.25rem', height: '1.25rem'}} />
                 </>
               )}
-            </Button>
+            </button>
           </form>
 
-          {/* Enhanced Sign Up Link */}
-          <div className="mt-8 pt-6 border-t border-border/50">
-            <div className="text-center text-sm text-muted-foreground">
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/signup"
-                className="font-semibold text-primary hover:text-primary/80 transition-all duration-200 hover:underline inline-flex items-center gap-1"
-              >
-                Create one now
-                <ArrowLeft className="h-3 w-3 rotate-180" />
-              </Link>
-            </div>
+        {/* Professional Sign Up Link */}
+        <div style={{
+          marginTop: '2rem',
+          paddingTop: '1.5rem',
+          borderTop: '1px solid rgba(43,70,185,0.1)',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            fontSize: '0.875rem',
+            color: '#64748b'
+          }}>
+            Don&apos;t have an account?{' '}
+            <Link
+              href="/signup"
+              style={{
+                fontWeight: '600',
+                color: '#2B46B9',
+                textDecoration: 'none',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.color = '#1e3a8a';
+                (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.color = '#2B46B9';
+                (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'none';
+              }}
+            >
+              Create one now
+              <ArrowLeft style={{width: '0.75rem', height: '0.75rem', transform: 'rotate(180deg)'}} />
+            </Link>
           </div>
         </div>
-      </Card>
+      </div>
+      
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.1;
+          }
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }
