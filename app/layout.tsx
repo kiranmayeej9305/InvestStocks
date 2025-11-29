@@ -70,7 +70,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
               {children}
             </MaintenanceMode>
           </SiteSettingsContextProvider>
-          <ThemeToggle />
+          <ThemeToggle showFixed={true} />
           <InstallPrompt />
         </Providers>
         <Script

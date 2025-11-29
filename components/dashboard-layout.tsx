@@ -3,7 +3,6 @@
 import { ReactNode } from 'react'
 import { Sidebar } from './sidebar'
 import { ProtectedRoute } from './protected-route'
-import { ThemeToggle } from './theme-toggle'
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -33,9 +32,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             </div>
           </main>
         </div>
-        
-        {/* Fixed Theme Toggle for Protected Screens */}
-        <ThemeToggle showFixed={true} />
       </div>
     </ProtectedRoute>
   )

@@ -48,7 +48,7 @@ const baseNavigation = [
   { name: 'Crypto', href: '/crypto', icon: MdAccountBalanceWallet },
   { name: 'Paper Trading', href: '/paper-trading', icon: RiLineChartLine },
   { name: 'Trade Ideas', href: '/trade-ideas', icon: MdLightbulb },
-  { name: 'Fear & Greed', href: '/fear-greed', icon: MdSpeed },
+  // { name: 'Fear & Greed', href: '/fear-greed', icon: MdSpeed },
   { name: 'News', href: '/news', icon: MdEmail },
   { name: 'Earnings', href: '/earnings', icon: MdCalendarToday },
   { name: 'Screener', href: '/screener', icon: MdShowChart },
@@ -71,10 +71,14 @@ export function Sidebar() {
   const [mounted, setMounted] = useState(false);
   const { user, logout } = useAuth();
   const { enabled: communityEnabled } = useFeatureFlag('community', user?.plan);
+  const { enabled: fearGreedEnabled } = useFeatureFlag('fearGreed', user?.plan);
   
-  // Build navigation array with conditional community item
+  // Build navigation array with conditional items based on feature flags
   const navigation = [
     ...baseNavigation,
+    // Add Fear & Greed only if feature flag is enabled
+    ...(fearGreedEnabled ? [{ name: 'Fear & Greed', href: '/fear-greed', icon: MdSpeed }] : []),
+    // Add Community only if feature flag is enabled
     ...(communityEnabled ? [{ name: 'Community', href: '/community', icon: MdPeople }] : [])
   ];
 

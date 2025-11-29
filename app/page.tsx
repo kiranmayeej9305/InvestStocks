@@ -266,9 +266,9 @@ export default function LandingPage() {
                 
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
                   <span className="block bg-gradient-to-r from-primary via-blue-600 to-primary bg-clip-text text-transparent">
-                    Guard Your Investments 
+                    Realtime Market Monitoring
                   </span>
-                  <span className="text-foreground block mt-1 sm:mt-2">with AI powered Analysis and Alerts</span>
+                  <span className="text-foreground block mt-1 sm:mt-2">with AI</span>
                 </h1>
               </div>
               
