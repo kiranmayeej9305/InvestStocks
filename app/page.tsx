@@ -30,7 +30,8 @@ import {
   ThumbsUp,
   Menu,
   X,
-  Bell
+  Bell,
+  ChartNoAxesCombined
 } from 'lucide-react'
 import { StockLogo } from '@/components/stocks/stock-logo'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -104,7 +105,7 @@ export default function LandingPage() {
               {/* Logo */}
               <div className="flex items-center space-x-2 sm:space-x-3">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-blue-600 flex items-center justify-center flex-shrink-0 animate-gradient">
-                  <TrendingUp className="h-6 w-6 text-white" />
+                  <ChartNoAxesCombined  className="h-6 w-6 text-white" />
                 </div>
                 <span className="hidden sm:block text-xl md:text-2xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
                   InvestSentry
@@ -136,8 +137,8 @@ export default function LandingPage() {
                   <div className="absolute top-full left-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="p-2">
                       <Link href="/screener-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Stock Screener</Link>
-                      <Link href="/portfolio" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Portfolio Tracker</Link>
-                      <Link href="/paper-trading" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Paper Trading</Link>
+                      <Link href="/portfolio-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Portfolio Tracker</Link>
+                      <Link href="/paper-trading-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Paper Trading</Link>
                       <Link href="/alerts-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Price Alerts</Link>
                     </div>
                   </div>
@@ -1142,7 +1143,7 @@ export default function LandingPage() {
               <div className="md:col-span-1">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                    <TrendingUp className="h-6 w-6 text-primary-foreground" />
+                    <ChartNoAxesCombined  className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <span className="text-xl font-bold text-foreground">InvestSentry</span>
                 </div>

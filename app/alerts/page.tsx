@@ -193,10 +193,10 @@ function AlertsContent() {
       case 'price_above':
         return <TrendingUp className="h-4 w-4 text-green-600" />
       case 'price_below':
-        return <TrendingDown className="h-4 w-4 text-red-600" />
+        return <TrendingDown className="h-4 w-4 text-destructive" />
       case 'percent_change':
       case 'volume_spike':
-        return <Activity className="h-4 w-4 text-blue-600" />
+        return <Activity className="h-4 w-4 text-primary" />
       default:
         return <Bell className="h-4 w-4" />
     }
@@ -205,9 +205,9 @@ function AlertsContent() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge className="bg-green-500">Active</Badge>
+        return <Badge className="bg-green-600 text-white">Active</Badge>
       case 'triggered':
-        return <Badge className="bg-blue-500">Triggered</Badge>
+        return <Badge className="bg-primary text-primary-foreground">Triggered</Badge>
       case 'cancelled':
         return <Badge variant="secondary">Cancelled</Badge>
       default:

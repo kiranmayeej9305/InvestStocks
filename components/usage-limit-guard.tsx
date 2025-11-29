@@ -35,13 +35,13 @@ export function UsageLimitGuard({
   const getFeatureIcon = () => {
     switch (feature) {
       case 'conversations':
-        return <MessageSquare className="h-12 w-12 text-orange-500" />;
+        return <MessageSquare className="h-12 w-12 text-primary" />;
       case 'stockCharts':
-        return <BarChart className="h-12 w-12 text-orange-500" />;
+        return <BarChart className="h-12 w-12 text-primary" />;
       case 'stockTracking':
-        return <TrendingUp className="h-12 w-12 text-orange-500" />;
+        return <TrendingUp className="h-12 w-12 text-primary" />;
       default:
-        return <Clock className="h-12 w-12 text-orange-500" />;
+        return <Clock className="h-12 w-12 text-primary" />;
     }
   };
 
@@ -74,7 +74,7 @@ export function UsageLimitGuard({
   const progressPercentage = limit > 0 ? (current / limit) * 100 : 100;
 
   return (
-    <Card className="p-8 text-center bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-2 border-amber-200 dark:border-amber-800">
+    <Card className="p-8 text-center bg-gradient-to-br from-primary/5 to-primary/10 border-2 border-primary/20">
       <div className="flex flex-col items-center space-y-6">
         {getFeatureIcon()}
         
@@ -108,8 +108,8 @@ export function UsageLimitGuard({
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-orange-500/10 to-red-500/10 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
-            <h4 className="font-semibold text-orange-600 mb-2">🚀 Upgrade for Unlimited Access</h4>
+          <div className="bg-gradient-to-r from-primary/10 to-primary/20 p-4 rounded-lg border border-primary/20">
+            <h4 className="font-semibold text-primary mb-2">🚀 Upgrade for Unlimited Access</h4>
             <ul className="text-sm text-left space-y-1 text-slate-600 dark:text-slate-400">
               <li>✅ Unlimited daily conversations</li>
               <li>✅ Advanced stock charts (5 symbols)</li>
@@ -121,7 +121,7 @@ export function UsageLimitGuard({
 
         <Button 
           onClick={onUpgrade}
-          className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+          className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-semibold px-8 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
         >
           Upgrade to Pro - $19/month
         </Button>

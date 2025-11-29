@@ -80,17 +80,17 @@ export function StatsCard({
   const getIconColor = () => {
     switch (icon) {
       case 'dollar':
-        return 'from-emerald-500 to-teal-500'
+        return 'from-primary/20 to-primary/30'
       case 'activity':
-        return 'from-blue-500 to-cyan-500'
+        return 'from-primary/20 to-primary/30'
       case 'users':
-        return 'from-purple-500 to-pink-500'
+        return 'from-primary/20 to-primary/30'
       case 'cart':
-        return 'from-orange-500 to-red-500'
+        return 'from-primary/20 to-primary/30'
       case 'trend':
-        return 'from-violet-500 to-purple-500'
+        return 'from-primary/20 to-primary/30'
       default:
-        return 'from-blue-500 to-purple-500'
+        return 'from-primary/20 to-primary/30'
     }
   }
 

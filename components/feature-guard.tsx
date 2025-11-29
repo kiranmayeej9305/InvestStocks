@@ -30,13 +30,13 @@ export function FeatureGuard({
   const getFeatureIcon = () => {
     switch (feature) {
       case 'stockScreener':
-        return <BarChart3 className="h-12 w-12 text-orange-500" />;
+        return <BarChart3 className="h-12 w-12 text-primary" />;
       case 'marketHeatmap':
-        return <TrendingUp className="h-12 w-12 text-orange-500" />;
+        return <TrendingUp className="h-12 w-12 text-primary" />;
       case 'advancedAnalytics':
-        return <Shield className="h-12 w-12 text-orange-500" />;
+        return <Shield className="h-12 w-12 text-primary" />;
       default:
-        return <Lock className="h-12 w-12 text-orange-500" />;
+        return <Lock className="h-12 w-12 text-primary" />;
     }
   };
 
