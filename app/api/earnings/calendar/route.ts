@@ -58,15 +58,6 @@ export async function GET(request: NextRequest) {
     const fromStr = fromDate.toISOString().split('T')[0]
     const toStr = toDate.toISOString().split('T')[0]
 
-    console.log('Earnings calendar request:', { 
-      symbol, 
-      timeFilter, 
-      from: fromStr, 
-      to: toStr,
-      page,
-      limit 
-    })
-
     let url: string
     if (symbol) {
       // Company-specific earnings
@@ -80,7 +71,14 @@ export async function GET(request: NextRequest) {
       next: { revalidate: 3600 } // Cache for 1 hour
     })
 
+    console.log('Finnhub API response:', {
+      status: response.status,
+      statusText: response.statusText,
+      url: url.replace(apiKey, '[REDACTED]')
+    })
+
     if (!response.ok) {
+      throw new Error(`Finnhub API error: ${response.status}`)
     }
 
     // Check response content
@@ -170,12 +168,7 @@ export async function GET(request: NextRequest) {
     console.error('Error fetching earnings calendar:', error)
     console.error('Error details:', {
       message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined,
-      url: typeof url !== 'undefined' ? url : 'URL not set',
-      apiKey: apiKey ? 'Present' : 'Missing',
-      timeFilter,
-      from,
-      to
+      stack: error instanceof Error ? error.stack : undefined
     })
     return NextResponse.json(
       { 
