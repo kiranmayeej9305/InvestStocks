@@ -34,14 +34,13 @@ export async function POST(request: NextRequest) {
 
     const alert = await createAlert({
       userId: user.id,
-      assetType: validatedData.assetType as AssetType,
+      assetType: validatedData.assetType,
       symbol: validatedData.symbol.toUpperCase(),
       name: validatedData.name,
-      alertType: validatedData.alertType as AlertType,
+      alertType: validatedData.alertType,
       threshold: validatedData.threshold,
       emailNotification: validatedData.emailNotification,
       inAppNotification: validatedData.inAppNotification,
-      status: 'active',
     })
 
     return NextResponse.json({

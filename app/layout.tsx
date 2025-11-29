@@ -89,10 +89,12 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                     });
                 });
               }
-            `,
+            `
           }}
         />
-        <script
+        <Script
+          id="global-error-handler"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               // Global error handler for iframe and querySelector errors
@@ -107,7 +109,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
                   return false;
                 }
               });
-            `,
+            `
           }}
         />
       </body>

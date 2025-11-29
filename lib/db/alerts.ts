@@ -1,7 +1,7 @@
 import { connectToDatabase } from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
 
-export type AlertType = 'price_above' | 'price_below' | 'percent_change' | 'volume_spike'
+export type AlertType = 'price_above' | 'price_below' | 'percent_change' | 'volume_spike' | 'earnings_1day' | 'earnings_5days' | 'earnings_7days'
 export type AssetType = 'stock' | 'crypto'
 export type AlertStatus = 'active' | 'triggered' | 'cancelled'
 
@@ -20,12 +20,16 @@ export interface Alert {
   inAppNotification: boolean
   createdAt: Date
   updatedAt: Date
+  // Earnings-specific fields
+  earningsDate?: Date
+  quarter?: number
+  year?: number
 }
 
 /**
  * Create a new alert
  */
-export async function createAlert(alertData: Omit<Alert, '_id' | 'createdAt' | 'updatedAt'>): Promise<Alert> {
+export async function createAlert(alertData: Omit<Alert, '_id' | 'status' | 'createdAt' | 'updatedAt'>): Promise<Alert> {
   const { db } = await connectToDatabase()
   
   const now = new Date()

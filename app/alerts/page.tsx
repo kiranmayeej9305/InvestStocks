@@ -67,9 +67,10 @@ function AlertsContent() {
   
   const debouncedSymbol = useDebounce(formData.symbol, 300)
 
-  const filteredAlerts = filterStatus === 'all'
+  const filteredAlerts = (filterStatus === 'all'
     ? alerts
-    : alerts.filter(alert => alert.status === filterStatus)
+    : alerts.filter(alert => alert.status === filterStatus))
+    .filter(alert => !alert.alertType.startsWith('earnings_')) // Exclude earnings alerts from main alerts page
 
   // Fetch suggestions based on asset type
   useEffect(() => {

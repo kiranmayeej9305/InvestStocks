@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/lib/contexts/auth-context'
 import { toast } from 'sonner'
-import { Alert, AlertStatus } from '@/lib/db/alerts'
+import { Alert, AlertStatus, AlertType } from '@/lib/db/alerts'
 
 export function useAlerts(status?: AlertStatus) {
   const { user, isAuthenticated } = useAuth()
@@ -42,10 +42,13 @@ export function useAlerts(status?: AlertStatus) {
     assetType: 'stock' | 'crypto'
     symbol: string
     name: string
-    alertType: 'price_above' | 'price_below' | 'percent_change' | 'volume_spike'
+    alertType: AlertType
     threshold: number
     emailNotification?: boolean
     inAppNotification?: boolean
+    earningsDate?: Date
+    quarter?: number
+    year?: number
   }) => {
     if (!isAuthenticated) {
       toast.error('Please sign in to create alerts')
