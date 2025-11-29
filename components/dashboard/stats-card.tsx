@@ -1,7 +1,6 @@
 'use client'
 
-import { StatsCard as ProfessionalStatsCard } from '@/components/ui/professional-card'
-import { MetricCard } from '@/components/ui/professional-layout'
+import { StatsCard as ProfessionalStatsCard, MetricCard } from '@/components/ui/professional-card'
 import { PerformanceBadge, TrendBadge } from '@/components/ui/professional-badge'
 import { TrendingUp, TrendingDown, DollarSign, Activity, Users, ShoppingCart } from 'lucide-react'
 import { MdAttachMoney, MdShowChart, MdPeople, MdShoppingCart, MdTrendingUp } from 'react-icons/md'
@@ -94,11 +93,11 @@ export function StatsCard({
 
   if (variant === 'professional') {
     return (
-      <ProfessionalStatsCard
+      <MetricCard
         label={title}
         value={formatValue(value)}
-        change={change ? `${change > 0 ? '+' : ''}${change.toFixed(1)}%` : undefined}
-        changeType={getChangeVariant()}
+        change={change}
+        changeLabel="from last month"
         icon={
           <div className={cn(
             "w-10 h-10 rounded-xl flex items-center justify-center shadow-professional",
@@ -107,6 +106,7 @@ export function StatsCard({
             {getIcon()}
           </div>
         }
+        loading={loading}
         className={cn("animate-fade-in", className)}
       />
     )
