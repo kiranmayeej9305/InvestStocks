@@ -77,8 +77,8 @@ export default function SignupPage() {
   // Show loading spinner while checking auth
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-        <IconSpinner className="h-8 w-8 animate-spin" style={{ color: 'rgb(255, 70, 24)' }} />
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <IconSpinner className="h-8 w-8 animate-spin text-primary" />
       </div>
     )
   }
@@ -91,23 +91,13 @@ export default function SignupPage() {
   // Show message if registration is disabled
   if (registrationDisabled) {
     return (
-      <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+      <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4 bg-background">
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/10 to-background" />
         
-        {/* Animated Gradient Orbs */}
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        
-        {/* Subtle Grid Pattern */}
-        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{
-          backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
-          backgroundSize: '50px 50px'
-        }} />
-        
-        <Card className="w-full max-w-md relative z-10 border-primary/30 shadow-2xl backdrop-blur-xl bg-white/80 dark:bg-slate-900/80">
+        <Card className="w-full max-w-md relative z-10 border-border shadow-2xl backdrop-blur-xl bg-card">
           <div className="p-8 sm:p-10 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 bg-red-100 dark:bg-red-900/20 shadow-lg">
-              <Lock className="h-10 w-10 text-red-600 dark:text-red-400" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-6 bg-destructive/10 shadow-lg">
+              <Lock className="h-10 w-10 text-destructive" />
             </div>
             <h1 className="text-3xl font-bold text-foreground mb-3">Registration Disabled</h1>
             <p className="text-muted-foreground mb-8 text-base">
@@ -115,15 +105,12 @@ export default function SignupPage() {
             </p>
             <div className="space-y-3">
               <Link href="/">
-                <Button variant="outline" className="w-full h-11">
+                <Button variant="outline" className="w-full h-11 border-border hover:bg-muted">
                   Back to Home
                 </Button>
               </Link>
               <Link href="/login">
-                <Button className="w-full h-11" style={{ 
-                  background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                  boxShadow: '0 4px 20px rgba(255, 70, 24, 0.4)'
-                }}>
+                <Button className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground">
                   Sign In Instead
                 </Button>
               </Link>
@@ -135,23 +122,12 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4">
-      {/* Enhanced Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
-      
-      {/* Animated Gradient Orbs with better movement */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
-      
-      {/* Subtle Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
-        backgroundSize: '50px 50px'
-      }} />
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4 bg-background">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/10 to-background" />
       
       {/* Glass Card with enhanced styling */}
-      <Card className="w-full max-w-md relative z-10 border-primary/30 shadow-2xl backdrop-blur-xl bg-white/80 dark:bg-slate-900/80">
+      <Card className="w-full max-w-md relative z-10 border-border shadow-2xl backdrop-blur-xl bg-card">
         <div className="p-8 sm:p-10">
           {/* Back Button */}
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-all duration-200 mb-8 group">
@@ -161,10 +137,10 @@ export default function SignupPage() {
           
           {/* Enhanced Logo/Brand */}
           <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-              <TrendingUp className="h-10 w-10 text-white" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105 bg-primary">
+              <TrendingUp className="h-10 w-10 text-primary-foreground" />
             </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-bold text-foreground mb-2">
               InvestSentry
             </h1>
             <p className="text-muted-foreground mt-2 text-base font-medium">Create your account to get started</p>
@@ -172,7 +148,7 @@ export default function SignupPage() {
 
           {/* Enhanced Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded-lg text-red-700 dark:text-red-400 text-sm flex items-start gap-3 animate-in slide-in-from-top-2 duration-300">
+            <div className="mb-6 p-4 bg-destructive/10 border-l-4 border-destructive rounded-lg text-destructive text-sm flex items-start gap-3 animate-in slide-in-from-top-2 duration-300">
               <div className="flex-shrink-0 mt-0.5">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
@@ -194,7 +170,7 @@ export default function SignupPage() {
                   placeholder="John Doe"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  className="pl-12 pr-4 h-12 bg-background/80 dark:bg-slate-800/80 border-2 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg transition-all duration-200 text-base"
+                  className="pl-12 pr-4 h-12 bg-background border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg transition-all duration-200 text-base"
                   required
                   disabled={isLoading}
                 />
@@ -212,7 +188,7 @@ export default function SignupPage() {
                   placeholder="you@example.com"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="pl-12 pr-4 h-12 bg-background/80 dark:bg-slate-800/80 border-2 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg transition-all duration-200 text-base"
+                  className="pl-12 pr-4 h-12 bg-background border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg transition-all duration-200 text-base"
                   required
                   disabled={isLoading}
                 />
@@ -230,7 +206,7 @@ export default function SignupPage() {
                   placeholder="Minimum 6 characters"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  className="pl-12 pr-12 h-12 bg-background/80 dark:bg-slate-800/80 border-2 border-border/50 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg transition-all duration-200 text-base"
+                  className="pl-12 pr-12 h-12 bg-background border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-lg transition-all duration-200 text-base"
                   required
                   disabled={isLoading}
                   minLength={6}
@@ -256,11 +232,7 @@ export default function SignupPage() {
             {/* Enhanced Submit Button */}
             <Button
               type="submit"
-              className="w-full h-12 font-semibold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mt-8 transform hover:scale-[1.02] active:scale-[0.98]"
-              style={{ 
-                background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                boxShadow: '0 4px 20px rgba(255, 70, 24, 0.4)'
-              }}
+              className="w-full h-12 font-semibold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mt-8 transform hover:scale-[1.02] active:scale-[0.98] bg-primary hover:bg-primary/90 text-primary-foreground"
               disabled={isLoading}
             >
               {isLoading ? (
