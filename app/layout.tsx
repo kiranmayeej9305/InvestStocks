@@ -41,7 +41,7 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark:dark">
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -60,7 +60,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       </head>
       <body
         className={cn(
-          'font-sans antialiased min-h-screen',
+          'font-sans antialiased min-h-screen bg-background text-foreground',
           GeistSans.variable,
           GeistMono.variable,
           overpass.variable

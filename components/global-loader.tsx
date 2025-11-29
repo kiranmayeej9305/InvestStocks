@@ -27,7 +27,7 @@ export function GlobalLoader({ size = 'md', fullScreen = true, text }: GlobalLoa
         />
       </div>
       {text && (
-        <p className="text-sm text-muted-foreground animate-pulse">
+        <p className="text-sm text-muted-foreground dark:text-gray-300 animate-pulse">
           {text}
         </p>
       )}
@@ -36,7 +36,7 @@ export function GlobalLoader({ size = 'md', fullScreen = true, text }: GlobalLoa
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 dark:bg-slate-950/90 backdrop-blur-sm">
         {loaderContent}
       </div>
     )

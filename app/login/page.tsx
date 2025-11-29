@@ -149,8 +149,8 @@ export default function LoginPage() {
           marginBottom: '2rem',
           transition: 'color 0.2s ease'
         }}
-        onMouseEnter={(e) => e.target.style.color = '#2B46B9'}
-        onMouseLeave={(e) => e.target.style.color = '#64748b'}>
+        onMouseEnter={(e) => (e.currentTarget as HTMLAnchorElement).style.color = '#2B46B9'}
+        onMouseLeave={(e) => (e.currentTarget as HTMLAnchorElement).style.color = '#64748b'}>
           <ArrowLeft style={{width: '1rem', height: '1rem'}} />
           <span>Back to Home</span>
         </Link>
@@ -169,8 +169,8 @@ export default function LoginPage() {
             background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
             transition: 'transform 0.2s ease'
           }}
-          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}>
+          onMouseEnter={(e) => (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)'}>
             <TrendingUp style={{width: '2.5rem', height: '2.5rem', color: 'white'}} />
           </div>
           <h1 style={{
@@ -300,14 +300,14 @@ export default function LoginPage() {
               }}
               onMouseEnter={(e) => {
                 if (!isLoading) {
-                  e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 12px 35px rgba(43,70,185,0.4)'
+                  (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 12px 35px rgba(43,70,185,0.4)';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isLoading) {
-                  e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 8px 25px rgba(43,70,185,0.3)'
+                  (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 25px rgba(43,70,185,0.3)';
                 }
               }}
             >
@@ -356,12 +356,12 @@ export default function LoginPage() {
                 transition: 'color 0.2s ease'
               }}
               onMouseEnter={(e) => {
-                e.target.style.color = '#1e3a8a'
-                e.target.style.textDecoration = 'underline'
+                (e.currentTarget as HTMLAnchorElement).style.color = '#1e3a8a';
+                (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'underline';
               }}
               onMouseLeave={(e) => {
-                e.target.style.color = '#2B46B9'
-                e.target.style.textDecoration = 'none'
+                (e.currentTarget as HTMLAnchorElement).style.color = '#2B46B9';
+                (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'none';
               }}
             >
               Create one now

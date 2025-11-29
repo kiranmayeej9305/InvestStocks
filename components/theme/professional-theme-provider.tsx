@@ -51,11 +51,10 @@ export function ProfessionalThemeProvider({
   // Apply professional theme CSS
   useEffect(() => {
     if (isProfessionalTheme) {
-      // Dynamically import and apply the professional theme
-      import('../../styles/themes/professional-blue.css');
-      document.body.classList.add('professional-theme');
+      // Apply the professional theme by adding a class
+      document.documentElement.classList.add('professional-theme');
     } else {
-      document.body.classList.remove('professional-theme');
+      document.documentElement.classList.remove('professional-theme');
     }
   }, [isProfessionalTheme]);
 

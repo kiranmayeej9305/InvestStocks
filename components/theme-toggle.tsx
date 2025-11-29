@@ -18,12 +18,11 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="fixed top-4 right-4 z-[100]" style={{position: 'fixed', top: '1rem', right: '1rem', zIndex: 100}}>
+      <div className="fixed top-4 right-4 z-[100]">
         <Button
           size="icon"
           variant="outline"
-          className="h-12 w-12 rounded-full bg-white/90 border-2 border-blue-200 shadow-lg"
-          style={{backgroundColor: 'rgba(255,255,255,0.9)', borderColor: '#93C5FD'}}
+          className="h-12 w-12 rounded-full bg-background border-2 border-primary/20 shadow-lg disabled"
           disabled
         >
           <div className="h-5 w-5" />
@@ -34,12 +33,11 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-[100]" style={{position: 'fixed', top: '1rem', right: '1rem', zIndex: 100}}>
+    <div className="fixed top-4 right-4 z-[100]">
       <Button
         size="icon"
         variant="ghost"
-        className="h-12 w-12 rounded-full bg-white/90 border-2 border-blue-200 shadow-lg hover:shadow-xl hover:bg-blue-50 hover:border-blue-400 transition-all duration-200"
-        style={{backgroundColor: 'rgba(255,255,255,0.9)', borderColor: '#93C5FD'}}
+        className="h-12 w-12 rounded-full bg-background/80 backdrop-blur-sm border-2 border-primary/20 shadow-lg hover:shadow-xl hover:bg-background hover:border-primary/40 dark:bg-card/80 dark:hover:bg-card transition-all duration-200"
         onClick={() => {
           startTransition(() => {
             setTheme(theme === 'light' ? 'dark' : 'light')
@@ -48,9 +46,9 @@ export function ThemeToggle() {
       >
         <div className="relative">
           {theme === 'dark' ? (
-            <IconMoon className="h-5 w-5 text-blue-600" />
+            <IconMoon className="h-5 w-5 text-primary" />
           ) : (
-            <IconSun className="h-5 w-5 text-blue-600" />
+            <IconSun className="h-5 w-5 text-primary" />
           )}
         </div>
         <span className="sr-only">Toggle theme</span>

@@ -184,14 +184,14 @@ export function Sidebar() {
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.target.style.backgroundColor = 'rgba(43, 70, 185, 0.05)'
-                      e.target.style.color = '#1e293b'
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#1e293b';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.target.style.backgroundColor = 'transparent'
-                      e.target.style.color = '#64748b'
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#64748b';
                     }
                   }}
                 >
@@ -261,12 +261,12 @@ export function Sidebar() {
                   fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = 'rgba(43, 70, 185, 0.05)'
-                  e.target.style.color = '#1e293b'
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#1e293b';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = 'transparent'
-                  e.target.style.color = '#64748b'
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#64748b';
                 }}
               >
                 <MdPerson style={{
@@ -297,12 +297,12 @@ export function Sidebar() {
                     fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
                   }}
                   onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = 'rgba(43, 70, 185, 0.05)'
-                    e.target.style.color = '#1e293b'
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#1e293b';
                   }}
                   onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = 'transparent'
-                    e.target.style.color = '#64748b'
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                    (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#64748b';
                   }}
                 >
                   <MdAdminPanelSettings style={{
@@ -347,12 +347,12 @@ export function Sidebar() {
                       fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = 'rgba(43, 70, 185, 0.05)'
-                      e.target.style.color = '#1e293b'
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'rgba(43, 70, 185, 0.05)';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#1e293b';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'transparent'
-                      e.target.style.color = '#64748b'
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                      (e.currentTarget as unknown as HTMLAnchorElement).style.color = '#64748b';
                     }}
                   >
                     <Icon style={{
@@ -386,12 +386,12 @@ export function Sidebar() {
                   fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#fef2f2'
-                  e.target.style.color = '#dc2626'
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#fef2f2';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#dc2626';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = 'transparent'
-                  e.target.style.color = '#64748b'
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#64748b';
                 }}
               >
                 <MdLogout style={{
