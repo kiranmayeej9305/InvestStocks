@@ -1391,7 +1391,7 @@ export default function LandingPage() {
                   <div style={{fontSize: '0.875rem', color: '#64748b', marginBottom: '0.5rem'}}>Filtered Results</div>
                   <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <span style={{fontSize: '1.25rem', fontWeight: '700', color: '#1e293b'}}>247 stocks</span>
-                    <span style={{fontSize: '0.75rem', color: '#3b82f6'}}>P/E < 15</span>
+                    <span style={{fontSize: '0.75rem', color: '#3b82f6'}}>P/E &lt; 15</span>
                   </div>
                 </div>
               </div>
