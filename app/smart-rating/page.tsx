@@ -47,8 +47,8 @@ export default function SmartRatingPage() {
     }
   ]
 
-  const getStarCount = (rating) => Math.floor(rating / 2)
-  const getColorByRating = (rating) => {
+  const getStarCount = (rating: number) => Math.floor(rating / 2)
+  const getColorByRating = (rating: number) => {
     if (rating >= 8) return 'text-green-500'
     if (rating >= 6) return 'text-yellow-500'
     return 'text-red-500'
@@ -150,11 +150,11 @@ export default function SmartRatingPage() {
                           <div className="w-32 bg-muted rounded-full h-3">
                             <div 
                               className="bg-green-500 h-3 rounded-full screener-filter"
-                              style={{width: `${stock.technical * 10}%`}}
+                              style={{width: `${(stock?.technical || 0) * 10}%`}}
                             ></div>
                           </div>
-                          <span className={`text-sm font-semibold ${getColorByRating(stock.technical)}`}>
-                            {stock.technical}/10
+                          <span className={`text-sm font-semibold ${getColorByRating(stock?.technical || 0)}`}>
+                            {stock?.technical || 0}/10
                           </span>
                         </div>
                       </div>
@@ -165,11 +165,11 @@ export default function SmartRatingPage() {
                           <div className="w-32 bg-muted rounded-full h-3">
                             <div 
                               className="bg-blue-500 h-3 rounded-full screener-filter"
-                              style={{width: `${stock.fundamental * 10}%`, animationDelay: '0.5s'}}
+                              style={{width: `${(stock?.fundamental || 0) * 10}%`, animationDelay: '0.5s'}}
                             ></div>
                           </div>
-                          <span className={`text-sm font-semibold ${getColorByRating(stock.fundamental)}`}>
-                            {stock.fundamental}/10
+                          <span className={`text-sm font-semibold ${getColorByRating(stock?.fundamental || 0)}`}>
+                            {stock?.fundamental || 0}/10
                           </span>
                         </div>
                       </div>
@@ -180,11 +180,11 @@ export default function SmartRatingPage() {
                           <div className="w-32 bg-muted rounded-full h-3">
                             <div 
                               className="bg-purple-500 h-3 rounded-full screener-filter"
-                              style={{width: `${stock.sentiment * 10}%`, animationDelay: '1s'}}
+                              style={{width: `${(stock?.sentiment || 0) * 10}%`, animationDelay: '1s'}}
                             ></div>
                           </div>
-                          <span className={`text-sm font-semibold ${getColorByRating(stock.sentiment)}`}>
-                            {stock.sentiment}/10
+                          <span className={`text-sm font-semibold ${getColorByRating(stock?.sentiment || 0)}`}>
+                            {stock?.sentiment || 0}/10
                           </span>
                         </div>
                       </div>

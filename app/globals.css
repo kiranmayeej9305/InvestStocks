@@ -1117,4 +1117,252 @@
   .ai-pulse {
     animation: ai-pulse 1.5s ease-in-out infinite;
   }
+
+  /* Crypto price update animation */
+  @keyframes crypto-price-update {
+    0%, 90% { 
+      transform: scale(1);
+      color: hsl(var(--foreground));
+    }
+    10%, 80% { 
+      transform: scale(1.05);
+      color: hsl(142 69% 58%); /* Green flash */
+    }
+  }
+
+  .crypto-price-update {
+    animation: crypto-price-update 3s ease-in-out infinite;
+  }
+
+  /* Enhanced Google-level animations */
+  
+  /* Sophisticated float animation with organic movement */
+  @keyframes organic-float {
+    0%, 100% { 
+      transform: translate(0, 0) rotate(0deg) scale(1);
+      opacity: 0.9;
+    }
+    25% { 
+      transform: translate(5px, -10px) rotate(1deg) scale(1.02);
+      opacity: 1;
+    }
+    50% { 
+      transform: translate(-5px, -15px) rotate(-1deg) scale(1.05);
+      opacity: 0.95;
+    }
+    75% { 
+      transform: translate(3px, -8px) rotate(0.5deg) scale(1.03);
+      opacity: 1;
+    }
+  }
+  
+  .organic-float {
+    animation: organic-float 6s ease-in-out infinite;
+  }
+  
+  /* Morphing blob animation for backgrounds */
+  @keyframes morphing-blob {
+    0%, 100% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    25% {
+      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+      transform: translate3d(5px, -10px, 0) rotate(90deg);
+    }
+    50% {
+      border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%;
+      transform: translate3d(-5px, 5px, 0) rotate(180deg);
+    }
+    75% {
+      border-radius: 60% 30% 60% 70% / 60% 40% 30% 70%;
+      transform: translate3d(-10px, -5px, 0) rotate(270deg);
+    }
+  }
+  
+  .morphing-blob {
+    animation: morphing-blob 8s ease-in-out infinite;
+  }
+  
+  /* Particle sparkle effect */
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
+    }
+  }
+  
+  .sparkle {
+    animation: sparkle 1.5s ease-in-out infinite;
+    animation-delay: calc(var(--delay, 0) * 0.1s);
+  }
+  
+  /* Liquid button hover effect */
+  @keyframes liquid-hover {
+    0% {
+      transform: scale(1) rotate(0deg);
+      border-radius: 8px;
+    }
+    25% {
+      transform: scale(1.02) rotate(1deg);
+      border-radius: 12px 8px 12px 8px;
+    }
+    50% {
+      transform: scale(1.05) rotate(0deg);
+      border-radius: 8px 15px 8px 15px;
+    }
+    75% {
+      transform: scale(1.03) rotate(-1deg);
+      border-radius: 15px 8px 15px 8px;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      border-radius: 8px;
+    }
+  }
+  
+  .liquid-hover:hover {
+    animation: liquid-hover 0.6s ease-in-out;
+  }
+  
+  /* Glowing pulse for important elements */
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 5px hsl(var(--primary) / 0.3),
+                  0 0 10px hsl(var(--primary) / 0.2),
+                  0 0 15px hsl(var(--primary) / 0.1);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 20px hsl(var(--primary) / 0.6),
+                  0 0 30px hsl(var(--primary) / 0.4),
+                  0 0 40px hsl(var(--primary) / 0.2);
+      transform: scale(1.02);
+    }
+  }
+  
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  
+  /* Magnetic hover effect */
+  @keyframes magnetic-pull {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-2px, -2px) scale(1.05); }
+  }
+  
+  .magnetic:hover {
+    animation: magnetic-pull 0.2s ease-out forwards;
+  }
+  
+  /* Ripple effect for buttons */
+  @keyframes ripple {
+    0% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+  
+  .ripple-effect::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: hsl(var(--primary) / 0.3);
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple 0.6s ease-out;
+    pointer-events: none;
+  }
+  
+  /* Advanced text shimmer */
+  @keyframes text-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  
+  .text-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--foreground)) 25%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--foreground)) 75%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer 3s ease-in-out infinite;
+  }
+  
+  /* Elastic bounce on load */
+  @keyframes elastic-bounce {
+    0% {
+      transform: scale(0) rotate(-360deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2) rotate(-180deg);
+      opacity: 0.8;
+    }
+    75% {
+      transform: scale(0.9) rotate(-90deg);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+  
+  .elastic-bounce {
+    animation: elastic-bounce 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  /* Breathing effect for important elements */
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    50% {
+      transform: scale(1.03);
+      filter: brightness(1.1);
+    }
+  }
+  
+  .breathe {
+    animation: breathe 3s ease-in-out infinite;
+  }
+  
+  /* Levitating cards effect */
+  @keyframes levitate {
+    0%, 100% {
+      transform: translateY(0px) rotateX(0deg);
+      box-shadow: 0 10px 25px hsl(var(--foreground) / 0.1);
+    }
+    50% {
+      transform: translateY(-10px) rotateX(2deg);
+      box-shadow: 0 25px 50px hsl(var(--foreground) / 0.15);
+    }
+  }
+  
+  .levitate {
+    animation: levitate 4s ease-in-out infinite;
+    transform-style: preserve-3d;
+  }
 }

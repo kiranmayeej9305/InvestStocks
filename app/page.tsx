@@ -29,7 +29,8 @@ import {
   Bitcoin,
   ThumbsUp,
   Menu,
-  X
+  X,
+  Bell
 } from 'lucide-react'
 import { StockLogo } from '@/components/stocks/stock-logo'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -120,9 +121,9 @@ export default function LandingPage() {
                   </button>
                   <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="p-2">
-                      <Link href="/stocks" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Live Stock Prices</Link>
-                      <Link href="/crypto" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Cryptocurrency</Link>
-                      <Link href="/earnings" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Earnings Calendar</Link>
+                      <Link href="/live-stocks" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Live Stock Prices</Link>
+                      <Link href="/cryptocurrency" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Cryptocurrency</Link>
+                      <Link href="/earnings-calendar" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Earnings Calendar</Link>
                     </div>
                   </div>
                 </div>
@@ -134,10 +135,10 @@ export default function LandingPage() {
                   </button>
                   <div className="absolute top-full left-0 mt-2 w-56 bg-card border border-border rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="p-2">
-                      <Link href="/screener" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Stock Screener</Link>
+                      <Link href="/screener-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Stock Screener</Link>
                       <Link href="/portfolio" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Portfolio Tracker</Link>
                       <Link href="/paper-trading" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Paper Trading</Link>
-                      <Link href="/alerts" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Price Alerts</Link>
+                      <Link href="/alerts-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Price Alerts</Link>
                     </div>
                   </div>
                 </div>
@@ -149,10 +150,10 @@ export default function LandingPage() {
                   </button>
                   <div className="absolute top-full left-0 mt-2 w-52 bg-card border border-border rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="p-2">
-                      <Link href="/trade-ideas" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Trade Ideas</Link>
+                      <Link href="/trade-ideas-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Trade Ideas</Link>
                       <Link href="/analyst-reports" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Analyst Reports</Link>
                       <Link href="/smart-rating" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Smart Ratings</Link>
-                      <Link href="/ai-chat" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Assistant</Link>
+                      <Link href="/ai-assistant" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Assistant</Link>
                     </div>
                   </div>
                 </div>
@@ -209,27 +210,27 @@ export default function LandingPage() {
                   {/* Markets Section */}
                   <div className="mb-4">
                     <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Markets</h3>
-                    <Link href="/stocks" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Live Stock Prices</Link>
-                    <Link href="/crypto" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Cryptocurrency</Link>
-                    <Link href="/earnings" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Earnings Calendar</Link>
+                    <Link href="/live-stocks" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Live Stock Prices</Link>
+                    <Link href="/cryptocurrency" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Cryptocurrency</Link>
+                    <Link href="/earnings-calendar" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Earnings Calendar</Link>
                   </div>
                   
                   {/* Tools Section */}
                   <div className="mb-4">
                     <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Tools</h3>
-                    <Link href="/screener" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Stock Screener</Link>
+                    <Link href="/screener-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Stock Screener</Link>
                     <Link href="/portfolio" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Portfolio Tracker</Link>
                     <Link href="/paper-trading" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Paper Trading</Link>
-                    <Link href="/alerts" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Price Alerts</Link>
+                    <Link href="/alerts-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Price Alerts</Link>
                   </div>
                   
                   {/* Research Section */}
                   <div className="mb-4">
                     <h3 className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Research</h3>
-                    <Link href="/trade-ideas" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Trade Ideas</Link>
+                    <Link href="/trade-ideas-landing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Trade Ideas</Link>
                     <Link href="/analyst-reports" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Analyst Reports</Link>
                     <Link href="/smart-rating" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">Smart Ratings</Link>
-                    <Link href="/ai-chat" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Assistant</Link>
+                    <Link href="/ai-assistant" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors">AI Assistant</Link>
                   </div>
 
                   <Link href="/pricing" className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-lg transition-colors mb-4">Pricing</Link>
@@ -272,11 +273,11 @@ export default function LandingPage() {
                 </Badge>
                 
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent animate-gradient">
+                  <span className="text-shimmer elastic-bounce">
                     Smart Investing
                   </span>
                   <br />
-                  <span className="text-foreground">Made Simple</span>
+                  <span className="text-foreground breathe">Made Simple</span>
                 </h1>
               </div>
               
@@ -288,7 +289,7 @@ export default function LandingPage() {
                 <Link href="/signup">
                   <Button 
                     size="lg"
-                    className="h-14 px-8 text-lg font-semibold shadow-xl bg-primary hover:bg-primary/90 text-primary-foreground transform hover:scale-105 transition-all duration-300"
+                    className="h-14 px-8 text-lg font-semibold glow-pulse liquid-hover magnetic ripple-effect bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300"
                   >
                     Start Free Trial <Zap className="ml-2 h-5 w-5" />
                   </Button>
@@ -297,7 +298,7 @@ export default function LandingPage() {
                   <Button 
                     size="lg"
                     variant="outline"
-                    className="h-14 px-8 text-lg font-semibold border-border hover:bg-muted transform hover:scale-105 transition-all duration-300"
+                    className="h-14 px-8 text-lg font-semibold border-border hover:bg-muted magnetic liquid-hover transform transition-all duration-300"
                   >
                     View Pricing <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -573,25 +574,109 @@ export default function LandingPage() {
             </Card>
           </div>
 
+          {/* Smart Alerts Feature */}
+          <div className="mb-20 group">
+            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 levitate">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-6 animate-slide-in-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-600 text-sm font-medium elastic-bounce">
+                    <Bell className="h-4 w-4" />
+                    Smart Alerts
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                    Never Miss a <span className="text-shimmer">Market Move</span>
+                  </h3>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Get intelligent alerts for price movements, volume spikes, earnings announcements, and breaking news. Our AI filters noise and sends only actionable alerts.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Price Alerts</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Volume Spikes</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">News Alerts</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">AI Filtered</Badge>
+                  </div>
+                  <Link href="/alerts-landing">
+                    <Button className="magnetic liquid-hover">
+                      Explore Alerts <Bell className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+                <div className="relative animate-slide-in-right">
+                  <div className="bg-gradient-to-br from-red-500/20 to-orange-500/5 rounded-2xl p-1 group-hover:from-red-500/30 group-hover:to-orange-500/10 transition-all duration-700 morphing-blob">
+                    <div className="bg-background rounded-xl p-6 space-y-4 group-hover:shadow-lg transition-shadow duration-700">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="font-semibold">Active Alerts</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                          <span className="text-sm text-muted-foreground">3 Triggered</span>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between p-3 bg-red-500/10 border border-red-500/20 rounded-lg animate-slide-in glow-pulse">
+                          <div className="flex items-center gap-3">
+                            <Bell className="h-5 w-5 text-red-500 sparkle" />
+                            <div>
+                              <div className="font-medium text-sm">AAPL $180 Breakout</div>
+                              <div className="text-xs text-muted-foreground">🚨 Price target reached!</div>
+                            </div>
+                          </div>
+                          <span className="text-green-600 font-bold">$182.45</span>
+                        </div>
+                        
+                        <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg animate-slide-in animation-delay-200">
+                          <div className="flex items-center gap-3">
+                            <Activity className="h-5 w-5 text-blue-500" />
+                            <div>
+                              <div className="font-medium text-sm">TSLA Volume Spike</div>
+                              <div className="text-xs text-muted-foreground">2x normal volume</div>
+                            </div>
+                          </div>
+                          <span className="text-blue-600 font-bold">2.4M</span>
+                        </div>
+                        
+                        <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg animate-slide-in animation-delay-400">
+                          <div className="flex items-center gap-3">
+                            <TrendingUp className="h-5 w-5 text-green-500" />
+                            <div>
+                              <div className="font-medium text-sm">MSFT Analyst Upgrade</div>
+                              <div className="text-xs text-muted-foreground">Goldman Sachs: Buy → Strong Buy</div>
+                            </div>
+                          </div>
+                          <span className="text-green-600 font-bold">+3.2%</span>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 p-3 bg-primary/5 rounded-lg border border-primary/20">
+                        <div className="text-sm font-medium text-primary">⚡ AI Insight</div>
+                        <div className="text-xs text-muted-foreground mt-1">Market volatility detected. Consider position sizing carefully.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+
           {/* Portfolio Feature */}
           <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
+            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2 levitate">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="md:order-2 space-y-6 animate-slide-in-right">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-sm font-medium animate-bounce-gentle">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 text-sm font-medium elastic-bounce">
                     <Briefcase className="h-4 w-4" />
                     Portfolio Management
                   </div>
                   <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-                    Smart <span className="text-primary animate-text-shimmer">Portfolio</span> Tracking
+                    Smart <span className="text-shimmer">Portfolio</span> Tracking
                   </h3>
                   <p className="text-lg text-muted-foreground leading-relaxed">
                     Monitor your investments with beautiful dashboards, detailed analytics, and automated performance tracking. Get insights that help you make better decisions.
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Performance Analytics</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Risk Assessment</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Automated Tracking</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Performance Analytics</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Risk Assessment</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Automated Tracking</Badge>
                   </div>
                 </div>
                 <div className="md:order-1 relative animate-slide-in-left">
@@ -969,49 +1054,6 @@ export default function LandingPage() {
               </Link>
             </div>
           </Card>
-        </div>
-
-        {/* Pricing Features */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-bold mb-8">All plans include</h3>
-          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center gap-3 animate-fade-in animation-delay-100">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Shield className="h-6 w-6 text-primary" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-sm">Bank-Level Security</h4>
-                <p className="text-xs text-muted-foreground">256-bit encryption</p>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-3 animate-fade-in animation-delay-200">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Smartphone className="h-6 w-6 text-primary" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-sm">Mobile Apps</h4>
-                <p className="text-xs text-muted-foreground">iOS & Android</p>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-3 animate-fade-in animation-delay-300">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Activity className="h-6 w-6 text-primary" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-sm">Real-Time Data</h4>
-                <p className="text-xs text-muted-foreground">Market updates</p>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-3 animate-fade-in animation-delay-400">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <Brain className="h-6 w-6 text-primary" />
-              </div>
-              <div className="text-center">
-                <h4 className="font-semibold text-sm">AI Insights</h4>
-                <p className="text-xs text-muted-foreground">Smart analysis</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* FAQ Section */}

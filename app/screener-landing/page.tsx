@@ -121,7 +121,7 @@ export default function ScreenerPage() {
                       <div className="screener-filter bg-blue-500 h-2 rounded-full" style={{width: '85%', animationDelay: '1s'}}></div>
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground">> 15%</div>
+                  <div className="text-xs text-muted-foreground">&gt; 15%</div>
                 </div>
                 
                 <div className="space-y-2">
@@ -131,7 +131,7 @@ export default function ScreenerPage() {
                       <div className="screener-filter bg-orange-500 h-2 rounded-full" style={{width: '90%', animationDelay: '1.5s'}}></div>
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground">> 1M shares</div>
+                  <div className="text-xs text-muted-foreground">&gt; 1M shares</div>
                 </div>
               </div>
 
