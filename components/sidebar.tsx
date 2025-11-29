@@ -43,9 +43,9 @@ const navigation = [
   { name: 'Dashboard', href: '/', icon: MdDashboard },
   { name: 'InvestSentry AI', href: '/ai-chat', icon: RiRobot2Line },
   { name: 'Stock', href: '/stocks', icon: RiStockLine },
-  { name: 'Portfolio', href: '/portfolio', icon: MdPieChart },
+  { name: 'Portfolio', href: '/portfolio-landing', icon: MdPieChart },
   { name: 'Crypto', href: '/crypto', icon: MdAccountBalanceWallet },
-  { name: 'Paper Trading', href: '/paper-trading', icon: RiLineChartLine },
+  { name: 'Paper Trading', href: '/paper-trading-landing', icon: RiLineChartLine },
   { name: 'Trade Ideas', href: '/trade-ideas', icon: MdLightbulb },
   { name: 'Fear & Greed', href: '/fear-greed', icon: MdSpeed },
   { name: 'News', href: '/news', icon: MdEmail },
@@ -98,16 +98,16 @@ export function Sidebar() {
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed top-4 left-4 z-[60] p-2.5 rounded-xl border-2 shadow-xl transition-all touch-target"
         style={{
-          background: isOpen ? 'rgba(255, 70, 24, 0.1)' : 'rgba(255, 255, 255, 0.95)',
+          background: isOpen ? 'hsl(var(--primary) / 0.1)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(12px)',
-          borderColor: isOpen ? 'rgb(255, 70, 24)' : 'rgba(200, 200, 200, 0.3)'
+          borderColor: isOpen ? 'hsl(var(--primary))' : 'rgba(200, 200, 200, 0.3)'
         }}
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? (
-          <X className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <X className="w-5 h-5" style={{ color: 'hsl(var(--primary))' }} />
         ) : (
-          <Menu className="w-5 h-5" style={{ color: 'rgb(255, 70, 24)' }} />
+          <Menu className="w-5 h-5" style={{ color: 'hsl(var(--primary))' }} />
         )}
       </button>
 
@@ -126,8 +126,8 @@ export function Sidebar() {
               ) : (
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
                   style={{
-                    background: `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}DD 100%)`,
-                    boxShadow: `0 4px 14px 0 ${primaryColor}63`
+                    background: `linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 60%) 100%)`,
+                    boxShadow: `0 4px 14px 0 hsl(var(--primary) / 0.3)`
                   }}
                 >
                   <RiLineChartLine className="w-6 h-6 text-white" />
@@ -153,8 +153,8 @@ export function Sidebar() {
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
                   )}
                   style={isActive ? {
-                    background: 'linear-gradient(to right, rgba(255, 70, 24, 0.1), rgba(255, 107, 53, 0.1))',
-                    borderColor: 'rgba(255, 70, 24, 0.2)'
+                    background: 'hsl(var(--primary) / 0.1)',
+                    borderColor: 'hsl(var(--primary) / 0.2)'
                   } : {}}
                 >
                   {isActive && (
@@ -166,7 +166,7 @@ export function Sidebar() {
                     "mr-3 w-5 h-5 transition-all relative z-10",
                     isActive ? "" : "text-muted-foreground"
                   )} 
-                  style={isActive ? { color: 'rgb(255, 70, 24)' } : {}}
+                  style={isActive ? { color: 'hsl(var(--primary))' } : {}}
                   />
                   <span className="truncate relative z-10">{item.name}</span>
                 </Link>
@@ -237,6 +237,12 @@ export function Sidebar() {
                 <ThemeToggle />
               </div>
               
+              {/* Theme Toggle */}
+              <div className="flex items-center justify-between px-4 py-2.5">
+                <span className="text-sm font-medium text-muted-foreground">Theme</span>
+                <ThemeToggle />
+              </div>
+              
               {/* Logout Button */}
               <button
                 onClick={() => logout()}
@@ -254,8 +260,8 @@ export function Sidebar() {
               <div className="flex-shrink-0">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center ring-2"
                   style={{
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                    boxShadow: '0 0 0 2px rgba(255, 70, 24, 0.2)'
+                    background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 60%) 100%)',
+                    boxShadow: '0 0 0 2px hsl(var(--primary) / 0.2)'
                   }}
                 >
                   <span className="text-sm font-bold text-white">
