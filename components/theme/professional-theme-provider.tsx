@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import '../../styles/themes/professional-blue.css';
 
 interface ProfessionalThemeContextType {
   isProfessionalTheme: boolean;
@@ -52,10 +51,10 @@ export function ProfessionalThemeProvider({
   // Apply professional theme CSS
   useEffect(() => {
     if (isProfessionalTheme) {
-      // Dynamically import and apply the professional theme
-      document.body.classList.add('professional-theme');
+      // Apply the professional theme by adding a class
+      document.documentElement.classList.add('professional-theme');
     } else {
-      document.body.classList.remove('professional-theme');
+      document.documentElement.classList.remove('professional-theme');
     }
   }, [isProfessionalTheme]);
 
