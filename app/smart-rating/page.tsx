@@ -132,12 +132,12 @@ export default function SmartRatingPage() {
                           {[1,2,3,4,5].map((i) => (
                             <Star 
                               key={i} 
-                              className={`h-6 w-6 rating-stars-fill ${i <= getStarCount(stock.rating) ? 'text-yellow-500 fill-current' : 'text-gray-300'}`} 
+                              className={`h-6 w-6 rating-stars-fill ${i <= getStarCount(stock?.rating || 0) ? 'text-yellow-500 fill-current' : 'text-gray-300'}`} 
                               style={{ animationDelay: `${i * 0.1}s` }}
                             />
                           ))}
                         </div>
-                        <div className="text-lg font-semibold mb-1">{stock.recommendation}</div>
+                        <div className="text-lg font-semibold mb-1">{stock?.recommendation || 'N/A'}</div>
                         <div className="text-sm text-muted-foreground">Overall Rating</div>
                       </div>
                     </Card>
