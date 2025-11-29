@@ -148,9 +148,7 @@
     font-family: 'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
     background: hsl(var(--background));
-    color: hsl(var(--foreground));
     position: relative;
-    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   /* Professional Background Pattern */
@@ -203,15 +201,15 @@
   /* Dark mode background adjustments */
   .dark body::before {
     background-image: 
-      radial-gradient(circle at 20% 20%, hsla(var(--primary), 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsla(var(--secondary), 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 40% 60%, hsla(var(--primary), 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 20% 20%, hsla(var(--primary), 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsla(var(--secondary), 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 40% 60%, hsla(var(--primary), 0.03) 0%, transparent 50%);
   }
 
   .dark body::after {
     background-image: 
-      linear-gradient(hsla(var(--primary), 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(var(--primary), 0.04) 1px, transparent 1px);
+      linear-gradient(hsla(var(--primary), 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(var(--primary), 0.03) 1px, transparent 1px);
   }
   
   /* Ensure proper mobile viewport handling */
