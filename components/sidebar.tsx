@@ -59,36 +59,34 @@ const accountNavigation = [
 ]
 
 export function Sidebar() {
-  const settings = useSiteSettings()
-  const siteName = settings?.siteName || 'InvestSentry'
-  const siteLogo = settings?.siteLogo
-  const primaryColor = settings?.primaryColor || '#ff4618'
-  const [isOpen, setIsOpen] = useState(false)
-  const [showProfileModal, setShowProfileModal] = useState(false)
-  const [showPricingModal, setShowPricingModal] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const { user, logout } = useAuth()
+  const settings = useSiteSettings();
+  const siteName = settings?.siteName || 'InvestSentry';
+  const siteLogo = settings?.siteLogo;
+  const primaryColor = settings?.primaryColor || '#ff4618';
+  const [isOpen, setIsOpen] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showPricingModal, setShowPricingModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { user, logout } = useAuth();
 
-  // Get pathname safely after component mounts
-  const pathnameHook = usePathname()
-  const pathname = mounted ? pathnameHook : ''
+  const pathnameHook = usePathname();
+  const pathname = mounted ? pathnameHook : '';
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
-  // Listen for upgrade events from usage limit guards
   useEffect(() => {
     const handleOpenSubscriptionModal = () => {
-      setShowPricingModal(true)
-    }
+      setShowPricingModal(true);
+    };
 
-    window.addEventListener('openSubscriptionModal', handleOpenSubscriptionModal)
+    window.addEventListener('openSubscriptionModal', handleOpenSubscriptionModal);
     
     return () => {
-      window.removeEventListener('openSubscriptionModal', handleOpenSubscriptionModal)
-    }
-  }, [])
+      window.removeEventListener('openSubscriptionModal', handleOpenSubscriptionModal);
+    };
+  }, []);
 
   return (
     <>
@@ -227,8 +225,8 @@ export function Sidebar() {
                     />
                     <span className="truncate">{item.name}</span>
                   </Link>
-              })
-            }
+                )
+              })}
               
               {/* Logout Button */}
               <button

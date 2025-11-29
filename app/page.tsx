@@ -110,7 +110,7 @@ export default function LandingPage() {
                 <span className="hidden sm:block text-xl md:text-2xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
                   InvestSentry
                 </span>
-                <span className="sm:hidden text-lg font-bold text-foreground">IS</span>
+                <span className="sm:hidden text-lg font-bold text-foreground">InvestSentry</span>
               </div>
               
               {/* Desktop Menu - All Services */}
