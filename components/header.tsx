@@ -19,6 +19,7 @@ import { UserProfileDropdown } from '@/components/user-profile-dropdown'
 import { ProfileModal } from '@/components/profile-modal'
 import { BillingModal } from '@/components/billing-modal'
 import { NotificationsCenter } from '@/components/notifications-center'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 function UserOrLogin() {
   const settings = useSiteSettings()
@@ -322,6 +323,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <ThemeToggle />
           {isAuthenticated ? (
             <div className="flex items-center gap-2">
               <NotificationsCenter />

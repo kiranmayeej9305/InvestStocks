@@ -335,13 +335,13 @@ export default function LandingPage() {
                           <p className="text-xs text-muted-foreground">Live Dashboard</p>
                         </div>
                       </div>
-                      <Badge className="bg-green-500/10 text-green-600 animate-pulse">Live</Badge>
+                      <Badge className="bg-primary/10 text-primary animate-pulse">Live</Badge>
                     </div>
 
                     {/* Portfolio Value */}
-                    <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-xl p-4">
-                      <div className="text-2xl font-bold text-green-600 animate-count-up">$125,432.18</div>
-                      <div className="text-sm text-green-600 flex items-center gap-1">
+                    <div className="bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-xl p-4">
+                      <div className="text-2xl font-bold text-primary animate-count-up">$125,432.18</div>
+                      <div className="text-sm text-primary flex items-center gap-1">
                         <TrendingUp className="h-3 w-3" />
                         +12.3% this month
                       </div>
@@ -370,7 +370,7 @@ export default function LandingPage() {
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium">$182.45</div>
-                          <div className="text-xs text-green-600">+2.3%</div>
+                          <div className="text-xs text-primary">+2.3%</div>
                         </div>
                       </div>
                       
@@ -383,7 +383,7 @@ export default function LandingPage() {
                         </div>
                         <div className="text-right">
                           <div className="text-sm font-medium">$248.92</div>
-                          <div className="text-xs text-green-600">+5.7%</div>
+                          <div className="text-xs text-primary">+5.7%</div>
                         </div>
                       </div>
                     </div>
@@ -404,7 +404,7 @@ export default function LandingPage() {
                 {/* Floating Notification Card */}
                 <div className="absolute -bottom-4 -left-4 bg-card/90 backdrop-blur-xl border border-border rounded-2xl p-3 shadow-xl animate-slide-up animation-delay-800">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                     <span className="text-xs font-medium">New Trade Alert</span>
                   </div>
                   <div className="text-xs text-muted-foreground">MSFT hit your target price</div>
@@ -442,7 +442,7 @@ export default function LandingPage() {
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Personalized Advice</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Market Insights</Badge>
                   </div>
-                  <Link href="/ai-chat">
+                  <Link href="/ai-assistant">
                     <Button className="magnetic liquid-hover">
                       Try AI Assistant <MessageSquare className="ml-2 h-4 w-4" />
                     </Button>
@@ -454,7 +454,7 @@ export default function LandingPage() {
                       <div className="flex items-center gap-3">
                         <Brain className="h-6 w-6 text-primary animate-pulse" />
                         <span className="text-sm text-muted-foreground">AI Assistant</span>
-                        <div className="ml-auto w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <div className="ml-auto w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                       </div>
                       <div className="space-y-3">
                         <div className="bg-muted/50 rounded-lg p-3 text-sm animate-type-writer">Should I invest in AAPL now?</div>
@@ -472,44 +472,49 @@ export default function LandingPage() {
           </div>
 
           {/* Real-time Data Feature */}
-          <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="md:order-2 space-y-6 animate-slide-in-right">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 text-green-600 text-sm font-medium animate-bounce-gentle">
+          <div className="mb-12 lg:mb-20 group">
+            <Card className="p-4 sm:p-6 md:p-8 lg:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                <div className="lg:order-2 space-y-4 lg:space-y-6 animate-slide-in-right">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium animate-bounce-gentle">
                     <Activity className="h-4 w-4" />
                     Live Data
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                     <span className="text-primary animate-text-shimmer">Real-Time</span> Market Data & News
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                  <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
                     Stay ahead of the market with live stock prices, instant news alerts, and real-time portfolio tracking. Never miss a market opportunity again.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Live Prices</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">News Alerts</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Portfolio Sync</Badge>
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Live Prices</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">News Alerts</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Portfolio Sync</Badge>
                   </div>
+                  <Link href="/live-stocks">
+                    <Button className="w-full sm:w-auto magnetic liquid-hover">
+                      View Live Data <Activity className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
-                <div className="md:order-1 relative animate-slide-in-left">
-                  <div className="bg-gradient-to-br from-green-500/20 to-green-500/5 rounded-2xl p-1 group-hover:from-green-500/30 group-hover:to-green-500/10 transition-all duration-700 animate-gradient-shift">
-                    <div className="bg-background rounded-xl p-6 group-hover:shadow-lg transition-shadow duration-700">
+                <div className="lg:order-1 relative animate-slide-in-left">
+                  <div className="bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-1 group-hover:from-primary/30 group-hover:to-primary/10 transition-all duration-700 animate-gradient-shift">
+                    <div className="bg-background rounded-xl p-4 lg:p-6 group-hover:shadow-lg transition-shadow duration-700">
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <span className="font-medium">AAPL</span>
-                          <span className="text-green-500 text-sm flex items-center gap-1 animate-pulse">
+                          <span className="font-medium text-sm lg:text-base">AAPL</span>
+                          <span className="text-green-500 text-xs lg:text-sm flex items-center gap-1 animate-pulse">
                             <TrendingUp className="h-3 w-3" />
                             +2.3%
                           </span>
                         </div>
-                        <div className="text-2xl font-bold animate-count-up">$182.45</div>
+                        <div className="text-xl lg:text-2xl font-bold animate-count-up">$182.45</div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div className="h-full w-3/4 bg-gradient-to-r from-primary to-green-500 animate-progress-bar"></div>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                          <div className="bg-green-500/10 text-green-600 rounded p-2 animate-fade-in animation-delay-500">Day High: $184.20</div>
-                          <div className="bg-red-500/10 text-red-600 rounded p-2 animate-fade-in animation-delay-700">Day Low: $180.15</div>
+                        <div className="grid grid-cols-2 gap-1 lg:gap-2 text-xs">
+                          <div className="bg-green-500/10 text-green-600 rounded p-1 lg:p-2 animate-fade-in animation-delay-500 text-center">Day High: $184.20</div>
+                          <div className="bg-red-500/10 text-red-600 rounded p-1 lg:p-2 animate-fade-in animation-delay-700 text-center">Day Low: $180.15</div>
                         </div>
                       </div>
                     </div>
@@ -520,53 +525,58 @@ export default function LandingPage() {
           </div>
 
           {/* Earnings Alerts Feature */}
-          <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-6 animate-slide-in-left">
+          <div className="mb-12 lg:mb-20 group">
+            <Card className="p-4 sm:p-6 md:p-8 lg:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                <div className="space-y-4 lg:space-y-6 animate-slide-in-left">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-600 text-sm font-medium">
                     <Target className="h-4 w-4" />
                     Earnings Alerts
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                     Never Miss <span className="text-primary animate-text-shimmer">Earnings Reports</span>
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                  <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
                     Get real-time alerts for earnings announcements, analyst upgrades, and market-moving news. Stay informed with personalized notifications that matter to your portfolio.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Earnings Calendar</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Analyst Updates</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Smart Alerts</Badge>
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Earnings Calendar</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Analyst Updates</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Smart Alerts</Badge>
                   </div>
+                  <Link href="/earnings-calendar">
+                    <Button className="w-full sm:w-auto magnetic liquid-hover">
+                      View Earnings Calendar <Target className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="relative animate-slide-in-right">
                   <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/5 rounded-2xl p-1 group-hover:from-yellow-500/30 group-hover:to-orange-500/10 transition-all duration-700 animate-gradient-shift">
-                    <div className="bg-background rounded-xl p-6 space-y-4 group-hover:shadow-lg transition-shadow duration-700">
+                    <div className="bg-background rounded-xl p-4 lg:p-6 space-y-4 group-hover:shadow-lg transition-shadow duration-700">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Upcoming Earnings</span>
-                        <Badge className="bg-yellow-500/20 text-yellow-700 animate-pulse">Today</Badge>
+                        <span className="text-xs lg:text-sm text-muted-foreground">Upcoming Earnings</span>
+                        <Badge className="bg-yellow-500/20 text-yellow-700 animate-pulse text-xs">Today</Badge>
                       </div>
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg animate-slide-in animation-delay-100">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                      <div className="space-y-2 lg:space-y-3">
+                        <div className="flex items-center justify-between p-2 lg:p-3 bg-muted/30 rounded-lg animate-slide-in animation-delay-100">
+                          <div className="flex items-center gap-2 lg:gap-3">
+                            <div className="w-6 h-6 lg:w-8 lg:h-8 bg-blue-600 rounded-full flex items-center justify-center">
                               <span className="text-white text-xs font-bold">M</span>
                             </div>
                             <div>
-                              <div className="font-medium text-sm">MSFT</div>
+                              <div className="font-medium text-xs lg:text-sm">MSFT</div>
                               <div className="text-xs text-muted-foreground">After Market</div>
                             </div>
                           </div>
                           <Button size="sm" variant="outline" className="text-xs">Set Alert</Button>
                         </div>
-                        <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg animate-slide-in animation-delay-200">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <div className="flex items-center justify-between p-2 lg:p-3 bg-muted/30 rounded-lg animate-slide-in animation-delay-200">
+                          <div className="flex items-center gap-2 lg:gap-3">
+                            <div className="w-6 h-6 lg:w-8 lg:h-8 bg-green-600 rounded-full flex items-center justify-center">
                               <span className="text-white text-xs font-bold">N</span>
                             </div>
                             <div>
-                              <div className="font-medium text-sm">NVDA</div>
+                              <div className="font-medium text-xs lg:text-sm">NVDA</div>
                               <div className="text-xs text-muted-foreground">Tomorrow PM</div>
                             </div>
                           </div>
@@ -581,28 +591,28 @@ export default function LandingPage() {
           </div>
 
           {/* Smart Alerts Feature */}
-          <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 levitate">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-6 animate-slide-in-left">
+          <div className="mb-12 lg:mb-20 group">
+            <Card className="p-4 sm:p-6 md:p-8 lg:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 levitate">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                <div className="space-y-4 lg:space-y-6 animate-slide-in-left">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 text-red-600 text-sm font-medium elastic-bounce">
                     <Bell className="h-4 w-4" />
                     Smart Alerts
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                     Never Miss a <span className="text-shimmer">Market Move</span>
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                  <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
                     Get intelligent alerts for price movements, volume spikes, earnings announcements, and breaking news. Our AI filters noise and sends only actionable alerts.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Price Alerts</Badge>
-                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Volume Spikes</Badge>
-                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">News Alerts</Badge>
-                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">AI Filtered</Badge>
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform text-xs lg:text-sm">Price Alerts</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform text-xs lg:text-sm">Volume Spikes</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform text-xs lg:text-sm">News Alerts</Badge>
+                    <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform text-xs lg:text-sm">AI Filtered</Badge>
                   </div>
                   <Link href="/alerts-landing">
-                    <Button className="magnetic liquid-hover">
+                    <Button className="w-full sm:w-auto magnetic liquid-hover">
                       Explore Alerts <Bell className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
@@ -780,27 +790,27 @@ export default function LandingPage() {
           </div>
 
           {/* TradingView Charts Feature */}
-          <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="md:order-2 space-y-6 animate-slide-in-right">
+          <div className="mb-12 lg:mb-20 group">
+            <Card className="p-4 sm:p-6 md:p-8 lg:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                <div className="lg:order-2 space-y-4 lg:space-y-6 animate-slide-in-right">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 text-sm font-medium">
                     <LineChart className="h-4 w-4" />
                     Advanced Charting
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                     Professional <span className="text-primary animate-text-shimmer">TradingView</span> Charts
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                  <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
                     Access the same professional-grade charting tools used by Wall Street traders. Technical analysis made simple with integrated TradingView charts.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Technical Indicators</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Multiple Timeframes</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Drawing Tools</Badge>
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Technical Indicators</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Multiple Timeframes</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Drawing Tools</Badge>
                   </div>
                   <Link href="/stocks">
-                    <Button className="magnetic liquid-hover">
+                    <Button className="w-full sm:w-auto magnetic liquid-hover">
                       View Charts <LineChart className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
@@ -840,27 +850,27 @@ export default function LandingPage() {
           </div>
 
           {/* Stock Screener Feature */}
-          <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-6 animate-slide-in-left">
+          <div className="mb-12 lg:mb-20 group">
+            <Card className="p-4 sm:p-6 md:p-8 lg:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                <div className="space-y-4 lg:space-y-6 animate-slide-in-left">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-sm font-medium">
                     <Star className="h-4 w-4" />
                     Stock Discovery
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
                     Smart <span className="text-primary animate-text-shimmer">Stock Screener</span>
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                  <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
                     Discover hidden gems with our advanced screening tools. Filter by fundamentals, technicals, and market sentiment to find your next winning investment.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Custom Filters</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Fundamental Analysis</Badge>
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Opportunity Alerts</Badge>
+                  <div className="flex flex-wrap gap-2 lg:gap-3">
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Custom Filters</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Fundamental Analysis</Badge>
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs lg:text-sm">Opportunity Alerts</Badge>
                   </div>
-                  <Link href="/screener">
-                    <Button className="magnetic liquid-hover">
+                  <Link href="/screener-landing">
+                    <Button className="w-full sm:w-auto magnetic liquid-hover">
                       Try Screener <Star className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>

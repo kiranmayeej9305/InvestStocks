@@ -65,7 +65,7 @@ export function FearGreedIndexCard() {
       case 'neutral':
         return 'text-yellow-500 dark:text-yellow-300'
       case 'greed':
-        return 'text-green-600 dark:text-green-400'
+        return 'text-primary dark:text-primary'
       case 'extreme greed':
         return 'text-emerald-600 dark:text-emerald-400'
       default:
@@ -99,7 +99,7 @@ export function FearGreedIndexCard() {
       case 'neutral':
         return 'bg-yellow-500/10'
       case 'greed':
-        return 'bg-green-500/10'
+        return 'bg-primary/10'
       case 'extreme greed':
         return 'bg-emerald-500/10'
       default:

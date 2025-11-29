@@ -16,7 +16,6 @@ import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/theme-toggle'
 import { 
   MdDashboard, 
   MdShowChart, 
@@ -159,7 +158,7 @@ export function Sidebar() {
                 >
                   {isActive && (
                     <div className="absolute inset-0 blur-xl" style={{ 
-                      background: 'linear-gradient(to right, rgba(255, 70, 24, 0.05), rgba(255, 107, 53, 0.05))' 
+                      background: 'linear-gradient(to right, hsl(var(--primary) / 0.05), hsl(217 91% 60% / 0.05))' 
                     }} />
                   )}
                   <Icon className={cn(
@@ -223,25 +222,13 @@ export function Sidebar() {
                   >
                     <Icon className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
                       style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'hsl(var(--primary))')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                     />
                     <span className="truncate">{item.name}</span>
                   </Link>
-                )
-              })}
-              
-              {/* Theme Toggle */}
-              <div className="flex items-center justify-between px-4 py-2.5">
-                <span className="text-sm font-medium text-muted-foreground">Theme</span>
-                <ThemeToggle />
-              </div>
-              
-              {/* Theme Toggle */}
-              <div className="flex items-center justify-between px-4 py-2.5">
-                <span className="text-sm font-medium text-muted-foreground">Theme</span>
-                <ThemeToggle />
-              </div>
+              })
+            }
               
               {/* Logout Button */}
               <button

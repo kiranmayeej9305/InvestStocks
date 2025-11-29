@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import { IconSpinner } from '@/components/ui/icons'
-import { TrendingUp, Mail, Lock, Eye, EyeOff, User, ArrowLeft } from 'lucide-react'
+import { TrendingUp, Mail, Lock, Eye, EyeOff, User, ArrowLeft, ChartNoAxesCombined } from 'lucide-react'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -138,7 +138,7 @@ export default function SignupPage() {
           {/* Enhanced Logo/Brand */}
           <div className="text-center mb-10">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105 bg-primary">
-              <TrendingUp className="h-10 w-10 text-primary-foreground" />
+              <ChartNoAxesCombined  className="h-10 w-10 text-primary-foreground" />
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-2">
               InvestSentry
@@ -243,7 +243,7 @@ export default function SignupPage() {
               ) : (
                 <>
                   Create Account
-                  <TrendingUp className="ml-2 h-5 w-5" />
+                  <ChartNoAxesCombined className="ml-2 h-5 w-5" />
                 </>
               )}
             </Button>
