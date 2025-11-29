@@ -1,26 +1,46 @@
 import nodemailer from 'nodemailer'
 
-// Get SMTP credentials from environment variables
-const getSMTPConfig = () => {
-  const email = process.env.SMTP_EMAIL || 'hey@webbuddy.agency'
-  const password = (process.env.SMTP_PASSWORD || 'gamb chbl svrv vujv').replace(/\s/g, '')
+// Email service configuration - supports multiple providers
+const getEmailConfig = () => {
+  const provider = process.env.EMAIL_PROVIDER || 'gmail' // 'gmail', 'resend', 'sendgrid', 'smtp'
   
-  return {
-    service: 'gmail',
-    auth: {
-      user: email,
-      pass: password,
-    },
+  switch (provider) {
+    case 'resend':
+      return {
+        provider: 'resend',
+        apiKey: process.env.RESEND_API_KEY,
+        fromEmail: process.env.FROM_EMAIL || 'noreply@yourdomain.com',
+        fromName: process.env.FROM_NAME || 'InvestSentry'
+      }
+    case 'sendgrid':
+      return {
+        provider: 'sendgrid',
+        apiKey: process.env.SENDGRID_API_KEY,
+        fromEmail: process.env.FROM_EMAIL || 'noreply@yourdomain.com',
+        fromName: process.env.FROM_NAME || 'InvestSentry'
+      }
+    case 'smtp':
+      return {
+        provider: 'smtp',
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT || '587'),
+        secure: process.env.SMTP_SECURE === 'true',
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+        fromEmail: process.env.FROM_EMAIL || process.env.SMTP_USER || 'noreply@yourdomain.com',
+        fromName: process.env.FROM_NAME || 'InvestSentry'
+      }
+    case 'gmail':
+    default:
+      return {
+        provider: 'gmail',
+        user: process.env.SMTP_EMAIL || 'hey@webbuddy.agency',
+        pass: (process.env.SMTP_PASSWORD || 'gamb chbl svrv vujv').replace(/\s/g, ''),
+        fromEmail: process.env.FROM_EMAIL || process.env.SMTP_EMAIL || 'hey@webbuddy.agency',
+        fromName: process.env.FROM_NAME || 'InvestSentry'
+      }
   }
 }
-
-// Create reusable transporter object using Gmail SMTP
-// Create a new transporter each time to ensure fresh connection
-const createTransporter = () => {
-  return nodemailer.createTransport(getSMTPConfig())
-}
-
-// Note: We create transporter on-demand to ensure fresh connections
 
 interface SendEmailOptions {
   to: string
@@ -29,141 +49,331 @@ interface SendEmailOptions {
   text?: string
 }
 
-export async function sendEmail({ to, subject, html, text }: SendEmailOptions): Promise<boolean> {
+// Resend.com implementation (Recommended for custom domains)
+async function sendEmailWithResend({ to, subject, html, text }: SendEmailOptions): Promise<boolean> {
   try {
-    console.log(`[Email] sendEmail function called`)
-    const smtpEmail = process.env.SMTP_EMAIL || 'hey@webbuddy.agency'
-    const smtpPassword = (process.env.SMTP_PASSWORD || 'gamb chbl svrv vujv').replace(/\s/g, '')
-    
-    console.log(`[Email] SMTP Email: ${smtpEmail}`)
-    console.log(`[Email] SMTP Password length: ${smtpPassword.length}`)
-    
-    // Create a fresh transporter for each email
-    console.log(`[Email] Creating transporter...`)
-    const transporter = createTransporter()
-    
-    // Verify connection first (but don't fail if it times out)
-    try {
-      console.log(`[Email] Verifying SMTP connection...`)
-      await Promise.race([
-        transporter.verify(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Verification timeout')), 5000))
-      ])
-      console.log(`[Email] ✓ SMTP connection verified`)
-    } catch (verifyError: any) {
-      console.warn(`[Email] ⚠ SMTP verification warning:`, verifyError.message)
-      // Continue anyway - sometimes verification can timeout but sending still works
-    }
-    
-    const mailOptions = {
-      from: `InvestSentry <${smtpEmail}>`,
-      to,
-      subject,
-      html,
-      text: text || html.replace(/<[^>]*>/g, ''), // Strip HTML tags for text version
+    const config = getEmailConfig()
+    if (config.provider !== 'resend' || !config.apiKey) {
+      throw new Error('Resend API key not configured')
     }
 
-    console.log(`[Email] Sending email to: ${to}`)
-    console.log(`[Email] Subject: ${subject}`)
-    const info = await transporter.sendMail(mailOptions)
-    console.log(`[Email] ✓ Email sent successfully!`)
-    console.log(`[Email] Message ID: ${info.messageId}`)
-    console.log(`[Email] Response: ${info.response}`)
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${config.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: `${config.fromName} <${config.fromEmail}>`,
+        to: [to],
+        subject,
+        html,
+        text: text || html.replace(/<[^>]*>/g, '')
+      })
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(`Resend API error: ${error.message}`)
+    }
+
+    const result = await response.json()
+    console.log('[Email] ✓ Email sent via Resend:', result.id)
     return true
   } catch (error: any) {
-    console.error('[Email] ✗ Error sending email:')
-    console.error('[Email] Error message:', error.message)
-    console.error('[Email] Error name:', error.name)
-    if (error.code) {
-      console.error('[Email] Error code:', error.code)
-    }
-    if (error.responseCode === 535) {
-      console.error('[Email] Authentication failed - check your Gmail App Password')
-    }
-    if (error.response) {
-      console.error('[Email] Server response:', error.response)
-    }
-    if (error.stack) {
-      console.error('[Email] Stack trace:', error.stack)
-    }
+    console.error('[Email] ✗ Resend error:', error.message)
     return false
   }
 }
 
+// SendGrid implementation
+async function sendEmailWithSendGrid({ to, subject, html, text }: SendEmailOptions): Promise<boolean> {
+  try {
+    const config = getEmailConfig()
+    if (config.provider !== 'sendgrid' || !config.apiKey) {
+      throw new Error('SendGrid API key not configured')
+    }
+
+    const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${config.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        personalizations: [{ to: [{ email: to }] }],
+        from: { email: config.fromEmail, name: config.fromName },
+        subject,
+        content: [
+          { type: 'text/html', value: html },
+          { type: 'text/plain', value: text || html.replace(/<[^>]*>/g, '') }
+        ]
+      })
+    })
+
+    if (!response.ok) {
+      const error = await response.text()
+      throw new Error(`SendGrid API error: ${error}`)
+    }
+
+    console.log('[Email] ✓ Email sent via SendGrid')
+    return true
+  } catch (error: any) {
+    console.error('[Email] ✗ SendGrid error:', error.message)
+    return false
+  }
+}
+
+// Custom SMTP implementation (for your own mail server)
+async function sendEmailWithSMTP({ to, subject, html, text }: SendEmailOptions): Promise<boolean> {
+  try {
+    const config = getEmailConfig()
+    if (config.provider !== 'smtp') {
+      throw new Error('SMTP configuration not set')
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      auth: {
+        user: config.user,
+        pass: config.pass
+      }
+    })
+
+    const mailOptions = {
+      from: `${config.fromName} <${config.fromEmail}>`,
+      to,
+      subject,
+      html,
+      text: text || html.replace(/<[^>]*>/g, '')
+    }
+
+    const info = await transporter.sendMail(mailOptions)
+    console.log('[Email] ✓ Email sent via SMTP:', info.messageId)
+    return true
+  } catch (error: any) {
+    console.error('[Email] ✗ SMTP error:', error.message)
+    return false
+  }
+}
+
+// Gmail fallback (existing implementation)
+async function sendEmailWithGmail({ to, subject, html, text }: SendEmailOptions): Promise<boolean> {
+  try {
+    const config = getEmailConfig()
+    if (config.provider !== 'gmail') {
+      throw new Error('Gmail configuration not set')
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: config.user,
+        pass: config.pass
+      }
+    })
+
+    const mailOptions = {
+      from: `${config.fromName} <${config.fromEmail}>`,
+      to,
+      subject,
+      html,
+      text: text || html.replace(/<[^>]*>/g, '')
+    }
+
+    const info = await transporter.sendMail(mailOptions)
+    console.log('[Email] ✓ Email sent via Gmail:', info.messageId)
+    return true
+  } catch (error: any) {
+    console.error('[Email] ✗ Gmail error:', error.message)
+    return false
+  }
+}
+
+// Main email sending function with provider fallback
+export async function sendEmail({ to, subject, html, text }: SendEmailOptions): Promise<boolean> {
+  try {
+    console.log(`[Email] Sending email to: ${to}`)
+    const config = getEmailConfig()
+    console.log(`[Email] Using provider: ${config.provider}`)
+
+    // Try the configured provider first
+    switch (config.provider) {
+      case 'resend':
+        return await sendEmailWithResend({ to, subject, html, text })
+      case 'sendgrid':
+        return await sendEmailWithSendGrid({ to, subject, html, text })
+      case 'smtp':
+        return await sendEmailWithSMTP({ to, subject, html, text })
+      case 'gmail':
+      default:
+        return await sendEmailWithGmail({ to, subject, html, text })
+    }
+  } catch (error: any) {
+    console.error('[Email] ✗ Email sending failed:', error.message)
+    
+    // Fallback to Gmail if primary provider fails
+    if (getEmailConfig().provider !== 'gmail') {
+      console.log('[Email] Attempting Gmail fallback...')
+      try {
+        const originalProvider = process.env.EMAIL_PROVIDER
+        process.env.EMAIL_PROVIDER = 'gmail'
+        const result = await sendEmailWithGmail({ to, subject, html, text })
+        process.env.EMAIL_PROVIDER = originalProvider
+        return result
+      } catch (fallbackError: any) {
+        console.error('[Email] ✗ Gmail fallback also failed:', fallbackError.message)
+      }
+    }
+    
+    return false
+  }
+}
+
+// Helper function for password reset emails
 export async function sendPasswordResetEmail(email: string, resetUrl: string, userName?: string): Promise<boolean> {
   console.log('[Email] sendPasswordResetEmail called with:', { email, resetUrl, userName })
   
   const html = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reset Your Password</title>
-      </head>
-      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
+        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Password Reset Request</p>
+      </div>
+      
+      <div style="padding: 40px 20px; background: #f8fafc;">
+        <h2 style="color: #1e293b; margin: 0 0 20px 0;">Reset Your Password</h2>
+        <p style="color: #475569; line-height: 1.6; margin: 0 0 20px 0;">
+          ${userName ? `Hi ${userName},` : 'Hi there,'}
+        </p>
+        <p style="color: #475569; line-height: 1.6; margin: 0 0 20px 0;">
+          We received a request to reset your password. Click the button below to create a new password:
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${resetUrl}" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 12px 30px; 
+                    text-decoration: none; 
+                    border-radius: 6px; 
+                    font-weight: 600;
+                    display: inline-block;">
+            Reset Password
+          </a>
         </div>
-        <div style="background: #ffffff; padding: 40px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
-          <h2 style="color: #1f2937; margin-top: 0;">Reset Your Password</h2>
-          <p style="color: #6b7280; font-size: 16px;">
-            ${userName ? `Hi ${userName},` : 'Hi there,'}
-          </p>
-          <p style="color: #6b7280; font-size: 16px;">
-            We received a request to reset your password for your InvestSentry account. Click the button below to reset your password:
-          </p>
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${resetUrl}" style="display: inline-block; background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(255, 70, 24, 0.3);">
-              Reset Password
-            </a>
-          </div>
-          <p style="color: #6b7280; font-size: 14px; margin-top: 30px;">
-            Or copy and paste this link into your browser:
-          </p>
-          <p style="color: #3b82f6; font-size: 14px; word-break: break-all;">
-            ${resetUrl}
-          </p>
-          <p style="color: #9ca3af; font-size: 14px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-            This link will expire in 1 hour. If you didn't request a password reset, please ignore this email or contact support if you have concerns.
-          </p>
-          <p style="color: #9ca3af; font-size: 14px; margin-top: 20px;">
-            Best regards,<br>
-            The InvestSentry Team
-          </p>
-        </div>
-        <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
-          <p>© ${new Date().getFullYear()} InvestSentry. All rights reserved.</p>
-        </div>
-      </body>
-    </html>
+        
+        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
+          If you didn't request this password reset, you can safely ignore this email. 
+          Your password will remain unchanged.
+        </p>
+        
+        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 10px 0 0 0;">
+          This link will expire in 1 hour for security reasons.
+        </p>
+      </div>
+      
+      <div style="background: #e2e8f0; padding: 20px; text-align: center;">
+        <p style="color: #64748b; margin: 0; font-size: 12px;">
+          © 2024 InvestSentry. All rights reserved.
+        </p>
+      </div>
+    </div>
   `
 
   const text = `
-Reset Your Password - InvestSentry
-
-${userName ? `Hi ${userName},` : 'Hi there,'}
-
-We received a request to reset your password for your InvestSentry account. Click the link below to reset your password:
-
-${resetUrl}
-
-This link will expire in 1 hour. If you didn't request a password reset, please ignore this email or contact support if you have concerns.
-
-Best regards,
-The InvestSentry Team
-
-© ${new Date().getFullYear()} InvestSentry. All rights reserved.
+    InvestSentry - Password Reset Request
+    
+    ${userName ? `Hi ${userName},` : 'Hi there,'}
+    
+    We received a request to reset your password. 
+    
+    Click this link to reset your password: ${resetUrl}
+    
+    If you didn't request this password reset, you can safely ignore this email.
+    
+    This link will expire in 1 hour for security reasons.
+    
+    © 2024 InvestSentry. All rights reserved.
   `
 
-  return sendEmail({
+  return await sendEmail({
     to: email,
     subject: 'Reset Your InvestSentry Password',
     html,
-    text,
+    text
   })
 }
 
+// Helper function for stock alert emails
+export async function sendStockAlertEmail(
+  to: string, 
+  stockSymbol: string, 
+  alertType: string, 
+  currentPrice: number, 
+  targetPrice: number
+): Promise<boolean> {
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
+        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Stock Price Alert</p>
+      </div>
+      
+      <div style="padding: 40px 20px; background: #f8fafc;">
+        <h2 style="color: #1e293b; margin: 0 0 20px 0;">🚨 Alert: ${stockSymbol}</h2>
+        <p style="color: #475569; line-height: 1.6; margin: 0 0 20px 0;">
+          Your stock alert for <strong>${stockSymbol}</strong> has been triggered!
+        </p>
+        
+        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            <span style="color: #64748b;">Alert Type:</span>
+            <strong style="color: #1e293b;">${alertType}</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            <span style="color: #64748b;">Current Price:</span>
+            <strong style="color: #059669;">$${currentPrice}</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+            <span style="color: #64748b;">Target Price:</span>
+            <strong style="color: #1e293b;">$${targetPrice}</strong>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/stocks/${stockSymbol}" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 12px 30px; 
+                    text-decoration: none; 
+                    border-radius: 6px; 
+                    font-weight: 600;
+                    display: inline-block;">
+            View ${stockSymbol}
+          </a>
+        </div>
+      </div>
+      
+      <div style="background: #e2e8f0; padding: 20px; text-align: center;">
+        <p style="color: #64748b; margin: 0; font-size: 12px;">
+          © 2024 InvestSentry. All rights reserved.
+        </p>
+      </div>
+    </div>
+  `
+
+  return await sendEmail({
+    to,
+    subject: `🚨 Stock Alert: ${stockSymbol} - ${alertType}`,
+    html,
+    text: `Stock Alert: ${stockSymbol} has reached your target price of $${targetPrice}. Current price: $${currentPrice}`
+  })
+}
+
+// Helper function for alert emails (compatible with existing alert system)
 export async function sendAlertEmail(
   email: string,
   alert: {
@@ -192,78 +402,77 @@ export async function sendAlertEmail(
     : `has experienced a volume spike`
 
   const html = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Price Alert Triggered</title>
-      </head>
-      <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <div style="background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
-        </div>
-        <div style="background: #ffffff; padding: 40px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;">
-          <h2 style="color: #1f2937; margin-top: 0;">🔔 Price Alert Triggered</h2>
-          <p style="color: #6b7280; font-size: 16px;">
-            ${userName ? `Hi ${userName},` : 'Hi there,'}
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
+        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Price Alert Triggered</p>
+      </div>
+      
+      <div style="padding: 40px 20px; background: #f8fafc;">
+        <h2 style="color: #1e293b; margin: 0 0 20px 0;">🔔 Price Alert Triggered</h2>
+        <p style="color: #475569; line-height: 1.6; margin: 0 0 20px 0;">
+          ${userName ? `Hi ${userName},` : 'Hi there,'}
+        </p>
+        
+        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #667eea;">
+          <p style="margin: 0; font-size: 18px; font-weight: 600; color: #1e293b;">
+            ${alert.symbol} (${alert.name})
           </p>
-          <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid rgb(255, 70, 24);">
-            <p style="margin: 0; font-size: 18px; font-weight: 600; color: #1f2937;">
-              ${alert.symbol} (${alert.name})
-            </p>
-            <p style="margin: 8px 0 0 0; font-size: 16px; color: #6b7280;">
-              ${alertMessage}
-            </p>
-            <p style="margin: 12px 0 0 0; font-size: 20px; font-weight: 700; color: rgb(255, 70, 24);">
-              Current Price: $${alert.currentValue.toFixed(2)}
-            </p>
-          </div>
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${alert.assetType === 'stock' ? 'stocks' : 'crypto'}" style="display: inline-block; background: linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%); color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px rgba(255, 70, 24, 0.3);">
-              View ${alert.assetType === 'stock' ? 'Stock' : 'Crypto'}
-            </a>
-          </div>
-          <p style="color: #9ca3af; font-size: 14px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-            You can manage your alerts in your InvestSentry dashboard.
+          <p style="margin: 8px 0 0 0; font-size: 16px; color: #475569;">
+            ${alertMessage}
           </p>
-          <p style="color: #9ca3af; font-size: 14px; margin-top: 20px;">
-            Best regards,<br>
-            The InvestSentry Team
+          <p style="margin: 12px 0 0 0; font-size: 20px; font-weight: 700; color: #059669;">
+            Current Price: $${alert.currentValue.toFixed(2)}
           </p>
         </div>
-        <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
-          <p>© ${new Date().getFullYear()} InvestSentry. All rights reserved.</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${alert.assetType === 'stock' ? 'stocks' : 'crypto'}" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 12px 30px; 
+                    text-decoration: none; 
+                    border-radius: 6px; 
+                    font-weight: 600;
+                    display: inline-block;">
+            View ${alert.assetType === 'stock' ? 'Stock' : 'Crypto'}
+          </a>
         </div>
-      </body>
-    </html>
+        
+        <p style="color: #64748b; font-size: 14px; margin: 20px 0 0 0;">
+          You can manage your alerts in your InvestSentry dashboard.
+        </p>
+      </div>
+      
+      <div style="background: #e2e8f0; padding: 20px; text-align: center;">
+        <p style="color: #64748b; margin: 0; font-size: 12px;">
+          © 2024 InvestSentry. All rights reserved.
+        </p>
+      </div>
+    </div>
   `
 
   const text = `
-Price Alert Triggered - InvestSentry
-
-${userName ? `Hi ${userName},` : 'Hi there,'}
-
-Your price alert for ${alert.symbol} (${alert.name}) has been triggered!
-
-${alertMessage}
-Current Price: $${alert.currentValue.toFixed(2)}
-
-View ${alert.assetType === 'stock' ? 'Stock' : 'Crypto'}: ${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${alert.assetType === 'stock' ? 'stocks' : 'crypto'}
-
-You can manage your alerts in your InvestSentry dashboard.
-
-Best regards,
-The InvestSentry Team
-
-© ${new Date().getFullYear()} InvestSentry. All rights reserved.
+    Price Alert Triggered - InvestSentry
+    
+    ${userName ? `Hi ${userName},` : 'Hi there,'}
+    
+    Your price alert for ${alert.symbol} (${alert.name}) has been triggered!
+    
+    ${alertMessage}
+    Current Price: $${alert.currentValue.toFixed(2)}
+    
+    View ${alert.assetType === 'stock' ? 'Stock' : 'Crypto'}: ${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/${alert.assetType === 'stock' ? 'stocks' : 'crypto'}
+    
+    You can manage your alerts in your InvestSentry dashboard.
+    
+    © 2024 InvestSentry. All rights reserved.
   `
 
-  return sendEmail({
+  return await sendEmail({
     to: email,
     subject: `🔔 Alert: ${alert.symbol} ${alertMessage}`,
     html,
-    text,
+    text
   })
 }
-
