@@ -237,50 +237,104 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string, us
   console.log('[Email] sendPasswordResetEmail called with:', { email, resetUrl, userName })
   
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center;">
-        <h1 style="color: white; margin: 0; font-size: 28px;">InvestSentry</h1>
-        <p style="color: white; margin: 10px 0 0 0; opacity: 0.9;">Password Reset Request</p>
-      </div>
-      
-      <div style="padding: 40px 20px; background: #f8fafc;">
-        <h2 style="color: #1e293b; margin: 0 0 20px 0;">Reset Your Password</h2>
-        <p style="color: #475569; line-height: 1.6; margin: 0 0 20px 0;">
-          ${userName ? `Hi ${userName},` : 'Hi there,'}
-        </p>
-        <p style="color: #475569; line-height: 1.6; margin: 0 0 20px 0;">
-          We received a request to reset your password. Click the button below to create a new password:
-        </p>
-        
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="${resetUrl}" 
-             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    color: white; 
-                    padding: 12px 30px; 
-                    text-decoration: none; 
-                    border-radius: 6px; 
-                    font-weight: 600;
-                    display: inline-block;">
-            Reset Password
-          </a>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Reset Your InvestSentry Password</title>
+      <style>
+        .icon-chart {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>');
+          background-size: contain;
+          vertical-align: middle;
+        }
+        .icon-lock {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="m7 11V7a5 5 0 0 1 10 0v4"/></svg>');
+          background-size: contain;
+          vertical-align: middle;
+          margin-right: 8px;
+        }
+        .icon-shield {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2364748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.5 7.5S5 18 5 13c0-5 3.5-7.5 7.5-7.5S20 8 20 13"/><path d="M9 12l2 2 4-4"/></svg>');
+          background-size: contain;
+          vertical-align: middle;
+          margin-right: 6px;
+        }
+      </style>
+    </head>
+    <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f8fafc;">
+      <div style="max-width: 600px; margin: 0 auto; background: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);">
+        <!-- Header with Logo -->
+        <div style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); padding: 40px 20px; text-align: center; position: relative;">
+          <div style="display: inline-flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+            <span class="icon-chart"></span>
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">InvestSentry</h1>
+          </div>
+          <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-size: 16px; font-weight: 500;">Password Reset Request</p>
         </div>
         
-        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
-          If you didn't request this password reset, you can safely ignore this email. 
-          Your password will remain unchanged.
-        </p>
+        <!-- Main Content -->
+        <div style="padding: 40px 20px; background: #ffffff;">
+          <div style="text-align: center; margin-bottom: 32px;">
+            <span class="icon-lock"></span>
+            <h2 style="color: #1e293b; margin: 8px 0 0 0; font-size: 24px; font-weight: 600;">Reset Your Password</h2>
+          </div>
+          
+          <p style="color: #475569; line-height: 1.6; margin: 0 0 16px 0; font-size: 16px;">
+            ${userName ? `Hi ${userName},` : 'Hi there,'}
+          </p>
+          <p style="color: #475569; line-height: 1.6; margin: 0 0 32px 0; font-size: 16px;">
+            We received a request to reset your password for your InvestSentry account. Click the button below to create a new password:
+          </p>
+          
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="${resetUrl}" 
+               style="background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); 
+                      color: white; 
+                      padding: 14px 32px; 
+                      text-decoration: none; 
+                      border-radius: 8px; 
+                      font-weight: 600;
+                      font-size: 16px;
+                      display: inline-block;
+                      box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+                      transition: transform 0.2s;">
+              🔑 Reset Password
+            </a>
+          </div>
+          
+          <div style="background: #f1f5f9; border-radius: 8px; padding: 20px; margin: 24px 0; border-left: 4px solid #3b82f6;">
+            <p style="color: #475569; margin: 0 0 8px 0; font-size: 14px; font-weight: 500;">
+              <span class="icon-shield"></span>Security Information:
+            </p>
+            <ul style="color: #64748b; font-size: 14px; margin: 0; padding-left: 20px; line-height: 1.5;">
+              <li>This link will expire in 1 hour for your security</li>
+              <li>If you didn't request this reset, you can safely ignore this email</li>
+              <li>Your password will remain unchanged unless you click the link above</li>
+            </ul>
+          </div>
+        </div>
         
-        <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 10px 0 0 0;">
-          This link will expire in 1 hour for security reasons.
-        </p>
+        <!-- Footer -->
+        <div style="background: #f8fafc; padding: 24px 20px; text-align: center; border-top: 1px solid #e2e8f0;">
+          <p style="color: #64748b; margin: 0; font-size: 12px; line-height: 1.4;">
+            © ${new Date().getFullYear()} InvestSentry. All rights reserved.<br>
+            This email was sent because a password reset was requested for your account.
+          </p>
+        </div>
       </div>
-      
-      <div style="background: #e2e8f0; padding: 20px; text-align: center;">
-        <p style="color: #64748b; margin: 0; font-size: 12px;">
-          © 2024 InvestSentry. All rights reserved.
-        </p>
-      </div>
-    </div>
+    </body>
+    </html>
   `
 
   const text = `

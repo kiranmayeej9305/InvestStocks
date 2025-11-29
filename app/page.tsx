@@ -258,29 +258,29 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             {/* Left Content */}
             <div className="text-center lg:text-left space-y-6 sm:space-y-8">
-              <div className="animate-fade-in-up">
+              <div>
                 <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/15 mb-4 sm:mb-6 text-xs sm:text-sm">
                   <Sparkles className="mr-1 h-3 w-3" />
                   AI-Powered Investment Platform
                 </Badge>
                 
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
-                  <span className="text-shimmer elastic-bounce block">
-                    Smart Investing
+                  <span className="block bg-gradient-to-r from-primary via-blue-600 to-primary bg-clip-text text-transparent">
+                    AI-Powered Stock Market
                   </span>
-                  <span className="text-foreground breathe block mt-1 sm:mt-2">Made Simple</span>
+                  <span className="text-foreground block mt-1 sm:mt-2">Analysis Platform</span>
                 </h1>
               </div>
               
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 animate-fade-in-up animation-delay-200">
-                Real-time market insights, AI-powered analysis, and professional trading tools—all in one elegant platform
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
+                Advanced investment research platform with real-time stock market data, AI-driven analysis, portfolio tracking, and professional trading tools for smarter investment decisions
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-3 sm:gap-4 pt-2 sm:pt-4 animate-fade-in-up animation-delay-400">
+              <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-3 sm:gap-4 pt-2 sm:pt-4">
                 <Link href="/signup" className="w-full sm:w-auto">
                   <Button 
                     size="lg"
-                    className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 text-sm sm:text-base md:text-lg font-semibold liquid-hover magnetic bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 w-full"
+                    className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 text-sm sm:text-base md:text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transform hover:scale-105 transition-all duration-300 w-full"
                   >
                     Start Free Trial <Zap className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
@@ -289,14 +289,14 @@ export default function LandingPage() {
                   <Button 
                     size="lg"
                     variant="outline"
-                    className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 text-sm sm:text-base md:text-lg font-semibold border-border hover:bg-muted magnetic liquid-hover transform transition-all duration-300 w-full"
+                    className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 text-sm sm:text-base md:text-lg font-semibold border-border hover:bg-muted transform hover:scale-105 transition-all duration-300 w-full"
                   >
                     View Pricing <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
                 </Link>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-8 pt-6 sm:pt-8 text-xs sm:text-sm text-muted-foreground animate-fade-in-up animation-delay-600">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-8 pt-6 sm:pt-8 text-xs sm:text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <Check className="h-3 w-3 sm:h-4 sm:w-4 text-success flex-shrink-0" />
                   <span>No credit card required</span>
@@ -312,12 +312,12 @@ export default function LandingPage() {
             <div className="relative lg:ml-4 xl:ml-8 mt-8 lg:mt-0">
               <div className="relative z-10">
                 {/* Main Dashboard Preview */}
-                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl animate-float max-w-full overflow-hidden">
+                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl max-w-full overflow-hidden">
                   <div className="space-y-3 sm:space-y-4">
                     {/* Header */}
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center animate-pulse flex-shrink-0">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
                           <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-primary-foreground" />
                         </div>
                         <div className="min-w-0">
@@ -325,12 +325,12 @@ export default function LandingPage() {
                           <p className="text-xs text-muted-foreground truncate">Live Dashboard</p>
                         </div>
                       </div>
-                      <Badge className="bg-primary/10 text-primary animate-pulse text-xs flex-shrink-0">Live</Badge>
+                      <Badge className="bg-primary/10 text-primary text-xs flex-shrink-0">Live</Badge>
                     </div>
 
                     {/* Portfolio Value */}
                     <div className="bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-4">
-                      <div className="text-lg sm:text-2xl font-bold text-primary animate-count-up">$125,432.18</div>
+                      <div className="text-lg sm:text-2xl font-bold text-primary">$125,432.18</div>
                       <div className="text-xs sm:text-sm text-primary flex items-center gap-1">
                         <TrendingUp className="h-3 w-3 flex-shrink-0" />
                         <span className="truncate">+12.3% this month</span>
@@ -340,18 +340,18 @@ export default function LandingPage() {
                     {/* Chart Animation */}
                     <div className="h-24 sm:h-32 relative bg-muted/20 rounded-lg sm:rounded-xl overflow-hidden">
                       <div className="absolute inset-0 flex items-end justify-between px-4 pb-4">
-                        <div className="w-3 bg-gradient-to-t from-green-500 to-green-400 animate-chart-bar-1 rounded-t"></div>
-                        <div className="w-3 bg-gradient-to-t from-red-500 to-red-400 animate-chart-bar-2 rounded-t"></div>
-                        <div className="w-3 bg-gradient-to-t from-green-500 to-green-400 animate-chart-bar-3 rounded-t"></div>
-                        <div className="w-3 bg-gradient-to-t from-blue-500 to-blue-400 animate-chart-bar-4 rounded-t"></div>
-                        <div className="w-3 bg-gradient-to-t from-green-500 to-green-400 animate-chart-bar-5 rounded-t"></div>
-                        <div className="w-3 bg-gradient-to-t from-purple-500 to-purple-400 animate-chart-bar-6 rounded-t"></div>
+                        <div className="w-3 h-8 bg-gradient-to-t from-green-500 to-green-400 rounded-t"></div>
+                        <div className="w-3 h-6 bg-gradient-to-t from-red-500 to-red-400 rounded-t"></div>
+                        <div className="w-3 h-12 bg-gradient-to-t from-green-500 to-green-400 rounded-t"></div>
+                        <div className="w-3 h-4 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t"></div>
+                        <div className="w-3 h-10 bg-gradient-to-t from-green-500 to-green-400 rounded-t"></div>
+                        <div className="w-3 h-7 bg-gradient-to-t from-purple-500 to-purple-400 rounded-t"></div>
                       </div>
                     </div>
 
                     {/* Stock List */}
                     <div className="space-y-2">
-                      <div className="flex items-center justify-between p-2 bg-muted/30 rounded-lg animate-slide-in animation-delay-100">
+                      <div className="flex items-center justify-between p-2 bg-muted/30 rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center">
                             <span className="text-white text-xs font-bold">A</span>
@@ -364,7 +364,7 @@ export default function LandingPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center justify-between p-2 bg-muted/30 rounded-lg animate-slide-in animation-delay-200">
+                      <div className="flex items-center justify-between p-2 bg-muted/30 rounded-lg">
                         <div className="flex items-center gap-2">
                           <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
                             <span className="text-white text-xs font-bold">T</span>
@@ -381,9 +381,9 @@ export default function LandingPage() {
                 </div>
 
                 {/* Floating AI Assistant Card */}
-                <div className="absolute -top-6 -right-6 bg-card/90 backdrop-blur-xl border border-border rounded-2xl p-4 shadow-xl animate-float-delayed">
+                <div className="absolute -top-6 -right-6 bg-card/90 backdrop-blur-xl border border-border rounded-2xl p-4 shadow-xl">
                   <div className="flex items-center gap-2 mb-2">
-                    <Brain className="h-4 w-4 text-primary animate-pulse" />
+                    <Brain className="h-4 w-4 text-primary" />
                     <span className="text-xs font-medium">AI Assistant</span>
                   </div>
                   <div className="text-xs text-muted-foreground">
@@ -392,7 +392,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Floating Notification Card */}
-                <div className="absolute -bottom-4 -left-4 bg-card/90 backdrop-blur-xl border border-border rounded-2xl p-3 shadow-xl animate-slide-up animation-delay-800">
+                <div className="absolute -bottom-4 -left-4 bg-card/90 backdrop-blur-xl border border-border rounded-2xl p-3 shadow-xl">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                     <span className="text-xs font-medium">New Trade Alert</span>
@@ -447,9 +447,9 @@ export default function LandingPage() {
                         <div className="ml-auto w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                       </div>
                       <div className="space-y-3">
-                        <div className="bg-muted/50 rounded-lg p-3 text-sm animate-type-writer">Should I invest in AAPL now?</div>
-                        <div className="bg-primary/10 rounded-lg p-3 text-sm animate-type-writer animation-delay-1000">Based on current analysis, AAPL shows strong fundamentals with 15% upside potential...</div>
-                        <div className="flex gap-2 animate-fade-in animation-delay-2000">
+                        <div className="bg-muted/50 rounded-lg p-3 text-sm">Should I invest in AAPL now?</div>
+                        <div className="bg-primary/10 rounded-lg p-3 text-sm">Based on current analysis, AAPL shows strong fundamentals with 15% upside potential...</div>
+                        <div className="flex gap-2">
                           <Button size="sm" variant="outline" className="text-xs">More Details</Button>
                           <Button size="sm" className="text-xs">Add to Watchlist</Button>
                         </div>
@@ -503,8 +503,8 @@ export default function LandingPage() {
                           <div className="h-full w-3/4 bg-gradient-to-r from-primary to-green-500 animate-progress-bar"></div>
                         </div>
                         <div className="grid grid-cols-2 gap-1 lg:gap-2 text-xs">
-                          <div className="bg-green-500/10 text-green-600 rounded p-1 lg:p-2 animate-fade-in animation-delay-500 text-center">Day High: $184.20</div>
-                          <div className="bg-red-500/10 text-red-600 rounded p-1 lg:p-2 animate-fade-in animation-delay-700 text-center">Day Low: $180.15</div>
+                          <div className="bg-green-500/10 text-green-600 rounded p-1 lg:p-2 text-center">Day High: $184.20</div>
+                          <div className="bg-red-500/10 text-red-600 rounded p-1 lg:p-2 text-center">Day Low: $180.15</div>
                         </div>
                       </div>
                     </div>
@@ -827,9 +827,9 @@ export default function LandingPage() {
                           <div className="w-2 bg-green-500 animate-chart-bar-2 rounded-t"></div>
                         </div>
                         <div className="grid grid-cols-3 gap-1 text-xs">
-                          <div className="bg-green-500/10 text-green-600 rounded p-1 text-center animate-fade-in animation-delay-100">RSI: 65</div>
-                          <div className="bg-blue-500/10 text-blue-600 rounded p-1 text-center animate-fade-in animation-delay-200">MACD: Bull</div>
-                          <div className="bg-orange-500/10 text-orange-600 rounded p-1 text-center animate-fade-in animation-delay-300">Vol: High</div>
+                          <div className="bg-green-500/10 text-green-600 rounded p-1 text-center">RSI: 65</div>
+                          <div className="bg-blue-500/10 text-blue-600 rounded p-1 text-center">MACD: Bull</div>
+                          <div className="bg-orange-500/10 text-orange-600 rounded p-1 text-center">Vol: High</div>
                         </div>
                       </div>
                     </div>
@@ -913,10 +913,10 @@ export default function LandingPage() {
             Pricing Plans
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Simple, <span className="text-primary animate-text-shimmer">Transparent</span> Pricing
+            Affordable Investment Platform <span className="text-primary">Pricing</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Choose the perfect plan for your investment journey. Start free, upgrade when you need more.
+            Professional stock market analysis and portfolio management tools with transparent pricing. Start with our free plan and upgrade as your investment portfolio grows.
           </p>
         </div>
 
@@ -1202,6 +1202,106 @@ export default function LandingPage() {
           </Card>
         </div>
       </footer>
+
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FinancialProduct",
+            "name": "InvestSentry",
+            "description": "AI-powered stock market analysis and investment platform with real-time data, portfolio tracking, and advanced trading tools",
+            "url": process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com",
+            "logo": `${process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com"}/icon.svg`,
+            "image": `${process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com"}/opengraph-image.png`,
+            "provider": {
+              "@type": "Organization",
+              "name": "InvestSentry",
+              "url": process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com",
+              "logo": `${process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com"}/icon.svg`,
+              "sameAs": [
+                "https://twitter.com/investsentry",
+                "https://linkedin.com/company/investsentry"
+              ]
+            },
+            "category": "Investment Platform",
+            "featureList": [
+              "Real-time Stock Market Data",
+              "AI-Powered Analysis",
+              "Portfolio Tracking",
+              "Stock Screener",
+              "Price Alerts",
+              "Paper Trading",
+              "Market News",
+              "Technical Analysis",
+              "Investment Research",
+              "Trading Tools"
+            ],
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "description": "Free plan available with premium features"
+            }
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "InvestSentry",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "Web Browser",
+            "description": "Professional investment platform with AI-powered stock analysis, real-time market data, and comprehensive trading tools",
+            "url": process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com",
+            "screenshot": `${process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com"}/opengraph-image.png`,
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "ratingCount": "2500"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          })
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "InvestSentry",
+            "alternateName": "InvestSentry Investment Platform",
+            "url": process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com",
+            "description": "AI-powered investment platform for smart stock market analysis and portfolio management",
+            "potentialAction": [
+              {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": `${process.env.NEXT_PUBLIC_APP_URL || "https://investsentry.com"}/stocks?search={search_term_string}`
+                },
+                "query-input": "required name=search_term_string"
+              }
+            ],
+            "sameAs": [
+              "https://twitter.com/investsentry",
+              "https://linkedin.com/company/investsentry"
+            ]
+          })
+        }}
+      />
     </div>
   )
 }

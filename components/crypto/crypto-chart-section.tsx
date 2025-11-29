@@ -130,7 +130,7 @@ export function CryptoChartSection({
         </div>
       </CardHeader>
       <CardContent>
-        <div ref={chartContainerRef} className="w-full h-[300px] flex items-center justify-center">
+        <div ref={chartContainerRef} className="w-full h-[250px] sm:h-[300px] lg:h-[400px] flex items-center justify-center">
           {loading ? (
             <div className="text-muted-foreground">Loading chart...</div>
           ) : !historyData ? (

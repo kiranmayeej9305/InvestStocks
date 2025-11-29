@@ -195,7 +195,7 @@ export function FearGreedIndexCard() {
             </div>
             
             {/* Scale labels */}
-            <div className="flex items-center justify-between w-full max-w-[200px] text-xs font-medium text-muted-foreground">
+            <div className="flex items-center justify-between w-full max-w-[180px] sm:max-w-[200px] text-xs font-medium text-muted-foreground">
               <span>Fear</span>
               <span>Neutral</span>
               <span>Greed</span>

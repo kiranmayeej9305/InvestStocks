@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import { IconSpinner } from '@/components/ui/icons'
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, ChartNoAxesCombined } from 'lucide-react'
+import Head from 'next/head'
 
 export default function LoginPage() {
   const router = useRouter()

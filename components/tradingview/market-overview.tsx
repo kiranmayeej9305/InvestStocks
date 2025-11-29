@@ -171,7 +171,7 @@ export function MarketOverview({}) {
   }, [theme, mounted])
 
   return (
-    <div className="overflow-auto max-h-[600px] rounded-lg border border-border">
+    <div className="overflow-auto max-h-[400px] sm:max-h-[500px] lg:max-h-[600px] rounded-lg border border-border">
       <div ref={containerRef} style={{ height: '600px', width: '100%', minHeight: '600px' }} key={theme} />
     </div>
   )

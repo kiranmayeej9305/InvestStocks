@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import { IconSpinner } from '@/components/ui/icons'
-import { TrendingUp, Lock, Eye, EyeOff, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react'
+import { ChartNoAxesCombined, Lock, Eye, EyeOff, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react'
 
 function ResetPasswordContent() {
   const router = useRouter()
@@ -138,7 +138,7 @@ function ResetPasswordContent() {
           {/* Logo/Brand */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-              <TrendingUp className="h-8 w-8 text-white" />
+              <ChartNoAxesCombined className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Reset Password

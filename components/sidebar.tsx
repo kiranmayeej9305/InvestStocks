@@ -53,7 +53,7 @@ const baseNavigation = [
   { name: 'Earnings', href: '/earnings', icon: MdCalendarToday },
   { name: 'Screener', href: '/screener', icon: MdShowChart },
   { name: 'Alerts', href: '/alerts', icon: MdNotifications },
-  { name: 'Community', href: '/community', icon: MdPeople }
+  // { name: 'Community', href: '/community', icon: MdPeople }
 ]
 
 const accountNavigation = [
