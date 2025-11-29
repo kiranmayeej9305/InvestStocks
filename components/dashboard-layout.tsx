@@ -11,19 +11,24 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <ProtectedRoute requireAuth={true}>
-      <div className="flex h-screen w-full relative overflow-hidden font-overpass">
-        {/* Professional background - handled by body */}
+      <div className="flex h-screen w-full relative overflow-hidden">
+        {/* Beautiful Gradient Background */}
+        <div className="fixed inset-0 bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 z-0" />
+        
+        {/* Layered Gradient Overlays for depth */}
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent dark:from-blue-950/30 pointer-events-none z-0" />
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-100/40 via-transparent to-transparent dark:from-purple-950/30 pointer-events-none z-0" />
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-pink-100/30 via-transparent to-transparent dark:from-pink-950/20 pointer-events-none z-0" />
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-orange-100/30 via-transparent to-transparent dark:from-orange-950/20 pointer-events-none z-0" />
         
         {/* Fixed Sidebar */}
         <Sidebar />
 
         {/* Main content - Scrollable */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden min-w-0 relative z-10">
-          <main className="py-6 lg:py-8 w-full pb-12 min-h-full">
+          <main className="py-4 lg:py-6 pt-4 lg:pt-6 w-full pb-12 min-h-full">
             <div className="px-4 sm:px-6 lg:px-8 2xl:px-12 w-full">
-              <div className="animate-fade-in">
-                {children}
-              </div>
+              {children}
             </div>
           </main>
         </div>

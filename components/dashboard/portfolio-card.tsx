@@ -1,9 +1,8 @@
 'use client'
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/professional-card'
-import { PerformanceBadge, StatusBadge } from '@/components/ui/professional-badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { TrendingUp, TrendingDown, DollarSign, Activity } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 interface PortfolioCardProps {
   symbol: string
@@ -15,9 +14,6 @@ interface PortfolioCardProps {
   returnPercentage: number
   trend: 'up' | 'down' | 'neutral'
   lastUpdate: string
-  className?: string
-  variant?: 'default' | 'compact' | 'detailed'
-  showLogo?: boolean
 }
 
 export function PortfolioCard({
@@ -29,10 +25,7 @@ export function PortfolioCard({
   totalReturn,
   returnPercentage,
   trend,
-  lastUpdate,
-  className,
-  variant = 'default',
-  showLogo = true
+  lastUpdate
 }: PortfolioCardProps) {
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -44,117 +37,78 @@ export function PortfolioCard({
   }
 
   const getTrendIcon = () => {
-    const iconClass = "w-4 h-4"
     switch (trend) {
       case 'up':
-        return <TrendingUp className={cn(iconClass, "text-gain")} />
+        return <TrendingUp className="w-4 h-4 text-success" />
       case 'down':
-        return <TrendingDown className={cn(iconClass, "text-loss")} />
+        return <TrendingDown className="w-4 h-4 text-destructive" />
       default:
-        return <Activity className={cn(iconClass, "text-neutral")} />
+        return <Activity className="w-4 h-4 text-gray-600" />
     }
   }
 
-  const getLogoGradient = () => {
-    // Generate consistent gradient based on symbol
-    const symbolCode = symbol.charCodeAt(0) + symbol.charCodeAt(1 || 0)
-    const gradients = [
-      'bg-gradient-to-br from-primary to-secondary',
-      'bg-gradient-to-br from-professional-blue-500 to-professional-sky-400',
-      'bg-gradient-to-br from-success to-success/80',
-      'bg-gradient-to-br from-warning to-warning/80',
-      'bg-gradient-to-br from-professional-sky-500 to-professional-blue-500'
-    ]
-    return gradients[symbolCode % gradients.length]
+  const getTrendColor = () => {
+    switch (trend) {
+      case 'up':
+        return 'text-success'
+      case 'down':
+        return 'text-destructive'
+      default:
+        return 'text-gray-600'
+    }
   }
 
   return (
-    <Card 
-      variant="interactive" 
-      size="md"
-      className={cn(
-        "group hover:scale-[1.02] hover:shadow-card-hover animate-fade-in",
-        className
-      )}
-    >
-      <CardHeader size="md">
+    <Card className="bg-card/50 dark:bg-slate-800/40 backdrop-blur-sm border-border hover:border-border/80 transition-all hover:shadow-lg hover:shadow-primary/5">
+      <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3 min-w-0 flex-1">
-            {showLogo && (
-              <div className={cn(
-                "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 shadow-professional transition-transform group-hover:scale-110",
-                getLogoGradient()
-              )}>
-                <span className="text-white font-bold text-base font-overpass">
-                  {symbol.charAt(0)}
-                </span>
-              </div>
-            )}
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0 flex-1">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/20">
+              <span className="text-white font-bold text-sm sm:text-base">{symbol.charAt(0)}</span>
+            </div>
             <div className="min-w-0 flex-1">
-              <CardTitle size="md" className="truncate">{name}</CardTitle>
-              <p className="text-sm text-muted-foreground font-overpass font-medium">{symbol}</p>
+              <CardTitle className="text-base sm:text-lg font-semibold truncate text-foreground">{name}</CardTitle>
+              <p className="text-xs sm:text-sm text-muted-foreground">{symbol}</p>
             </div>
           </div>
-          <StatusBadge
-            status="active"
-            className="text-xs bg-card border border-border/40"
-          >
+          <Badge variant="outline" className="text-xs flex-shrink-0 bg-muted/30 border-border text-foreground">
             {shares} Shares
-          </StatusBadge>
+          </Badge>
         </div>
       </CardHeader>
 
-      <CardContent size="md">
-        <div className="space-y-4">
-          {/* Price and Value Grid */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground font-overpass">Current Price</p>
-              <p className="text-2xl font-bold text-foreground font-overpass tabular-nums">
-                {formatCurrency(currentPrice)}
-              </p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground font-overpass">Total Value</p>
-              <p className="text-2xl font-bold text-foreground font-overpass tabular-nums">
-                {formatCurrency(totalValue)}
-              </p>
-            </div>
+      <CardContent className="space-y-3 sm:space-y-4">
+        {/* Price and Value */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div>
+            <p className="text-xs sm:text-sm text-muted-foreground mb-1">Current Price</p>
+            <p className="text-xl sm:text-2xl font-bold text-foreground">{formatCurrency(currentPrice)}</p>
           </div>
+          <div>
+            <p className="text-xs sm:text-sm text-muted-foreground mb-1">Total Value</p>
+            <p className="text-xl sm:text-2xl font-bold text-foreground">{formatCurrency(totalValue)}</p>
+          </div>
+        </div>
 
-          {/* Performance Section */}
-          <div className="pt-4 border-t border-border/50">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium text-muted-foreground font-overpass">
-                  Total Return
-                </span>
-                {getTrendIcon()}
-              </div>
-              <div className="text-right space-y-1">
-                <p className="text-lg font-bold font-overpass tabular-nums">
-                  {formatCurrency(totalReturn)}
-                </p>
-                <PerformanceBadge 
-                  value={returnPercentage}
-                  precision={2}
-                  className="font-overpass"
-                />
-              </div>
-            </div>
+        {/* Return and Trend */}
+        <div className="flex items-center justify-between pt-2 border-t border-border">
+          <div className="flex items-center space-x-2">
+            <span className="text-xs sm:text-sm text-muted-foreground">Total Return</span>
+            {getTrendIcon()}
           </div>
+          <div className="text-right">
+            <p className={`text-base sm:text-lg font-semibold ${getTrendColor()}`}>
+              {formatCurrency(totalReturn)}
+            </p>
+            <p className={`text-xs sm:text-sm ${getTrendColor()}`}>
+              {returnPercentage > 0 ? '+' : ''}{returnPercentage.toFixed(2)}%
+            </p>
+          </div>
+        </div>
 
-          {/* Last Update */}
-          <div className="pt-3 border-t border-border/30">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-muted-foreground font-overpass">
-                Last updated
-              </span>
-              <span className="text-muted-foreground font-overpass font-medium">
-                {lastUpdate}
-              </span>
-            </div>
-          </div>
+        {/* Last Update */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border">
+          <span>Last update {lastUpdate}</span>
         </div>
       </CardContent>
     </Card>

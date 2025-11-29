@@ -18,15 +18,14 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="fixed top-4 right-4 z-[100]" style={{position: 'fixed', top: '1rem', right: '1rem', zIndex: 100}}>
+      <div className="fixed bottom-6 right-4 sm:right-6 z-50">
         <Button
           size="icon"
           variant="outline"
-          className="h-12 w-12 rounded-full bg-white/90 border-2 border-blue-200 shadow-lg"
-          style={{backgroundColor: 'rgba(255,255,255,0.9)', borderColor: '#93C5FD'}}
+          className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-2 border-gray-200/50 dark:border-slate-700/50 shadow-xl"
           disabled
         >
-          <div className="h-5 w-5" />
+          <div className="h-4 w-4 sm:h-5 sm:w-5" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </div>
@@ -34,25 +33,22 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-[100]" style={{position: 'fixed', top: '1rem', right: '1rem', zIndex: 100}}>
+    <div className="fixed bottom-6 right-4 sm:right-6 z-50">
       <Button
         size="icon"
-        variant="ghost"
-        className="h-12 w-12 rounded-full bg-white/90 border-2 border-blue-200 shadow-lg hover:shadow-xl hover:bg-blue-50 hover:border-blue-400 transition-all duration-200"
-        style={{backgroundColor: 'rgba(255,255,255,0.9)', borderColor: '#93C5FD'}}
+        variant="outline"
+        className="h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-2 border-gray-200/50 dark:border-slate-700/50 hover:bg-gradient-to-br hover:from-blue-50 hover:to-purple-50 dark:hover:bg-slate-800 hover:border-blue-300/50 dark:hover:border-blue-500/50 shadow-xl hover:shadow-2xl transition-all"
         onClick={() => {
           startTransition(() => {
             setTheme(theme === 'light' ? 'dark' : 'light')
           })
         }}
       >
-        <div className="relative">
-          {theme === 'dark' ? (
-            <IconMoon className="h-5 w-5 text-blue-600" />
-          ) : (
-            <IconSun className="h-5 w-5 text-blue-600" />
-          )}
-        </div>
+        {theme === 'dark' ? (
+          <IconMoon className="h-4 w-4 sm:h-5 sm:w-5 transition-all" />
+        ) : (
+          <IconSun className="h-4 w-4 sm:h-5 sm:w-5 transition-all" />
+        )}
         <span className="sr-only">Toggle theme</span>
       </Button>
     </div>

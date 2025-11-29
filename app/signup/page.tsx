@@ -77,28 +77,8 @@ export default function SignupPage() {
   // Show loading spinner while checking auth
   if (authLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-        fontFamily: "'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
-      }}>
-        <div style={{
-          width: '3rem',
-          height: '3rem',
-          border: '3px solid #e2e8f0',
-          borderTop: '3px solid #2B46B9',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
-        <style jsx>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+        <IconSpinner className="h-8 w-8 animate-spin" style={{ color: 'rgb(255, 70, 24)' }} />
       </div>
     )
   }
@@ -181,7 +161,7 @@ export default function SignupPage() {
           
           {/* Enhanced Logo/Brand */}
           <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)' }}>
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
               <TrendingUp className="h-10 w-10 text-white" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/90 to-primary/70 bg-clip-text text-transparent mb-2">
@@ -278,8 +258,8 @@ export default function SignupPage() {
               type="submit"
               className="w-full h-12 font-semibold text-base rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 mt-8 transform hover:scale-[1.02] active:scale-[0.98]"
               style={{ 
-                background: 'linear-gradient(135deg, #2B46B9 0%, #39A0ED 100%)',
-                boxShadow: '0 4px 20px rgba(43, 70, 185, 0.4)'
+                background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
+                boxShadow: '0 4px 20px rgba(255, 70, 24, 0.4)'
               }}
               disabled={isLoading}
             >

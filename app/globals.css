@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Overpass font */
-@import url('https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-/* Force Overpass font globally */
-* {
-  font-family: 'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif !important;
-}
-
 /* Mobile responsive fixes */
 @layer base {
   html {
@@ -22,194 +14,96 @@
     overflow-x: hidden;
   }
 }
-
+ 
 @layer base {
   :root {
-    /* Light Mode - Professional Blue Theme */
-    
-    /* Backgrounds */
-    --background: 0 0% 100%; /* #FFFFFF - clean white */
-    --foreground: 215 25% 14%; /* #1F2937 - very dark grey for text */
+    /* Light Mode - Elegant Orange Theme */
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
 
-    /* Card & Panel Surfaces */
-    --card: 210 20% 98%; /* #F9FAFB - very light grey for cards */
-    --card-foreground: 215 25% 14%; /* #1F2937 - dark text on cards */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
  
-    /* Popovers & Dropdowns */
-    --popover: 0 0% 100%; /* #FFFFFF - white background */
-    --popover-foreground: 215 25% 14%; /* #1F2937 - dark text */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
  
-    /* Primary Colors - Deep Navy Blue (#2B46B9) */
-    --primary: 227 63% 44% !important; /* #2B46B9 - deep bluish-navy */
-    --primary-foreground: 0 0% 100% !important; /* White text on primary */
+    --primary: 16 100% 55%;
+    --primary-foreground: 210 40% 98%;
  
-    /* Secondary Colors - Sky Blue (#39A0ED) */  
-    --secondary: 204 83% 58% !important; /* #39A0ED - brighter sky-blue */
-    --secondary-foreground: 0 0% 100% !important; /* White text on secondary */
+    --secondary: 16 100% 98%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
  
-    /* Muted/Subtle Elements */
-    --muted: 210 20% 98%; /* #F9FAFB - light grey background */
-    --muted-foreground: 215 16% 47%; /* #6B7280 - medium grey text */
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
  
-    /* Accent Colors */
-    --accent: 142 69% 58%; /* #28A745 - success green */
-    --accent-foreground: 0 0% 100%; /* White text on accent */
+    --accent: 16 100% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
  
-    /* Destructive/Error Colors */
-    --destructive: 0 84% 60%; /* Red for errors */
-    --destructive-foreground: 0 0% 100%; /* White text on errors */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    /* Borders & Inputs */
-    --border: 215 20% 91%; /* Light grey borders */
-    --input: 215 20% 91%; /* Light grey input backgrounds */
-    --ring: 225 55% 44%; /* Primary blue for focus rings */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 16 100% 55%;
  
-    /* Border Radius */
     --radius: 0.75rem;
     
-    /* Custom Financial Colors */
-    --success: 142 69% 58%; /* #28A745 - gains/positive */
-    --success-foreground: 0 0% 100%;
-    
-    --warning: 38 92% 62%; /* #FFB43A - alerts/caution */
-    --warning-foreground: 215 25% 14%; /* Dark text on warning */
-    
-    --info: 207 77% 58%; /* #39A0ED - info/links */
-    --info-foreground: 0 0% 100%;
-
-    /* Text Colors */
-    --text-primary: 215 25% 14%; /* #1F2937 - main text */
-    --text-secondary: 215 16% 47%; /* #6B7280 - secondary text */
+    /* Custom Enterprise Colors */
+    --success: 142.1 76.2% 36.3%;
+    --success-foreground: 210 40% 98%;
+    --warning: 45.4 93.4% 47.5%;
+    --warning-foreground: 222.2 47.4% 11.2%;
+    --info: 16 100% 55%;
+    --info-foreground: 210 40% 98%;
   }
  
   .dark {
-    /* Dark Mode - Professional Dark Theme */
+    /* Dark Mode - Elegant Orange Theme */
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+ 
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+ 
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+ 
+    --primary: 16 100% 65%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+ 
+    --accent: 16 50% 20%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 16 100% 65%;
     
-    /* Backgrounds */
-    --background: 217 33% 7%; /* #0F1115 - deep almost-black */
-    --foreground: 210 20% 91%; /* #E5E7EB - light grey text */
- 
-    /* Card & Panel Surfaces */
-    --card: 215 25% 16%; /* #1A1F29 - dark greyish surface */
-    --card-foreground: 210 20% 91%; /* #E5E7EB - light text on cards */
- 
-    /* Popovers & Dropdowns */
-    --popover: 215 25% 16%; /* #1A1F29 - dark surface */
-    --popover-foreground: 210 20% 91%; /* Light text */
- 
-    /* Primary Colors - Enhanced Blue on Dark */
-    --primary: 227 80% 65% !important; /* Enhanced #2B46B9 for dark mode visibility */
-    --primary-foreground: 0 0% 100% !important; /* White text on primary */
- 
-    /* Secondary Colors - Enhanced Sky Blue */
-    --secondary: 204 90% 70% !important; /* Enhanced #39A0ED for dark mode visibility */
-    --secondary-foreground: 0 0% 100% !important; /* White text on secondary */
- 
-    /* Muted/Subtle Elements */
-    --muted: 215 25% 16%; /* #1A1F29 - dark surface */
-    --muted-foreground: 220 13% 69%; /* #9CA3AF - soft grey text */
- 
-    /* Accent Colors */
-    --accent: 145 80% 66%; /* #34D58E - lighter green for dark mode */
-    --accent-foreground: 217 33% 7%; /* Dark text on accent */
- 
-    /* Destructive/Error Colors */
-    --destructive: 0 63% 50%; /* Dark mode red */
-    --destructive-foreground: 210 20% 91%; /* Light text on errors */
- 
-    /* Borders & Inputs */
-    --border: 215 25% 16%; /* Dark borders */
-    --input: 215 25% 16%; /* Dark input backgrounds */
-    --ring: 228 100% 62%; /* Vivid blue for focus rings */
-    
-    /* Custom Financial Colors */
-    --success: 145 80% 66%; /* #34D58E - gains/positive on dark */
-    --success-foreground: 217 33% 7%; /* Dark text on success */
-    
-    --warning: 38 100% 67%; /* #FFB75A - warm orange for dark */
-    --warning-foreground: 217 33% 7%; /* Dark text on warning */
-    
-    --info: 200 100% 66%; /* #5BB3FF - info/links on dark */
-    --info-foreground: 217 33% 7%; /* Dark text on info */
-
-    /* Text Colors */
-    --text-primary: 210 20% 91%; /* #E5E7EB - light text */
-    --text-secondary: 220 13% 69%; /* #9CA3AF - soft grey text */
+    /* Custom Enterprise Colors - Dark Mode */
+    --success: 142.1 70.6% 45.3%;
+    --success-foreground: 210 40% 98%;
+    --warning: 47.9 95.8% 53.1%;
+    --warning-foreground: 222.2 47.4% 11.2%;
+    --info: 16 100% 65%;
+    --info-foreground: 222.2 47.4% 11.2%;
   }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
-  
   body {
-    @apply text-foreground;
-    font-family: 'Overpass', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background: hsl(var(--background));
-    position: relative;
-  }
-
-  /* Professional Background Pattern */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-image: 
-      radial-gradient(circle at 20% 20%, hsla(var(--primary), 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsla(var(--secondary), 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 40% 60%, hsla(var(--primary), 0.02) 0%, transparent 50%);
-    background-size: 100% 100%, 100% 100%, 80% 80%;
-    animation: subtleFloat 20s ease-in-out infinite;
-  }
-
-  /* Subtle floating animation for background */
-  @keyframes subtleFloat {
-    0%, 100% { 
-      background-position: 20% 20%, 80% 80%, 40% 60%; 
-    }
-    33% { 
-      background-position: 25% 25%, 75% 85%, 45% 65%; 
-    }
-    66% { 
-      background-position: 15% 25%, 85% 75%, 35% 55%; 
-    }
-  }
-
-  /* Professional grid pattern overlay */
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-image: 
-      linear-gradient(hsla(var(--primary), 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(var(--primary), 0.02) 1px, transparent 1px);
-    background-size: 50px 50px;
-    mask-image: radial-gradient(circle at center, transparent 20%, black 70%);
-    -webkit-mask-image: radial-gradient(circle at center, transparent 20%, black 70%);
-  }
-
-  /* Dark mode background adjustments */
-  .dark body::before {
-    background-image: 
-      radial-gradient(circle at 20% 20%, hsla(var(--primary), 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsla(var(--secondary), 0.04) 0%, transparent 50%),
-      radial-gradient(circle at 40% 60%, hsla(var(--primary), 0.03) 0%, transparent 50%);
-  }
-
-  .dark body::after {
-    background-image: 
-      linear-gradient(hsla(var(--primary), 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(var(--primary), 0.03) 1px, transparent 1px);
   }
   
   /* Ensure proper mobile viewport handling */
@@ -228,72 +122,9 @@
     min-height: 100vh;
   }
   
-  /* Force proper background on containers */
+  /* Force dark background on all containers */
   div[data-radix-popper-content-wrapper] {
     background: transparent;
-  }
-
-  /* Professional shadows */
-  .professional-shadow {
-    box-shadow: 0 1px 3px 0 rgba(43, 70, 185, 0.1), 0 1px 2px 0 rgba(43, 70, 185, 0.06);
-  }
-
-  .professional-shadow-lg {
-    box-shadow: 0 10px 15px -3px rgba(43, 70, 185, 0.1), 0 4px 6px -2px rgba(43, 70, 185, 0.05);
-  }
-
-  /* Gradient backgrounds for hero sections */
-  .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
-  }
-
-  .gradient-success {
-    background: linear-gradient(135deg, hsl(var(--success)) 0%, #34D58E 100%);
-  }
-
-  .gradient-warning {
-    background: linear-gradient(135deg, hsl(var(--warning)) 0%, #FFB75A 100%);
-  }
-
-  /* Professional glass effect */
-  .glass-effect {
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  /* Dark mode glass effect */
-  .dark .glass-effect {
-    background: rgba(26, 31, 41, 0.8);
-    border: 1px solid rgba(57, 160, 237, 0.2);
-  }
-
-  /* Financial color utilities */
-  .text-gain {
-    color: hsl(var(--success));
-  }
-
-  .text-loss {
-    color: hsl(var(--destructive));
-  }
-
-  .text-warning {
-    color: hsl(var(--warning));
-  }
-
-  .bg-gain {
-    background-color: hsl(var(--success));
-    color: hsl(var(--success-foreground));
-  }
-
-  .bg-loss {
-    background-color: hsl(var(--destructive));
-    color: hsl(var(--destructive-foreground));
-  }
-
-  .bg-warning {
-    background-color: hsl(var(--warning));
-    color: hsl(var(--warning-foreground));
   }
 }
 
@@ -320,16 +151,11 @@
     @apply min-h-[44px] min-w-[44px];
   }
   
-  /* Professional glass morphism effect */
+  /* Glass morphism effect for modern UI */
   .glass {
     backdrop-filter: blur(10px);
-    background: rgba(249, 250, 251, 0.8);
-    border: 1px solid rgba(43, 70, 185, 0.1);
-  }
-  
-  .dark .glass {
-    background: rgba(26, 31, 41, 0.8);
-    border: 1px solid rgba(57, 160, 237, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   /* Responsive grid utilities */
@@ -349,73 +175,162 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
-  /* Force correct button colors */
-  .bg-primary, button.bg-primary, [class*="bg-primary"] {
-    background-color: #2B46B9 !important; /* Force blue */
-    color: white !important;
-  }
   
-  .bg-secondary, button.bg-secondary, [class*="bg-secondary"] {
-    background-color: #39A0ED !important; /* Force sky blue */
-    color: white !important;
-  }
-
-  .dark .bg-primary, .dark button.bg-primary, .dark [class*="bg-primary"] {
-    background-color: #3C63FF !important; /* Enhanced for dark mode */
-    color: white !important;
-  }
-
-  .dark .bg-secondary, .dark button.bg-secondary, .dark [class*="bg-secondary"] {
-    background-color: #5BB3FF !important; /* Enhanced for dark mode */
-    color: white !important;
-  }
-  
-  /* Force primary button variant */
-  button[class*="variant-default"], .btn-primary {
-    background-color: #2B46B9 !important;
-    color: white !important;
-    border-color: #2B46B9 !important;
-  }
-  
-  button[class*="variant-default"]:hover, .btn-primary:hover {
-    background-color: #1E3A8A !important;
-  }
-  
-  /* Enhanced professional card shadows */
+  /* Enhanced card shadows */
   .shadow-3xl {
-    box-shadow: 0 25px 50px -12px rgba(43, 70, 185, 0.15), 0 12px 24px -8px rgba(43, 70, 185, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 12px 24px -8px rgba(0, 0, 0, 0.1);
   }
   
   .dark .shadow-3xl {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 12px 24px -8px rgba(0, 0, 0, 0.3);
   }
   
-  /* Professional card hover effects */
+  /* Card hover effects */
   .card-hover {
     @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
   }
   
-  /* Professional Glass Effects */
+  /* Apple-style Glass Effects */
   .card-glass {
     backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(249, 250, 251, 0.7);
-    border: 1px solid rgba(43, 70, 185, 0.1);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
-      0 8px 32px 0 rgba(43, 70, 185, 0.15),
+      0 8px 32px 0 rgba(31, 38, 135, 0.15),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
   }
   
   .dark .card-glass {
-    background: rgba(26, 31, 41, 0.7);
-    border: 1px solid rgba(57, 160, 237, 0.15);
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 
       0 8px 32px 0 rgba(0, 0, 0, 0.4),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
   }
+  
+  /* Ultra Glass - More transparency */
+  .card-glass-ultra {
+    backdrop-filter: blur(24px) saturate(200%);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 
+      0 8px 32px 0 rgba(31, 38, 135, 0.2),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark .card-glass-ultra {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Frosted effect */
+  .frosted {
+    backdrop-filter: blur(16px) saturate(180%) brightness(1.1);
+    -webkit-backdrop-filter: blur(16px) saturate(180%) brightness(1.1);
+  }
+  
+  /* Vibrancy effect */
+  .vibrancy {
+    backdrop-filter: blur(20px) saturate(190%) contrast(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%) contrast(120%);
+  }
+  
+  /* Glass shine effect */
+  .glass-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glass-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+  
+  .glass-shine:hover::before {
+    left: 100%;
+  }
+  
+  /* Apple-style glass morphism - Light mode */
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  }
+  
+  .dark .glass-morphism {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  .glass-morphism-light {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  }
+  
+  .dark .glass-morphism-light {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  }
+  
+  .glass-morphism-ultra {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+  }
+  
+  .dark .glass-morphism-ultra {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.35), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  }
+  
+  /* Glass icon container */
+  .glass-icon {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  .dark .glass-icon {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Top highlight (Apple style) */
+  .glass-highlight {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6), transparent);
+  }
+  
+  .dark .glass-highlight {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  }
 }
 
-/* Professional scrollbar styles */
+/* Custom Scrollbar Styles - Enterprise Professional */
 @layer base {
   /* Webkit browsers (Chrome, Safari, Edge) */
   ::-webkit-scrollbar {
@@ -461,5 +376,55 @@
 
   .dark * {
     scrollbar-color: hsl(var(--primary) / 0.6) hsl(var(--muted));
+  }
+
+  /* Custom scrollbar for watchlist - subtle and theme-appropriate */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 3px;
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  .scrollbar-thumb-slate-400::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+  }
+
+  .scrollbar-thumb-slate-600::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .hover\:scrollbar-thumb-slate-500:hover::-webkit-scrollbar-thumb {
+    background: #64748b;
+  }
+
+  .dark .scrollbar-thumb-slate-600::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+
+  .dark .hover\:scrollbar-thumb-slate-500:hover::-webkit-scrollbar-thumb {
+    background: #64748b;
   }
 }

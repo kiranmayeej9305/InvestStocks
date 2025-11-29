@@ -1,11 +1,10 @@
 'use client'
 
-import { StatsCard as ProfessionalStatsCard, MetricCard } from '@/components/ui/professional-card'
-import { PerformanceBadge, TrendBadge } from '@/components/ui/professional-badge'
-import { TrendingUp, TrendingDown, DollarSign, Activity, Users, ShoppingCart } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { TrendingUp, TrendingDown } from 'lucide-react'
 import { MdAttachMoney, MdShowChart, MdPeople, MdShoppingCart, MdTrendingUp } from 'react-icons/md'
 import { RiLineChartLine } from 'react-icons/ri'
-import { cn } from '@/lib/utils'
 
 interface StatsCardProps {
   title: string
@@ -14,9 +13,6 @@ interface StatsCardProps {
   changeType?: 'increase' | 'decrease' | 'neutral'
   icon?: 'dollar' | 'activity' | 'users' | 'cart' | 'trend'
   format?: 'currency' | 'number' | 'percentage'
-  className?: string
-  loading?: boolean
-  variant?: 'default' | 'professional' | 'compact'
 }
 
 export function StatsCard({
@@ -25,10 +21,7 @@ export function StatsCard({
   change,
   changeType = 'neutral',
   icon = 'activity',
-  format = 'number',
-  className,
-  loading = false,
-  variant = 'professional'
+  format = 'number'
 }: StatsCardProps) {
   const formatValue = (val: string | number) => {
     if (format === 'currency') {
@@ -46,88 +39,83 @@ export function StatsCard({
   }
 
   const getIcon = () => {
-    const iconClass = "w-5 h-5 text-white"
     switch (icon) {
       case 'dollar':
-        return <DollarSign className={iconClass} />
+        return <MdAttachMoney className="w-6 h-6" />
       case 'activity':
-        return <Activity className={iconClass} />
+        return <RiLineChartLine className="w-6 h-6" />
       case 'users':
-        return <Users className={iconClass} />
+        return <MdPeople className="w-6 h-6" />
       case 'cart':
-        return <ShoppingCart className={iconClass} />
+        return <MdShoppingCart className="w-6 h-6" />
       case 'trend':
-        return <TrendingUp className={iconClass} />
+        return <MdTrendingUp className="w-6 h-6" />
       default:
-        return <Activity className={iconClass} />
+        return <MdShowChart className="w-6 h-6" />
     }
   }
 
-  const getIconBackground = () => {
-    switch (icon) {
-      case 'dollar':
-        return 'bg-gradient-to-br from-success to-success/80'
-      case 'activity':
-        return 'bg-gradient-to-br from-primary to-secondary'
-      case 'users':
-        return 'bg-gradient-to-br from-professional-blue-500 to-professional-blue-600'
-      case 'cart':
-        return 'bg-gradient-to-br from-warning to-warning/80'
-      case 'trend':
-        return 'bg-gradient-to-br from-professional-sky-400 to-professional-sky-500'
-      default:
-        return 'bg-gradient-to-br from-primary to-secondary'
-    }
-  }
-
-  const getChangeVariant = () => {
+  const getChangeColor = () => {
     switch (changeType) {
       case 'increase':
-        return 'gain' as const
+        return 'text-success bg-success/10 border-success/20'
       case 'decrease':
-        return 'loss' as const
+        return 'text-destructive bg-destructive/10 border-destructive/20'
       default:
-        return 'neutral' as const
+        return 'text-slate-400 bg-slate-500/10 border-slate-500/20'
     }
   }
 
-  if (variant === 'professional') {
-    return (
-      <MetricCard
-        label={title}
-        value={formatValue(value)}
-        change={change}
-        changeLabel="from last month"
-        icon={
-          <div className={cn(
-            "w-10 h-10 rounded-xl flex items-center justify-center shadow-professional",
-            getIconBackground()
-          )}>
-            {getIcon()}
-          </div>
-        }
-        loading={loading}
-        className={cn("animate-fade-in", className)}
-      />
-    )
+  const getChangeIcon = () => {
+    switch (changeType) {
+      case 'increase':
+        return <TrendingUp className="w-3 h-3" />
+      case 'decrease':
+        return <TrendingDown className="w-3 h-3" />
+      default:
+        return null
+    }
   }
 
-  // For backward compatibility - using the new professional components
+  const getIconColor = () => {
+    switch (icon) {
+      case 'dollar':
+        return 'from-emerald-500 to-teal-500'
+      case 'activity':
+        return 'from-blue-500 to-cyan-500'
+      case 'users':
+        return 'from-purple-500 to-pink-500'
+      case 'cart':
+        return 'from-orange-500 to-red-500'
+      case 'trend':
+        return 'from-violet-500 to-purple-500'
+      default:
+        return 'from-blue-500 to-purple-500'
+    }
+  }
+
   return (
-    <ProfessionalStatsCard
-      label={title}
-      value={formatValue(value)}
-      change={change ? `${change > 0 ? '+' : ''}${change.toFixed(1)}%` : undefined}
-      changeType={getChangeVariant()}
-      icon={
-        <div className={cn(
-          "w-10 h-10 rounded-xl flex items-center justify-center shadow-professional",
-          getIconBackground()
-        )}>
+    <Card className="bg-card/50 dark:bg-slate-800/40 backdrop-blur-sm border-border hover:border-border/80 transition-all hover:shadow-lg hover:shadow-primary/5">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${getIconColor()} flex items-center justify-center text-white shadow-lg`}>
           {getIcon()}
         </div>
-      }
-      className={cn("animate-fade-in hover:scale-[1.02] transition-all duration-300", className)}
-    />
+      </CardHeader>
+      <CardContent>
+        <div className="text-xl sm:text-2xl font-bold text-foreground">{formatValue(value)}</div>
+        {change !== undefined && (
+          <div className="flex items-center mt-2">
+            <Badge className={`text-xs px-2 py-0.5 border ${getChangeColor()}`}>
+              <div className="flex items-center space-x-1">
+                {getChangeIcon()}
+                <span>{Math.abs(change)}%</span>
+              </div>
+            </Badge>
+            <span className="text-xs text-muted-foreground ml-2 hidden sm:inline">from last month</span>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }
