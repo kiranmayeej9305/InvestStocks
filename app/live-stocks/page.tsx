@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowLeft, TrendingUp, TrendingDown, Activity, DollarSign, Clock, Zap, Target, BarChart3, Eye, RefreshCw } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { ArrowLeft, TrendingUp, TrendingDown, Activity, RefreshCw } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function LiveStocksPage() {

@@ -16,6 +16,7 @@ import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { 
   MdDashboard, 
   MdShowChart, 
@@ -229,6 +230,12 @@ export function Sidebar() {
                   </Link>
                 )
               })}
+              
+              {/* Theme Toggle */}
+              <div className="flex items-center justify-between px-4 py-2.5">
+                <span className="text-sm font-medium text-muted-foreground">Theme</span>
+                <ThemeToggle />
+              </div>
               
               {/* Logout Button */}
               <button

@@ -272,7 +272,7 @@ export default function LandingPage() {
                   AI-Powered Investment Platform
                 </Badge>
                 
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                   <span className="text-shimmer elastic-bounce">
                     Smart Investing
                   </span>
@@ -289,18 +289,18 @@ export default function LandingPage() {
                 <Link href="/signup">
                   <Button 
                     size="lg"
-                    className="h-14 px-8 text-lg font-semibold glow-pulse liquid-hover magnetic ripple-effect bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300"
+                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold glow-pulse liquid-hover magnetic ripple-effect bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 w-full sm:w-auto"
                   >
-                    Start Free Trial <Zap className="ml-2 h-5 w-5" />
+                    Start Free Trial <Zap className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
                 </Link>
                 <Link href="/pricing">
                   <Button 
                     size="lg"
                     variant="outline"
-                    className="h-14 px-8 text-lg font-semibold border-border hover:bg-muted magnetic liquid-hover transform transition-all duration-300"
+                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold border-border hover:bg-muted magnetic liquid-hover transform transition-all duration-300 w-full sm:w-auto"
                   >
-                    View Pricing <ArrowRight className="ml-2 h-5 w-5" />
+                    View Pricing <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
                 </Link>
               </div>
@@ -602,7 +602,7 @@ export default function LandingPage() {
                   </Link>
                 </div>
                 <div className="relative animate-slide-in-right">
-                  <div className="bg-gradient-to-br from-red-500/20 to-orange-500/5 rounded-2xl p-1 group-hover:from-red-500/30 group-hover:to-orange-500/10 transition-all duration-700 morphing-blob">
+                  <div className="bg-gradient-to-br from-red-500/20 to-orange-500/5 rounded-2xl p-1 group-hover:from-red-500/30 group-hover:to-orange-500/10 transition-all duration-700">
                     <div className="bg-background rounded-xl p-6 space-y-4 group-hover:shadow-lg transition-shadow duration-700">
                       <div className="flex items-center justify-between mb-4">
                         <span className="font-semibold">Active Alerts</span>
@@ -678,6 +678,11 @@ export default function LandingPage() {
                     <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Risk Assessment</Badge>
                     <Badge variant="secondary" className="bg-muted magnetic hover:scale-105 transition-transform">Automated Tracking</Badge>
                   </div>
+                  <Link href="/portfolio-landing">
+                    <Button className="magnetic liquid-hover">
+                      Explore Portfolio <Briefcase className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="md:order-1 relative animate-slide-in-left">
                   <div className="bg-gradient-to-br from-blue-500/20 to-blue-500/5 rounded-2xl p-1 group-hover:from-blue-500/30 group-hover:to-blue-500/10 transition-all duration-700 animate-gradient-shift">
@@ -736,6 +741,16 @@ export default function LandingPage() {
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Real Market Data</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Strategy Testing</Badge>
                   </div>
+                  <Link href="/paper-trading-landing">
+                    <Button className="magnetic liquid-hover">
+                      Start Paper Trading <Target className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/paper-trading-landing">
+                    <Button className="magnetic liquid-hover">
+                      Start Paper Trading <Target className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="relative animate-slide-in-right">
                   <div className="bg-gradient-to-br from-purple-500/20 to-purple-500/5 rounded-2xl p-1 group-hover:from-purple-500/30 group-hover:to-purple-500/10 transition-all duration-700 animate-gradient-shift">
