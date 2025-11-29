@@ -127,7 +127,7 @@ export default function SmartRatingPage() {
                     {/* Overall Rating */}
                     <Card className="p-6 bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950/20 dark:to-orange-950/20">
                       <div className="text-center">
-                        <div className="text-3xl font-bold mb-2 portfolio-balance-count">{stock.rating}/10</div>
+                        <div className="text-3xl font-bold mb-2 portfolio-balance-count">{stock?.rating || 0}/10</div>
                         <div className="flex items-center justify-center gap-1 mb-3">
                           {[1,2,3,4,5].map((i) => (
                             <Star 

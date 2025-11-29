@@ -289,7 +289,7 @@ export default function LandingPage() {
                 <Link href="/signup">
                   <Button 
                     size="lg"
-                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold glow-pulse liquid-hover magnetic ripple-effect bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 w-full sm:w-auto"
+                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold liquid-hover magnetic bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 w-full sm:w-auto"
                   >
                     Start Free Trial <Zap className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
@@ -426,7 +426,7 @@ export default function LandingPage() {
             <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6 animate-slide-in-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium animate-bounce-gentle">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
                     <MessageSquare className="h-4 w-4" />
                     AI Assistant
                   </div>
@@ -441,6 +441,11 @@ export default function LandingPage() {
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Personalized Advice</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Market Insights</Badge>
                   </div>
+                  <Link href="/ai-chat">
+                    <Button className="magnetic liquid-hover">
+                      Try AI Assistant <MessageSquare className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="relative animate-slide-in-right">
                   <div className="bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl p-1 group-hover:from-primary/30 group-hover:to-primary/10 transition-all duration-700 animate-gradient-shift">
@@ -518,7 +523,7 @@ export default function LandingPage() {
             <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6 animate-slide-in-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-600 text-sm font-medium animate-bounce-gentle">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-600 text-sm font-medium">
                     <Target className="h-4 w-4" />
                     Earnings Alerts
                   </div>
@@ -613,7 +618,7 @@ export default function LandingPage() {
                       </div>
                       
                       <div className="space-y-3">
-                        <div className="flex items-center justify-between p-3 bg-red-500/10 border border-red-500/20 rounded-lg animate-slide-in glow-pulse">
+                        <div className="flex items-center justify-between p-3 bg-red-500/10 border border-red-500/20 rounded-lg animate-slide-in">
                           <div className="flex items-center gap-3">
                             <Bell className="h-5 w-5 text-red-500 sparkle" />
                             <div>
@@ -726,7 +731,7 @@ export default function LandingPage() {
             <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6 animate-slide-in-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 text-sm font-medium animate-bounce-gentle">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 text-sm font-medium">
                     <Target className="h-4 w-4" />
                     Risk-Free Trading
                   </div>
@@ -743,12 +748,7 @@ export default function LandingPage() {
                   </div>
                   <Link href="/paper-trading-landing">
                     <Button className="magnetic liquid-hover">
-                      Start Paper Trading <Target className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                  <Link href="/paper-trading-landing">
-                    <Button className="magnetic liquid-hover">
-                      Start Paper Trading <Target className="ml-2 h-4 w-4" />
+                      Explore Paper Trading <Target className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
                 </div>
@@ -765,7 +765,7 @@ export default function LandingPage() {
                         +8.2% gain
                       </div>
                       <div className="space-y-2">
-                        <Button size="sm" className="w-full animate-pulse">Execute Paper Trade</Button>
+                        <Button size="sm" className="w-full hover:scale-105 transition-transform">Execute Paper Trade</Button>
                         <div className="grid grid-cols-2 gap-2">
                           <Button size="sm" variant="outline" className="text-xs hover:scale-105 transition-transform">Buy TSLA</Button>
                           <Button size="sm" variant="outline" className="text-xs hover:scale-105 transition-transform">Sell AAPL</Button>
@@ -783,7 +783,7 @@ export default function LandingPage() {
             <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="md:order-2 space-y-6 animate-slide-in-right">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 text-sm font-medium animate-bounce-gentle">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 text-sm font-medium">
                     <LineChart className="h-4 w-4" />
                     Advanced Charting
                   </div>
@@ -798,6 +798,11 @@ export default function LandingPage() {
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Multiple Timeframes</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Drawing Tools</Badge>
                   </div>
+                  <Link href="/stocks">
+                    <Button className="magnetic liquid-hover">
+                      View Charts <LineChart className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="md:order-1 relative animate-slide-in-left">
                   <div className="bg-gradient-to-br from-orange-500/20 to-orange-500/5 rounded-2xl p-1 group-hover:from-orange-500/30 group-hover:to-orange-500/10 transition-all duration-700 animate-gradient-shift">
@@ -838,7 +843,7 @@ export default function LandingPage() {
             <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6 animate-slide-in-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-sm font-medium animate-bounce-gentle">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 text-pink-600 text-sm font-medium">
                     <Star className="h-4 w-4" />
                     Stock Discovery
                   </div>
@@ -853,6 +858,11 @@ export default function LandingPage() {
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Fundamental Analysis</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Opportunity Alerts</Badge>
                   </div>
+                  <Link href="/screener">
+                    <Button className="magnetic liquid-hover">
+                      Try Screener <Star className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
                 <div className="relative animate-slide-in-right">
                   <div className="bg-gradient-to-br from-pink-500/20 to-pink-500/5 rounded-2xl p-1 group-hover:from-pink-500/30 group-hover:to-pink-500/10 transition-all duration-700 animate-gradient-shift">
@@ -897,7 +907,7 @@ export default function LandingPage() {
       {/* Pricing Section */}
       <section className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <Badge className="bg-primary/10 text-primary border-primary/20 mb-4 animate-bounce-gentle">
+          <Badge className="bg-primary/10 text-primary border-primary/20 mb-4">
             <Crown className="mr-1 h-3 w-3" />
             Pricing Plans
           </Badge>

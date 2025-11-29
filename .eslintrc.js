@@ -17,7 +17,6 @@ module.exports = {
     // Disable warnings for Next.js Image optimization
     '@next/next/no-img-element': 'off',
   },
-  },
   env: {
     browser: true,
     node: true,
