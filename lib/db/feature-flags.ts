@@ -42,6 +42,15 @@ const DEFAULT_FEATURE_FLAGS: Omit<FeatureFlag, '_id' | 'createdAt' | 'updatedAt'
     defaultValue: true,
   },
   {
+    key: 'community',
+    name: 'Community',
+    description: 'Access to community features and discussions',
+    enabled: false,
+    enabledForPlans: ['pro', 'enterprise'],
+    category: 'social',
+    defaultValue: false,
+  },
+  {
     key: 'crypto_tracking',
     name: 'Crypto Tracking',
     description: 'Track and manage cryptocurrency holdings',

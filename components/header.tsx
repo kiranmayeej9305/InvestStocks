@@ -19,7 +19,7 @@ import { UserProfileDropdown } from '@/components/user-profile-dropdown'
 import { ProfileModal } from '@/components/profile-modal'
 import { BillingModal } from '@/components/billing-modal'
 import { NotificationsCenter } from '@/components/notifications-center'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { ChartNoAxesCombined } from 'lucide-react'
 
 function UserOrLogin() {
   const settings = useSiteSettings()
@@ -29,19 +29,22 @@ function UserOrLogin() {
 
   return (
     <>
-      <div className="flex items-center font-semibold gap-2">
-        <a href="/new" className="flex items-center gap-2 text-lg sm:text-xl lg:text-2xl font-bold text-foreground tracking-tight truncate" style={{ color: primaryColor }}>
+      <div className="flex items-center font-semibold gap-1.5 sm:gap-2">
+        <a href="/new" className="flex items-center gap-1.5 sm:gap-2 text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-foreground tracking-tight truncate" style={{ color: primaryColor }}>
           {siteLogo ? (
-            <Image src={siteLogo} alt={siteName} width={32} height={32} className="rounded-lg" />
+            <Image src={siteLogo} alt={siteName} width={28} height={28} className="rounded-lg sm:w-8 sm:h-8" />
           ) : (
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
-              <span className="text-sm font-bold" style={{ color: primaryColor }}>
-                {siteName.charAt(0).toUpperCase()}
-              </span>
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br shadow-lg flex items-center justify-center"
+              style={{
+                background: `linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 60%) 100%)`,
+                boxShadow: `0 4px 14px 0 hsl(var(--primary) / 0.3)`
+              }}
+            >
+              <ChartNoAxesCombined className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
           )}
-          <span className="hidden sm:inline">{siteName}</span>
-          <span className="sm:hidden">{siteName.substring(0, 2).toUpperCase()}</span>
+          <span className="hidden sm:inline text-sm sm:text-lg lg:text-xl xl:text-2xl">{siteName}</span>
+          <span className="sm:hidden text-sm font-bold">{siteName.substring(0, 8)}</span>
         </a>
       </div>
     </>
@@ -323,7 +326,6 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-          <ThemeToggle />
           {isAuthenticated ? (
             <div className="flex items-center gap-2">
               <NotificationsCenter />

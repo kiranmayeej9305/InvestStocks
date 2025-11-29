@@ -34,7 +34,6 @@ import {
   ChartNoAxesCombined
 } from 'lucide-react'
 import { StockLogo } from '@/components/stocks/stock-logo'
-import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function LandingPage() {
   const router = useRouter()
@@ -164,13 +163,8 @@ export default function LandingPage() {
                 </Link>
               </div>
               
-              {/* Right Side - Auth Buttons + Theme Toggle */}
+              {/* Right Side - Auth Buttons */}
               <div className="flex items-center gap-2 flex-shrink-0">
-                {/* Theme Toggle */}
-                <div className="hidden sm:block">
-                  <ThemeToggle />
-                </div>
-                
                 {/* Mobile Menu Button */}
                 <Button
                   variant="ghost"
@@ -250,9 +244,6 @@ export default function LandingPage() {
                         </Button>
                       </Link>
                     </div>
-                    <div className="ml-4">
-                      <ThemeToggle />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -262,93 +253,92 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section with Large Animation */}
-      <section className="relative z-10 container mx-auto px-4 py-20 md:py-32">
+      <section className="relative z-10 container mx-auto px-3 sm:px-4 py-16 sm:py-20 md:py-32">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             {/* Left Content */}
-            <div className="text-center lg:text-left space-y-8">
+            <div className="text-center lg:text-left space-y-6 sm:space-y-8">
               <div className="animate-fade-in-up">
-                <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/15 mb-6">
+                <Badge className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/15 mb-4 sm:mb-6 text-xs sm:text-sm">
                   <Sparkles className="mr-1 h-3 w-3" />
                   AI-Powered Investment Platform
                 </Badge>
                 
-                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-                  <span className="text-shimmer elastic-bounce">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+                  <span className="text-shimmer elastic-bounce block">
                     Smart Investing
                   </span>
-                  <br />
-                  <span className="text-foreground breathe">Made Simple</span>
+                  <span className="text-foreground breathe block mt-1 sm:mt-2">Made Simple</span>
                 </h1>
               </div>
               
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl lg:max-w-none animate-fade-in-up animation-delay-200">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 animate-fade-in-up animation-delay-200">
                 Real-time market insights, AI-powered analysis, and professional trading tools—all in one elegant platform
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 pt-4 animate-fade-in-up animation-delay-400">
-                <Link href="/signup">
+              <div className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-3 sm:gap-4 pt-2 sm:pt-4 animate-fade-in-up animation-delay-400">
+                <Link href="/signup" className="w-full sm:w-auto">
                   <Button 
                     size="lg"
-                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold liquid-hover magnetic bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 w-full sm:w-auto"
+                    className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 text-sm sm:text-base md:text-lg font-semibold liquid-hover magnetic bg-primary hover:bg-primary/90 text-primary-foreground transform transition-all duration-300 w-full"
                   >
                     Start Free Trial <Zap className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
                 </Link>
-                <Link href="/pricing">
+                <Link href="/pricing" className="w-full sm:w-auto">
                   <Button 
                     size="lg"
                     variant="outline"
-                    className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg font-semibold border-border hover:bg-muted magnetic liquid-hover transform transition-all duration-300 w-full sm:w-auto"
+                    className="h-11 sm:h-12 md:h-14 px-6 sm:px-8 text-sm sm:text-base md:text-lg font-semibold border-border hover:bg-muted magnetic liquid-hover transform transition-all duration-300 w-full"
                   >
                     View Pricing <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
                   </Button>
                 </Link>
               </div>
 
-              <div className="flex items-center justify-center lg:justify-start gap-8 pt-8 text-sm text-muted-foreground animate-fade-in-up animation-delay-600">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-8 pt-6 sm:pt-8 text-xs sm:text-sm text-muted-foreground animate-fade-in-up animation-delay-600">
                 <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-success" />
+                  <Check className="h-3 w-3 sm:h-4 sm:w-4 text-success flex-shrink-0" />
                   <span>No credit card required</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-success" />
+                  <Check className="h-3 w-3 sm:h-4 sm:w-4 text-success flex-shrink-0" />
                   <span>Free forever plan</span>
                 </div>
               </div>
             </div>
 
             {/* Right - Large Hero Animation */}
-            <div className="relative lg:ml-8">
+            <div className="relative lg:ml-4 xl:ml-8 mt-8 lg:mt-0">
               <div className="relative z-10">
                 {/* Main Dashboard Preview */}
-                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-3xl p-6 shadow-2xl animate-float">
-                  <div className="space-y-4">
+                <div className="bg-card/80 backdrop-blur-xl border border-border rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl animate-float max-w-full overflow-hidden">
+                  <div className="space-y-3 sm:space-y-4">
                     {/* Header */}
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center animate-pulse">
-                          <TrendingUp className="h-4 w-4 text-primary-foreground" />
+                      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 bg-primary rounded-lg flex items-center justify-center animate-pulse flex-shrink-0">
+                          <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-primary-foreground" />
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-sm">Portfolio Overview</h3>
-                          <p className="text-xs text-muted-foreground">Live Dashboard</p>
+                        <div className="min-w-0">
+                          <h3 className="font-semibold text-xs sm:text-sm truncate">Portfolio Overview</h3>
+                          <p className="text-xs text-muted-foreground truncate">Live Dashboard</p>
                         </div>
                       </div>
-                      <Badge className="bg-primary/10 text-primary animate-pulse">Live</Badge>
+                      <Badge className="bg-primary/10 text-primary animate-pulse text-xs flex-shrink-0">Live</Badge>
                     </div>
 
                     {/* Portfolio Value */}
-                    <div className="bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-xl p-4">
-                      <div className="text-2xl font-bold text-primary animate-count-up">$125,432.18</div>
-                      <div className="text-sm text-primary flex items-center gap-1">
-                        <TrendingUp className="h-3 w-3" />
-                        +12.3% this month
+                    <div className="bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                      <div className="text-lg sm:text-2xl font-bold text-primary animate-count-up">$125,432.18</div>
+                      <div className="text-xs sm:text-sm text-primary flex items-center gap-1">
+                        <TrendingUp className="h-3 w-3 flex-shrink-0" />
+                        <span className="truncate">+12.3% this month</span>
                       </div>
                     </div>
 
                     {/* Chart Animation */}
-                    <div className="h-32 relative bg-muted/20 rounded-xl overflow-hidden">
+                    <div className="h-24 sm:h-32 relative bg-muted/20 rounded-lg sm:rounded-xl overflow-hidden">
                       <div className="absolute inset-0 flex items-end justify-between px-4 pb-4">
                         <div className="w-3 bg-gradient-to-t from-green-500 to-green-400 animate-chart-bar-1 rounded-t"></div>
                         <div className="w-3 bg-gradient-to-t from-red-500 to-red-400 animate-chart-bar-2 rounded-t"></div>
@@ -419,26 +409,26 @@ export default function LandingPage() {
       </section>
 
       {/* Feature Sections with Full Width Animated Cards */}
-      <section className="relative z-10 container mx-auto px-4 py-16">
+      <section className="relative z-10 container mx-auto px-3 sm:px-4 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto">
           
           {/* AI Chat Feature */}
-          <div className="mb-20 group">
-            <Card className="p-8 md:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-6 animate-slide-in-left">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                    <MessageSquare className="h-4 w-4" />
+          <div className="mb-12 sm:mb-16 lg:mb-20 group">
+            <Card className="p-4 sm:p-6 md:p-8 lg:p-12 border border-border hover:border-primary/30 transition-all duration-700 hover:shadow-2xl backdrop-blur-sm bg-card/50 hover:bg-card/80 transform hover:-translate-y-2 overflow-hidden">
+              <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
+                <div className="space-y-4 sm:space-y-6 animate-slide-in-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm font-medium">
+                    <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
                     AI Assistant
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-                    Chat with Your Personal <span className="text-primary animate-text-shimmer">AI Financial Advisor</span>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
+                    Chat with Your Personal <span className="text-primary animate-text-shimmer block sm:inline">AI Financial Advisor</span>
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">
+                  <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
                     Get instant answers to complex financial questions. Our AI analyzes market data, news, and trends to provide personalized investment recommendations in real-time.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Real-time Analysis</Badge>
+                  <div className="flex flex-wrap gap-2 sm:gap-3">
+                    <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform text-xs">Real-time Analysis</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Personalized Advice</Badge>
                     <Badge variant="secondary" className="bg-muted hover:scale-105 transition-transform">Market Insights</Badge>
                   </div>
@@ -1189,7 +1179,7 @@ export default function LandingPage() {
                 <h3 className="font-semibold mb-4 text-foreground">Support</h3>
                 <ul className="space-y-3 text-sm">
                   <li><Link href="/help" className="text-muted-foreground hover:text-primary transition-colors">Help Center</Link></li>
-                  <li><Link href="/community" className="text-muted-foreground hover:text-primary transition-colors">Community</Link></li>
+                  {/* <li><Link href="/community" className="text-muted-foreground hover:text-primary transition-colors">Community</Link></li> */}
                   <li><Link href="/api" className="text-muted-foreground hover:text-primary transition-colors">API Docs</Link></li>
                   <li><Link href="/status" className="text-muted-foreground hover:text-primary transition-colors">Status</Link></li>
                 </ul>

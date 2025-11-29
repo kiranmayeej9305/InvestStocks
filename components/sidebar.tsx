@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/lib/contexts/auth-context'
+import { useFeatureFlag } from '@/lib/hooks/use-feature-flag'
 import { cn } from '@/lib/utils'
 import {
   Menu,
@@ -11,6 +12,7 @@ import {
   Lock,
   Eye,
   EyeOff,
+  ChartNoAxesCombined,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
@@ -38,7 +40,7 @@ import { useSiteSettings } from '@/components/site-settings-context'
 import Image from 'next/image'
 import { PricingModal } from './pricing-modal'
 
-const navigation = [
+const baseNavigation = [
   { name: 'Dashboard', href: '/', icon: MdDashboard },
   { name: 'InvestSentry AI', href: '/ai-chat', icon: RiRobot2Line },
   { name: 'Stock', href: '/stocks', icon: RiStockLine },
@@ -51,7 +53,7 @@ const navigation = [
   { name: 'Earnings', href: '/earnings', icon: MdCalendarToday },
   { name: 'Screener', href: '/screener', icon: MdShowChart },
   { name: 'Alerts', href: '/alerts', icon: MdNotifications },
-  { name: 'Community', href: '/community', icon: MdPeople },
+  { name: 'Community', href: '/community', icon: MdPeople }
 ]
 
 const accountNavigation = [
@@ -68,6 +70,13 @@ export function Sidebar() {
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { user, logout } = useAuth();
+  const { enabled: communityEnabled } = useFeatureFlag('community', user?.plan);
+  
+  // Build navigation array with conditional community item
+  const navigation = [
+    ...baseNavigation,
+    ...(communityEnabled ? [{ name: 'Community', href: '/community', icon: MdPeople }] : [])
+  ];
 
   const pathnameHook = usePathname();
   const pathname = mounted ? pathnameHook : '';
@@ -93,7 +102,7 @@ export function Sidebar() {
       {/* Mobile menu button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-[60] p-2.5 rounded-xl border-2 shadow-xl transition-all touch-target"
+        className="lg:hidden fixed top-3 left-3 z-[60] p-2 sm:p-2.5 rounded-lg sm:rounded-xl border-2 shadow-xl transition-all touch-target"
         style={{
           background: isOpen ? 'hsl(var(--primary) / 0.1)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(12px)',
@@ -102,40 +111,40 @@ export function Sidebar() {
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
       >
         {isOpen ? (
-          <X className="w-5 h-5" style={{ color: 'hsl(var(--primary))' }} />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'hsl(var(--primary))' }} />
         ) : (
-          <Menu className="w-5 h-5" style={{ color: 'hsl(var(--primary))' }} />
+          <Menu className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'hsl(var(--primary))' }} />
         )}
       </button>
 
       {/* Sidebar - Fixed */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transform transition-transform duration-300 ease-in-out flex-shrink-0",
+        "fixed inset-y-0 left-0 z-50 w-56 sm:w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl transform transition-transform duration-300 ease-in-out flex-shrink-0",
         "lg:translate-x-0 lg:static lg:h-screen border-r border-gray-200/50 dark:border-slate-700/50 overflow-y-auto",
         isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
         <div className="flex flex-col h-full min-h-screen">
           {/* Logo */}
-          <div className="flex items-center px-6 py-6 pt-20 lg:pt-6">
-            <div className="flex items-center">
+          <div className="flex items-center px-4 sm:px-6 py-4 sm:py-6 pt-16 lg:pt-6">
+            <div className="flex items-center w-full">
               {siteLogo ? (
-                <Image src={siteLogo} alt={siteName} width={40} height={40} className="rounded-xl shadow-lg" />
+                <Image src={siteLogo} alt={siteName} width={32} height={32} className="rounded-lg shadow-lg sm:w-10 sm:h-10" />
               ) : (
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg"
                   style={{
                     background: `linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(217 91% 60%) 100%)`,
                     boxShadow: `0 4px 14px 0 hsl(var(--primary) / 0.3)`
                   }}
                 >
-                  <RiLineChartLine className="w-6 h-6 text-white" />
+                  <ChartNoAxesCombined className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
               )}
-              <span className="ml-3 text-xl font-bold text-foreground">{siteName}</span>
+              <span className="ml-2 sm:ml-3 text-lg sm:text-xl font-bold text-foreground truncate">{siteName}</span>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-2 space-y-1">
+          <nav className="flex-1 px-3 sm:px-4 py-2 space-y-0.5 sm:space-y-1">
             {navigation.map((item) => {
               const isActive = pathname === item.href
               const Icon = item.icon
@@ -143,8 +152,9 @@ export function Sidebar() {
                 <Link
                   key={item.name}
                   href={item.href}
+                  onClick={() => setIsOpen(false)} // Close mobile menu on click
                   className={cn(
-                    "flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all group relative overflow-hidden",
+                    "flex items-center px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl transition-all group relative overflow-hidden",
                     isActive
                       ? "text-foreground border"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -160,31 +170,31 @@ export function Sidebar() {
                     }} />
                   )}
                   <Icon className={cn(
-                    "mr-3 w-5 h-5 transition-all relative z-10",
+                    "mr-2 sm:mr-3 w-4 h-4 sm:w-5 sm:h-5 transition-all relative z-10 flex-shrink-0",
                     isActive ? "" : "text-muted-foreground"
                   )} 
                   style={isActive ? { color: 'hsl(var(--primary))' } : {}}
                   />
-                  <span className="truncate relative z-10">{item.name}</span>
+                  <span className="truncate relative z-10 text-xs sm:text-sm">{item.name}</span>
                 </Link>
               )
             })}
           </nav>
 
           {/* Account Section */}
-          <div className="px-4 py-4 border-t border-border mt-auto">
-            <div className="mb-3">
-              <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <div className="px-3 sm:px-4 py-3 sm:py-4 border-t border-border mt-auto">
+            <div className="mb-2 sm:mb-3">
+              <h3 className="px-3 sm:px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 Account
               </h3>
             </div>
-            <nav className="space-y-1">
+            <nav className="space-y-0.5 sm:space-y-1">
               {/* Profile Button */}
               <button
                 onClick={() => setShowProfileModal(true)}
-                className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
+                className="w-full flex items-center px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-muted-foreground rounded-lg sm:rounded-xl hover:bg-accent hover:text-foreground transition-all group"
               >
-                <MdPerson className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
+                <MdPerson className="mr-2 sm:mr-3 w-4 h-4 text-muted-foreground transition-colors flex-shrink-0" 
                   style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
                   onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = '')}
@@ -196,15 +206,16 @@ export function Sidebar() {
               {user?.role === 'admin' && (
                 <Link
                   href="/admin"
-                  className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
+                  onClick={() => setIsOpen(false)}
+                  className="w-full flex items-center px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-muted-foreground rounded-lg sm:rounded-xl hover:bg-accent hover:text-foreground transition-all group"
                 >
-                  <MdAdminPanelSettings className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
+                  <MdAdminPanelSettings className="mr-2 sm:mr-3 w-4 h-4 text-muted-foreground transition-colors flex-shrink-0" 
                     style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
                     onMouseEnter={(e) => (e.currentTarget.style.color = 'rgb(255, 70, 24)')}
                     onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                   />
-                  <span className="truncate">Admin Panel</span>
-                  <span className="ml-auto px-2 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary">
+                  <span className="truncate flex-1">Admin Panel</span>
+                  <span className="ml-auto px-1.5 sm:px-2 py-0.5 text-xs font-semibold rounded-full bg-primary/10 text-primary whitespace-nowrap">
                     Admin
                   </span>
                 </Link>
@@ -216,9 +227,10 @@ export function Sidebar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-accent hover:text-foreground transition-all group"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-muted-foreground rounded-lg sm:rounded-xl hover:bg-accent hover:text-foreground transition-all group"
                   >
-                    <Icon className="mr-3 w-4 h-4 text-muted-foreground transition-colors" 
+                    <Icon className="mr-2 sm:mr-3 w-4 h-4 text-muted-foreground transition-colors flex-shrink-0" 
                       style={{ '--hover-color': 'rgb(255, 70, 24)' } as React.CSSProperties}
                       onMouseEnter={(e) => (e.currentTarget.style.color = 'hsl(var(--primary))')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = '')}
@@ -231,9 +243,9 @@ export function Sidebar() {
               {/* Logout Button */}
               <button
                 onClick={() => logout()}
-                className="w-full flex items-center px-4 py-2.5 text-sm font-medium text-muted-foreground rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all group"
+                className="w-full flex items-center px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-muted-foreground rounded-lg sm:rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-all group"
               >
-                <MdLogout className="mr-3 w-4 h-4 text-muted-foreground group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors" />
+                <MdLogout className="mr-2 sm:mr-3 w-4 h-4 text-muted-foreground group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors flex-shrink-0" />
                 <span className="truncate">Logout</span>
               </button>
             </nav>
