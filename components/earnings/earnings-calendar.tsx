@@ -7,6 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import { 
   RefreshCw, 
   AlertCircle, 
@@ -22,11 +25,20 @@ import {
   Brain,
   ChevronLeft,
   ChevronRight,
-  Filter
+  Filter,
+  Star,
+  Award,
+  Eye,
+  Activity,
+  Target,
+  Zap,
+  Menu
 } from 'lucide-react'
 import { format, parseISO, isSameDay, isToday, isTomorrow, isPast } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { DetailPanel } from './detail-panel'
 
 interface EarningsItem {
   date: string
@@ -38,6 +50,36 @@ interface EarningsItem {
   time?: string
   year?: number
   quarter?: number
+}
+
+interface HistoricalEarning {
+  _id?: string
+  symbol: string
+  date: string
+  quarter: number
+  year: number
+  epsEstimate: number
+  epsActual: number
+  revenueEstimate: number
+  revenueActual: number
+  surprisePercent?: number
+  anomalyDetected?: boolean
+  anomalyReason?: string
+  analystRating?: string
+  peRatio?: number
+  dividendYield?: number
+  groqRating?: string
+  groqInsights?: string
+}
+
+interface DetailedAnalysis {
+  symbol: string
+  overallRating: string
+  riskLevel: 'Low' | 'Medium' | 'High'
+  insights: string[]
+  anomalies: string[]
+  recommendation: string
+  confidenceScore: number
 }
 
 interface PaginationInfo {
@@ -62,10 +104,13 @@ export function EarningsCalendar() {
     totalPages: 0
   })
   const [alerts, setAlerts] = useState<any[]>([])
-  const [showHistorical, setShowHistorical] = useState(false)
-  const [historicalData, setHistoricalData] = useState<any[]>([])
-  const [selectedSymbol, setSelectedSymbol] = useState('')
+  const [selectedEarning, setSelectedEarning] = useState<EarningsItem | null>(null)
+  const [historicalData, setHistoricalData] = useState<HistoricalEarning[]>([])
+  const [detailedAnalysis, setDetailedAnalysis] = useState<DetailedAnalysis | null>(null)
   const [isLoadingHistorical, setIsLoadingHistorical] = useState(false)
+  const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false)
+  const [isMobileDetailOpen, setIsMobileDetailOpen] = useState(false)
+  const [showHistorical, setShowHistorical] = useState(false)
 
   // Fetch earnings data with advanced filtering
   const fetchEarnings = useCallback(async (page = 1) => {
@@ -104,38 +149,52 @@ export function EarningsCalendar() {
     }
   }, [timeFilter, searchSymbol, pagination.limit])
 
-  // Fetch historical earnings data with AI anomaly detection
-  const fetchHistoricalData = useCallback(async (symbol: string) => {
+  // Fetch historical earnings data with enhanced Groq analysis
+  const fetchDetailedAnalysis = useCallback(async (earning: EarningsItem) => {
     try {
+      setSelectedEarning(earning)
       setIsLoadingHistorical(true)
-      setSelectedSymbol(symbol)
+      setIsLoadingAnalysis(true)
+      setIsMobileDetailOpen(true)
       
-      const params = new URLSearchParams({
-        symbol: symbol.toUpperCase(),
-        limit: '20'
-      })
-
-      const response = await fetch(`/api/earnings/historical?${params.toString()}`)
+      // Fetch historical data
+      const historicalResponse = await fetch(`/api/earnings/historical?symbol=${earning.symbol}&limit=10`)
       
-      if (!response.ok) {
-        throw new Error('Failed to fetch historical data')
-      }
-
-      const data = await response.json()
-
-      if (data.success) {
-        setHistoricalData(data.earnings || [])
-        setShowHistorical(true)
-      } else {
-        throw new Error(data.error || 'Failed to fetch historical data')
+      if (historicalResponse.ok) {
+        const historicalResult = await historicalResponse.json()
+        setHistoricalData(historicalResult.earnings || [])
+        setIsLoadingHistorical(false)
+        
+        // Generate detailed analysis with Groq
+        const analysisResponse = await fetch('/api/earnings/analysis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            symbol: earning.symbol,
+            currentEarning: earning,
+            historicalData: historicalResult.earnings || []
+          })
+        })
+        
+        if (analysisResponse.ok) {
+          const analysisResult = await analysisResponse.json()
+          setDetailedAnalysis(analysisResult.analysis)
+        }
       }
     } catch (err) {
-      console.error('Error fetching historical data:', err)
-      setError(err instanceof Error ? err.message : 'Failed to load historical data')
+      console.error('Error fetching detailed analysis:', err)
     } finally {
       setIsLoadingHistorical(false)
+      setIsLoadingAnalysis(false)
     }
   }, [])
+
+  const closeDetailPanel = () => {
+    setSelectedEarning(null)
+    setHistoricalData([])
+    setDetailedAnalysis(null)
+    setIsMobileDetailOpen(false)
+  }
 
   // Fetch user alerts
   const fetchAlerts = useCallback(async () => {
@@ -551,12 +610,12 @@ export function EarningsCalendar() {
                       <Button
                         size="sm"
                         variant="ghost"
-                        onClick={() => fetchHistoricalData(earning.symbol)}
+                        onClick={() => fetchDetailedAnalysis(earning)}
                         disabled={isLoadingHistorical}
-                        className="text-xs px-2"
+                        className="text-xs px-2 hover:bg-blue-50 hover:text-blue-700"
                       >
-                        <Brain className="h-3 w-3 mr-1" />
-                        History
+                        <Eye className="h-3 w-3 mr-1" />
+                        Details
                       </Button>
                     </div>
                   </div>
@@ -602,7 +661,7 @@ export function EarningsCalendar() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Brain className="h-5 w-5 text-purple-600" />
-                <CardTitle>Historical Earnings - {selectedSymbol}</CardTitle>
+                <CardTitle>Historical Earnings - {selectedEarning?.symbol}</CardTitle>
                 <Badge variant="outline" className="text-xs">
                   <Brain className="h-3 w-3 mr-1" />
                   AI Enhanced
@@ -629,7 +688,7 @@ export function EarningsCalendar() {
                 <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
                 <h3 className="text-lg font-semibold mb-2">No Historical Data</h3>
                 <p className="text-muted-foreground">
-                  No historical earnings data available for {selectedSymbol}
+                  No historical earnings data available for {selectedEarning?.symbol}
                 </p>
               </div>
             ) : (
@@ -694,13 +753,13 @@ export function EarningsCalendar() {
                                       ${earning.epsActual?.toFixed(2) || 'N/A'}
                                     </p>
                                   </div>
-                                  {earning.epsEstimate && earning.epsActual && (
+                                  {earning.epsEstimate && earning.epsActual && earning.surprisePercent !== undefined && (
                                     <div>
                                       <p className="text-xs text-muted-foreground">Surprise</p>
                                       <p className={`text-sm font-semibold ${
                                         earning.surprisePercent > 0 ? 'text-green-600' : 'text-red-600'
                                       }`}>
-                                        {earning.surprisePercent > 0 ? '+' : ''}{earning.surprisePercent?.toFixed(1)}%
+                                        {earning.surprisePercent > 0 ? '+' : ''}{earning.surprisePercent.toFixed(1)}%
                                       </p>
                                     </div>
                                   )}
