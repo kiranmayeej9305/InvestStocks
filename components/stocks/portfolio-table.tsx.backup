@@ -71,12 +71,12 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
   }
 
   return (
-    <Card className="shadow-professional border-border/60 hover:shadow-professional-lg transition-all duration-300 animate-fade-in">
+    <Card className="bg-white/70 dark:bg-slate-800/40 backdrop-blur-xl border-gray-200/50 dark:border-slate-700/50">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-2xl font-bold text-foreground font-overpass">My Holdings</CardTitle>
-            <p className="text-sm text-muted-foreground mt-1 font-overpass">
+            <CardTitle className="text-xl font-bold text-foreground">My Holdings</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">
               {holdings.length} {holdings.length === 1 ? 'stock' : 'stocks'} tracked
             </p>
           </div>
@@ -85,10 +85,10 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
 
         {/* Portfolio Summary */}
         {holdings.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4 p-6 bg-gradient-to-br from-card via-card/95 to-card/90 border border-border/30 rounded-xl shadow-inner-professional">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-4 p-4 bg-gradient-to-br from-blue-50 to-purple-50/30 dark:from-slate-800 dark:to-slate-700 rounded-lg">
             <div className="min-w-0">
-              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1 font-overpass font-medium">Total Invested</p>
-              <p className="text-base sm:text-lg font-bold text-foreground truncate font-overpass tabular-nums">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Total Invested</p>
+              <p className="text-base sm:text-lg font-bold text-foreground truncate">
                 ${totalInvestment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
@@ -136,14 +136,14 @@ export function PortfolioTable({ holdings, onRefresh, onDelete }: PortfolioTable
                 const isPositive = gainLoss >= 0
 
                 return (
-                  <div key={holding._id} className="border border-border/60 rounded-xl p-4 space-y-3 bg-card/50 hover:bg-card/80 transition-all duration-300 hover:shadow-professional animate-fade-in">
+                  <div key={holding._id} className="border border-border rounded-lg p-4 space-y-3 bg-accent/20">
                     {/* Header */}
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <StockLogo ticker={holding.symbol} size="sm" />
                         <div>
-                          <p className="font-semibold text-foreground font-overpass">{holding.symbol}</p>
-                          <p className="text-xs text-muted-foreground font-overpass">{holding.name}</p>
+                          <p className="font-semibold text-foreground">{holding.symbol}</p>
+                          <p className="text-xs text-muted-foreground">{holding.name}</p>
                           <Badge variant="outline" className="text-xs mt-1">
                             {holding.brokerage}
                           </Badge>
