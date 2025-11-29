@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import { IconSpinner } from '@/components/ui/icons'
-import { TrendingUp, Mail, ArrowLeft, CheckCircle } from 'lucide-react'
+import { Mail, ArrowLeft, CheckCircle, ChartNoAxesCombined } from 'lucide-react'
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
@@ -46,35 +46,31 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950" />
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-4 bg-background">
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/10 to-background" />
       
-      {/* Gradient Orbs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse delay-1000" />
-      
-      {/* Glass Card */}
-      <Card className="w-full max-w-md relative z-10 glass-morphism-ultra border-primary/20 shadow-2xl">
-        <div className="p-8">
+      {/* Glass Card with enhanced styling */}
+      <Card className="w-full max-w-md relative z-10 border-border shadow-2xl backdrop-blur-xl bg-card">
+        <div className="p-8 sm:p-10">
           {/* Back Button */}
-          <Link href="/login" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-6 group">
+          <Link href="/login" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-all duration-200 mb-8 group">
             <ArrowLeft className="size-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Sign In
+            <span className="group-hover:underline">Back to Sign In</span>
           </Link>
           
-          {/* Logo/Brand */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4" style={{ background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)' }}>
-              <TrendingUp className="h-8 w-8 text-white" />
+          {/* Enhanced Logo/Brand */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-5 shadow-lg transform transition-transform hover:scale-105 bg-primary">
+              <ChartNoAxesCombined className="h-10 w-10 text-primary-foreground" />
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Forgot Password
+            <h1 className="text-4xl font-bold text-foreground mb-2">
+              Reset Password
             </h1>
-            <p className="text-muted-foreground mt-2 text-sm">
+            <p className="text-muted-foreground mt-2 text-base font-medium">
               {success 
                 ? 'Check your email for reset instructions' 
-                : 'Enter your email address and we\'ll send you a link to reset your password'}
+                : 'Enter your email address and we\'ll send you a reset link'}
             </p>
           </div>
 
@@ -112,26 +108,31 @@ export default function ForgotPasswordPage() {
             </div>
           ) : (
             <>
-              {/* Error Message */}
+              {/* Enhanced Error Message */}
               {error && (
-                <div className="mb-6 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm">
-                  {error}
+                <div className="mb-6 p-4 bg-destructive/10 border-l-4 border-destructive rounded-lg text-destructive text-sm flex items-start gap-3 animate-in slide-in-from-top-2 duration-300">
+                  <div className="flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <span className="flex-1">{error}</span>
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+                  <Label htmlFor="email" className="text-sm font-medium text-foreground">Email Address</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                     <Input
                       id="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Enter your email address"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 h-11 bg-background/50 border-primary/20 focus:border-primary focus:ring-primary/20"
+                      className="pl-10 h-12 bg-background border-input focus:border-primary focus:ring-primary/20 transition-all duration-200"
                       required
                       disabled={isLoading}
                     />
@@ -141,17 +142,13 @@ export default function ForgotPasswordPage() {
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full h-11 font-semibold rounded-xl shadow-lg transition-all duration-200 mt-6"
-                  style={{ 
-                    background: 'linear-gradient(135deg, rgb(255, 70, 24) 0%, rgb(255, 107, 53) 100%)',
-                    boxShadow: '0 4px 15px rgba(255, 70, 24, 0.3)'
-                  }}
+                  className="w-full h-12 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95 mt-8"
                   disabled={isLoading}
                 >
                   {isLoading ? (
                     <>
                       <IconSpinner className="mr-2 h-4 w-4 animate-spin" />
-                      Sending...
+                      Sending Reset Link...
                     </>
                   ) : (
                     'Send Reset Link'
@@ -160,11 +157,11 @@ export default function ForgotPasswordPage() {
               </form>
 
               {/* Sign In Link */}
-              <div className="mt-6 text-center text-sm text-muted-foreground">
+              <div className="mt-8 text-center text-sm text-muted-foreground">
                 Remember your password?{' '}
                 <Link
                   href="/login"
-                  className="font-medium text-primary hover:text-primary/80 transition-colors"
+                  className="font-medium text-primary hover:text-primary/80 transition-colors underline underline-offset-4"
                 >
                   Sign in
                 </Link>
