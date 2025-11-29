@@ -23,7 +23,7 @@ export interface User {
 export async function findUserByEmail(email: string): Promise<User | null> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -38,7 +38,7 @@ export async function findUserByEmail(email: string): Promise<User | null> {
 export async function findUserById(userId: string): Promise<User | null> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -53,7 +53,7 @@ export async function findUserById(userId: string): Promise<User | null> {
 export async function createUser(userData: Omit<User, '_id' | 'createdAt' | 'updatedAt'>): Promise<User> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -76,7 +76,7 @@ export async function createUser(userData: Omit<User, '_id' | 'createdAt' | 'upd
 export async function updateUser(userId: string, updateData: Partial<User>): Promise<User | null> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -172,7 +172,7 @@ export async function updateUser(userId: string, updateData: Partial<User>): Pro
 export async function updateUserPlan(userId: string, plan: 'free' | 'pro' | 'enterprise'): Promise<User | null> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -197,7 +197,7 @@ export async function updateUserPlan(userId: string, plan: 'free' | 'pro' | 'ent
 export async function deleteUser(userId: string): Promise<boolean> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -212,7 +212,7 @@ export async function deleteUser(userId: string): Promise<boolean> {
 export async function getAllUsers(): Promise<User[]> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -231,7 +231,7 @@ export async function getAllUsers(): Promise<User[]> {
 export async function updateUserPassword(userId: string, newPassword: string): Promise<boolean> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('users')
     
@@ -273,7 +273,7 @@ export async function createPasswordResetToken(userId: string, token: string): P
   try {
     console.log('[DB] createPasswordResetToken called for userId:', userId)
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('password_reset_tokens')
     
@@ -317,7 +317,7 @@ export async function createPasswordResetToken(userId: string, token: string): P
 export async function findPasswordResetToken(token: string): Promise<PasswordResetToken | null> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('password_reset_tokens')
     
@@ -337,7 +337,7 @@ export async function findPasswordResetToken(token: string): Promise<PasswordRes
 export async function markPasswordResetTokenAsUsed(token: string): Promise<boolean> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('password_reset_tokens')
     

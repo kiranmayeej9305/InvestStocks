@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
   try {
     // Test MongoDB connection
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     
     // Test basic database operations

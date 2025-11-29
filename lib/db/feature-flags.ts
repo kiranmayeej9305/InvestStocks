@@ -118,7 +118,7 @@ const DEFAULT_FEATURE_FLAGS: Omit<FeatureFlag, '_id' | 'createdAt' | 'updatedAt'
 export async function getAllFeatureFlags(): Promise<FeatureFlag[]> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection<FeatureFlag>('feature_flags')
     
@@ -151,7 +151,7 @@ export async function getAllFeatureFlags(): Promise<FeatureFlag[]> {
 export async function getFeatureFlag(key: string): Promise<FeatureFlag | null> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection<FeatureFlag>('feature_flags')
     
@@ -217,7 +217,7 @@ export async function isFeatureEnabled(key: string, userPlan?: string): Promise<
 export async function createFeatureFlag(flag: Omit<FeatureFlag, '_id' | 'createdAt' | 'updatedAt'>): Promise<FeatureFlag> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection<FeatureFlag>('feature_flags')
     
@@ -248,7 +248,7 @@ export async function updateFeatureFlag(
 ): Promise<FeatureFlag> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection<FeatureFlag>('feature_flags')
     
@@ -277,7 +277,7 @@ export async function updateFeatureFlag(
 export async function deleteFeatureFlag(key: string): Promise<boolean> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection<FeatureFlag>('feature_flags')
     
@@ -292,7 +292,7 @@ export async function deleteFeatureFlag(key: string): Promise<boolean> {
 export async function getFeatureFlagsByCategory(category: string): Promise<FeatureFlag[]> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection<FeatureFlag>('feature_flags')
     

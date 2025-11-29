@@ -74,7 +74,7 @@ const DEFAULT_SETTINGS: Omit<SiteSettings, '_id' | 'createdAt' | 'updatedAt'> = 
 export async function getSiteSettings(): Promise<SiteSettings> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('site_settings')
     
@@ -108,7 +108,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 export async function updateSiteSettings(updates: Partial<SiteSettings>): Promise<SiteSettings> {
   try {
     const client = await clientPromise
-        const db = client.db('stokalert')
+        const db = client.db('investsentry')
 
     const collection = db.collection('site_settings')
     
