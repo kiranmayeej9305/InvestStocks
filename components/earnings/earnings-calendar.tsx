@@ -503,10 +503,6 @@ export function EarningsCalendar() {
     return earnings.filter(e => e.time?.toLowerCase() === 'amc').length
   }
 
-  const getAlertsCount = () => {
-    return alerts.length
-  }
-
   const getDateBadgeColor = (date: string) => {
     const earningDate = parseISO(date)
     if (isToday(earningDate)) return 'bg-blue-100 text-blue-800 border-blue-200'
