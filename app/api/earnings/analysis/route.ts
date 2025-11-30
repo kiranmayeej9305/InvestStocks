@@ -175,7 +175,15 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       success: true,
-      analysis,
+      analysis: {
+        analysis: analysis.recommendation, // Main analysis text
+        rating: analysis.overallRating,
+        confidence: analysis.confidenceScore,
+        risk_level: analysis.riskLevel,
+        key_insights: analysis.insights,
+        anomalies: analysis.anomalies,
+        price_target: null // Will be enhanced later
+      },
       timestamp: new Date().toISOString()
     })
   } catch (error) {

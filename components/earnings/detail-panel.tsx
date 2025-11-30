@@ -37,14 +37,18 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             symbol: earning.symbol,
-            companyName: earning.companyName,
-            earnings: earning
+            currentEarning: earning,
+            historicalData: [] // Will be enhanced later
           })
         });
 
         if (response.ok) {
           const data = await response.json();
-          setAnalysis(data);
+          if (data.success && data.analysis) {
+            setAnalysis(data.analysis);
+          }
+        } else {
+          console.error('Analysis API error:', response.status);
         }
       } catch (error) {
         console.error('Error fetching analysis:', error);

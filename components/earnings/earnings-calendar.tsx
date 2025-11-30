@@ -6,10 +6,9 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
 import { 
   RefreshCw, 
   AlertCircle, 
@@ -23,26 +22,17 @@ import {
   Building2,
   BarChart3,
   Brain,
-  ChevronLeft,
-  ChevronRight,
-  Filter,
-  Star,
-  Award,
-  Eye,
-  Activity,
-  Target,
-  Zap,
   Menu
 } from 'lucide-react'
 import { format, parseISO, isSameDay, isToday, isTomorrow, isPast } from 'date-fns'
-import Image from 'next/image'
-import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { DetailPanel } from './detail-panel'
 
 interface EarningsItem {
   date: string
   symbol: string
+  exchange?: string
+  companyName?: string
   epsEstimate?: number
   epsActual?: number
   revenueEstimate?: number
@@ -52,786 +42,524 @@ interface EarningsItem {
   quarter?: number
 }
 
-interface HistoricalEarning {
-  _id?: string
-  symbol: string
-  date: string
-  quarter: number
-  year: number
-  epsEstimate: number
-  epsActual: number
-  revenueEstimate: number
-  revenueActual: number
-  surprisePercent?: number
-  anomalyDetected?: boolean
-  anomalyReason?: string
-  analystRating?: string
-  peRatio?: number
-  dividendYield?: number
-  groqRating?: string
-  groqInsights?: string
-}
-
-interface DetailedAnalysis {
-  symbol: string
-  overallRating: string
-  riskLevel: 'Low' | 'Medium' | 'High'
-  insights: string[]
-  anomalies: string[]
-  recommendation: string
-  confidenceScore: number
-}
-
-interface PaginationInfo {
-  page: number
-  limit: number
-  total: number
-  totalPages: number
-}
-
 type TimeFilter = '24h' | '7d' | '30d'
+
+const EXCHANGES = [
+  { value: 'all', label: 'All Exchanges' },
+  { value: 'US', label: 'US Markets' },
+  { value: 'TO', label: 'Toronto (TSX)' },
+  { value: 'L', label: 'London (LSE)' },
+  { value: 'HK', label: 'Hong Kong' },
+  { value: 'T', label: 'Tokyo' },
+]
 
 export function EarningsCalendar() {
   const [earnings, setEarnings] = useState<EarningsItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchSymbol, setSearchSymbol] = useState('')
-  const [timeFilter, setTimeFilter] = useState<TimeFilter>('24h')
-  const [pagination, setPagination] = useState<PaginationInfo>({
-    page: 1,
-    limit: 20,
-    total: 0,
-    totalPages: 0
-  })
-  const [alerts, setAlerts] = useState<any[]>([])
+  const [selectedExchange, setSelectedExchange] = useState<string>('all')
+  const [timeFilter, setTimeFilter] = useState<TimeFilter>('7d')
   const [selectedEarning, setSelectedEarning] = useState<EarningsItem | null>(null)
-  const [historicalData, setHistoricalData] = useState<HistoricalEarning[]>([])
-  const [detailedAnalysis, setDetailedAnalysis] = useState<DetailedAnalysis | null>(null)
-  const [isLoadingHistorical, setIsLoadingHistorical] = useState(false)
-  const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false)
   const [isMobileDetailOpen, setIsMobileDetailOpen] = useState(false)
-  const [showHistorical, setShowHistorical] = useState(false)
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [isSearching, setIsSearching] = useState(false)
 
-  // Fetch earnings data with advanced filtering
-  const fetchEarnings = useCallback(async (page = 1) => {
+  // Stock search functionality
+  const searchStocks = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([])
+      return
+    }
+
+    setIsSearching(true)
+    try {
+      const response = await fetch(`/api/stocks/search?q=${encodeURIComponent(query)}`)
+      if (response.ok) {
+        const data = await response.json()
+        setSearchResults(data.result || [])
+      }
+    } catch (error) {
+      console.error('Search error:', error)
+    } finally {
+      setIsSearching(false)
+    }
+  }, [])
+
+  // Fetch earnings data with filtering
+  const fetchEarnings = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
 
       const params = new URLSearchParams({
-        timeFilter,
-        page: page.toString(),
-        limit: pagination.limit.toString(),
+        timeFilter
       })
 
       if (searchSymbol) {
         params.append('symbol', searchSymbol.toUpperCase())
       }
 
-      const response = await fetch(`/api/earnings/calendar?${params.toString()}`)
-
+      const response = await fetch(`/api/earnings/calendar?${params}`)
+      
       if (!response.ok) {
-        throw new Error('Failed to fetch earnings')
+        throw new Error(`Failed to fetch earnings: ${response.status}`)
       }
 
       const data = await response.json()
-
-      if (data.success) {
-        setEarnings(data.earnings || [])
-        setPagination(data.pagination || pagination)
-      } else {
-        throw new Error(data.error || 'Failed to fetch earnings')
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Unknown error occurred')
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load earnings')
+
+      let filteredEarnings = data.earnings || []
+      
+      // Filter by exchange if selected
+      if (selectedExchange !== 'all') {
+        filteredEarnings = filteredEarnings.filter((earning: EarningsItem) => 
+          earning.symbol.includes('.') ? 
+            earning.symbol.split('.')[1] === selectedExchange :
+            selectedExchange === 'US' // US stocks typically don't have exchange suffix
+        )
+      }
+
+      setEarnings(filteredEarnings)
+    } catch (error) {
+      console.error('Error fetching earnings:', error)
+      setError(error instanceof Error ? error.message : 'An error occurred')
+      setEarnings([])
     } finally {
       setLoading(false)
     }
-  }, [timeFilter, searchSymbol, pagination.limit])
+  }, [searchSymbol, timeFilter, selectedExchange])
 
-  // Fetch historical earnings data with enhanced Groq analysis
-  const fetchDetailedAnalysis = useCallback(async (earning: EarningsItem) => {
-    try {
-      setSelectedEarning(earning)
-      setIsLoadingHistorical(true)
-      setIsLoadingAnalysis(true)
-      setIsMobileDetailOpen(true)
-      
-      // Fetch historical data
-      const historicalResponse = await fetch(`/api/earnings/historical?symbol=${earning.symbol}&limit=10`)
-      
-      if (historicalResponse.ok) {
-        const historicalResult = await historicalResponse.json()
-        setHistoricalData(historicalResult.earnings || [])
-        setIsLoadingHistorical(false)
-        
-        // Generate detailed analysis with Groq
-        const analysisResponse = await fetch('/api/earnings/analysis', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            symbol: earning.symbol,
-            currentEarning: earning,
-            historicalData: historicalResult.earnings || []
-          })
-        })
-        
-        if (analysisResponse.ok) {
-          const analysisResult = await analysisResponse.json()
-          setDetailedAnalysis(analysisResult.analysis)
-        }
-      }
-    } catch (err) {
-      console.error('Error fetching detailed analysis:', err)
-    } finally {
-      setIsLoadingHistorical(false)
-      setIsLoadingAnalysis(false)
-    }
-  }, [])
-
-  const closeDetailPanel = () => {
-    setSelectedEarning(null)
-    setHistoricalData([])
-    setDetailedAnalysis(null)
-    setIsMobileDetailOpen(false)
-  }
-
-  // Fetch user alerts
-  const fetchAlerts = useCallback(async () => {
-    try {
-      const response = await fetch('/api/earnings/alerts')
-      if (response.ok) {
-        const data = await response.json()
-        setAlerts(data.alerts || [])
-      }
-    } catch (err) {
-      console.error('Failed to fetch alerts:', err)
-    }
-  }, [])
-
-  // Create earnings alert using existing system
-  const createAlert = async (earning: EarningsItem, alertDays: '1' | '5' | '7') => {
-    try {
-      const response = await fetch('/api/earnings/alerts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          symbol: earning.symbol,
-          earningsDate: earning.date,
-          alertType: `${alertDays}days`,
-          quarter: earning.quarter,
-          year: earning.year,
-          emailNotification: true,
-          inAppNotification: true
-        })
-      })
-
-      if (response.ok) {
-        fetchAlerts() // Refresh alerts
-        alert(`Alert created for ${earning.symbol} (${alertDays} days before earnings)`)
-      } else {
-        throw new Error('Failed to create alert')
-      }
-    } catch (err) {
-      alert('Failed to create alert. Please try again.')
-    }
-  }
-
-  // Initial load
   useEffect(() => {
-    fetchEarnings(1)
-    fetchAlerts()
+    fetchEarnings()
   }, [fetchEarnings])
 
-  // Search with debounce
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (pagination.page === 1) {
-        fetchEarnings(1)
-      } else {
-        setPagination(prev => ({ ...prev, page: 1 }))
-        fetchEarnings(1)
+    const debounceTimer = setTimeout(() => {
+      if (searchSymbol) {
+        searchStocks(searchSymbol)
       }
     }, 500)
 
-    return () => clearTimeout(timer)
-  }, [searchSymbol])
+    return () => clearTimeout(debounceTimer)
+  }, [searchSymbol, searchStocks])
 
-  // Time filter change
-  useEffect(() => {
-    setPagination(prev => ({ ...prev, page: 1 }))
-    fetchEarnings(1)
-  }, [timeFilter])
-
-  // Helper functions
-  const getTimeBadge = (time?: string) => {
-    if (!time) return null
-    
-    const timeLabels: Record<string, string> = {
-      'BMO': 'Before Market Open',
-      'AMC': 'After Market Close',
-      'DMT': 'During Market Trading',
-    }
-
-    return (
-      <Badge variant="outline" className="text-xs">
-        <Clock className="h-3 w-3 mr-1" />
-        {timeLabels[time] || time}
-      </Badge>
-    )
+  const handleEarningSelect = (earning: EarningsItem) => {
+    setSelectedEarning(earning)
+    setIsMobileDetailOpen(true)
   }
 
-  const getDateBadge = (dateStr: string) => {
-    try {
-      const date = parseISO(dateStr)
-      
-      if (isToday(date)) {
-        return <Badge className="bg-blue-500">Today</Badge>
-      } else if (isTomorrow(date)) {
-        return <Badge className="bg-orange-500">Tomorrow</Badge>
-      } else if (isPast(date)) {
-        return <Badge variant="secondary">Past</Badge>
-      } else {
-        return <Badge variant="outline">{format(date, 'MMM d')}</Badge>
-      }
-    } catch {
-      return <Badge variant="outline">{dateStr}</Badge>
+  const handleCloseMobileDetail = () => {
+    setIsMobileDetailOpen(false)
+    setTimeout(() => setSelectedEarning(null), 300)
+  }
+
+  const handleSelectFromSearch = (result: any) => {
+    setSearchSymbol(result.symbol)
+    setSearchResults([])
+  }
+
+  const getTimeLabel = (time: string) => {
+    switch (time) {
+      case 'bmo': return 'Before Market'
+      case 'amc': return 'After Market'
+      case 'dmt': return 'During Market'
+      default: return time || 'TBD'
     }
   }
 
-  const getEPSComparison = (earning: EarningsItem) => {
-    if (earning.epsActual === undefined || earning.epsActual === null || 
-        earning.epsEstimate === undefined || earning.epsEstimate === null) {
-      return null
-    }
-
-    const diff = earning.epsActual - earning.epsEstimate
-    const percentDiff = earning.epsEstimate !== 0 
-      ? ((diff / Math.abs(earning.epsEstimate)) * 100).toFixed(1)
-      : '0.0'
-
-    if (diff > 0) {
-      return (
-        <div className="flex items-center gap-1 text-green-600 text-sm">
-          <TrendingUp className="h-4 w-4" />
-          <span>Beat by {percentDiff}%</span>
-        </div>
-      )
-    } else if (diff < 0) {
-      return (
-        <div className="flex items-center gap-1 text-red-600 text-sm">
-          <TrendingDown className="h-4 w-4" />
-          <span>Missed by {Math.abs(parseFloat(percentDiff))}%</span>
-        </div>
-      )
-    } else {
-      return (
-        <div className="flex items-center gap-1 text-muted-foreground text-sm">
-          <span>Met estimate</span>
-        </div>
-      )
-    }
+  const getDateBadgeColor = (date: string) => {
+    const earningDate = parseISO(date)
+    if (isToday(earningDate)) return 'bg-blue-100 text-blue-800 border-blue-200'
+    if (isTomorrow(earningDate)) return 'bg-green-100 text-green-800 border-green-200'
+    if (isPast(earningDate)) return 'bg-gray-100 text-gray-600 border-gray-200'
+    return 'bg-orange-100 text-orange-800 border-orange-200'
   }
 
-  const hasAlert = (symbol: string) => {
-    return alerts.some(alert => 
-      alert.symbol === symbol && 
-      alert.status === 'active' &&
-      alert.alertType.startsWith('earnings_')
-    )
-  }
-
-  if (loading && earnings.length === 0) {
-    return (
-      <div className="space-y-4">
-        {[1, 2, 3].map((i) => (
-          <Card key={i}>
-            <CardContent className="p-6">
-              <Skeleton className="h-6 w-32 mb-2" />
-              <Skeleton className="h-4 w-full" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    )
-  }
-
-  if (error && earnings.length === 0) {
-    return (
-      <Card>
-        <CardContent className="p-12 text-center">
-          <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-          <h3 className="text-lg font-semibold mb-2">Failed to load earnings</h3>
-          <p className="text-muted-foreground mb-4">{error}</p>
-          <Button onClick={() => fetchEarnings()}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Try Again
-          </Button>
-        </CardContent>
-      </Card>
-    )
+  const formatCurrency = (value: number | undefined | null) => {
+    if (!value) return 'N/A'
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value)
   }
 
   return (
-    <div className="space-y-6">
-      {/* AI Features Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50 dark:border-purple-800 dark:from-purple-950/20 dark:to-indigo-950/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Brain className="h-5 w-5 text-purple-600" />
-              <h3 className="font-semibold text-purple-900 dark:text-purple-100">AI Anomaly Detection</h3>
-            </div>
-            <p className="text-sm text-purple-700 dark:text-purple-200">
-              Groq AI analyzes historical earnings to detect unusual patterns and extreme surprises
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 dark:border-blue-800 dark:from-blue-950/20 dark:to-cyan-950/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Bell className="h-5 w-5 text-blue-600" />
-              <h3 className="font-semibold text-blue-900 dark:text-blue-100">Smart Alerts</h3>
-            </div>
-            <p className="text-sm text-blue-700 dark:text-blue-200">
-              Set earnings alerts 1, 5, or 7 days before announcement dates
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 dark:border-green-800 dark:from-green-950/20 dark:to-emerald-950/20">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <BarChart3 className="h-5 w-5 text-green-600" />
-              <h3 className="font-semibold text-green-900 dark:text-green-100">Historical Analysis</h3>
-            </div>
-            <p className="text-sm text-green-700 dark:text-green-200">
-              View quarterly trends with AI-powered insights and anomaly highlighting
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters and Search */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Filter className="h-5 w-5" />
-            Filters & Search
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Time Filter Tabs */}
-          <div>
-            <label className="text-sm font-medium mb-2 block">Time Range</label>
-            <Tabs 
-              value={timeFilter} 
-              defaultValue="24h"
-              onValueChange={(value) => setTimeFilter(value as TimeFilter)}
-            >
-              <TabsList>
-                <TabsTrigger value="24h">Next 24 Hours</TabsTrigger>
-                <TabsTrigger value="7d">Next 7 Days</TabsTrigger>
-                <TabsTrigger value="30d">Next 30 Days</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          {/* Search */}
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile View */}
+      <div className="lg:hidden">
+        <div className="p-4 bg-white border-b sticky top-0 z-10">
+          <h1 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <Calendar className="h-6 w-6 text-blue-600" />
+            Earnings Calendar
+          </h1>
+          
+          {/* Search and Filters */}
+          <div className="space-y-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
-                placeholder="Search by symbol (e.g., AAPL, MSFT)"
+                placeholder="Search stocks (e.g., AAPL, MSFT.US)"
                 value={searchSymbol}
                 onChange={(e) => setSearchSymbol(e.target.value)}
-                className="pl-10 pr-10"
+                className="pl-10"
               />
-              {searchSymbol && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-                  onClick={() => setSearchSymbol('')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+              {isSearching && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                </div>
+              )}
+              
+              {/* Search Results Dropdown */}
+              {searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-20 mt-1">
+                  <ScrollArea className="max-h-60">
+                    {searchResults.map((result, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSelectFromSearch(result)}
+                        className="w-full px-4 py-2 text-left hover:bg-gray-50 border-b last:border-b-0 flex items-center justify-between"
+                      >
+                        <div>
+                          <span className="font-medium">{result.symbol}</span>
+                          <span className="text-gray-600 ml-2 text-sm">{result.description}</span>
+                        </div>
+                        <span className="text-xs text-gray-400">{result.type}</span>
+                      </button>
+                    ))}
+                  </ScrollArea>
+                </div>
               )}
             </div>
-            <Button onClick={() => fetchEarnings(1)} disabled={loading}>
-              {loading ? (
-                <RefreshCw className="h-4 w-4 animate-spin" />
-              ) : (
-                <RefreshCw className="h-4 w-4" />
-              )}
-            </Button>
+            
+            <div className="flex gap-2">
+              <Select value={timeFilter} onValueChange={(value: TimeFilter) => setTimeFilter(value)}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="24h">Next 24 Hours</SelectItem>
+                  <SelectItem value="7d">Next 7 Days</SelectItem>
+                  <SelectItem value="30d">Next 30 Days</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Select value={selectedExchange} onValueChange={setSelectedExchange}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {EXCHANGES.map((exchange) => (
+                    <SelectItem key={exchange.value} value={exchange.value}>
+                      {exchange.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              <Button onClick={fetchEarnings} variant="outline" size="icon" disabled={loading}>
+                <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+              </Button>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* Earnings List */}
-      {earnings.length === 0 ? (
-        <Card>
-          <CardContent className="p-12 text-center">
-            <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-            <h3 className="text-lg font-semibold mb-2">No earnings found</h3>
-            <p className="text-muted-foreground">
-              {searchSymbol ? `No earnings scheduled for ${searchSymbol}` : 'Try adjusting your time filter'}
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          {/* Results Info */}
-          <div className="flex justify-between items-center text-sm text-muted-foreground">
-            <span>
-              Showing {((pagination.page - 1) * pagination.limit) + 1}-{Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} earnings
-            </span>
-            <span>
-              {timeFilter === '24h' ? 'Next 24 Hours' : 
-               timeFilter === '7d' ? 'Next 7 Days' : 
-               'Next 30 Days'}
-            </span>
+        {/* Error State */}
+        {error && (
+          <div className="p-4 bg-red-50 border-l-4 border-red-400">
+            <div className="flex">
+              <AlertCircle className="h-5 w-5 text-red-400" />
+              <div className="ml-3">
+                <p className="text-sm text-red-700">{error}</p>
+              </div>
+            </div>
           </div>
+        )}
 
-          {/* Earnings Cards */}
-          <div className="space-y-4">
-            {earnings.map((earning, index) => (
-              <Card key={`${earning.symbol}-${earning.date}-${index}`} className="hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    {/* Left Side - Company Info */}
-                    <div className="flex items-center gap-4 flex-1">
-                      {/* Company Logo */}
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                        <Image
-                          src={`https://logo.clearbit.com/${earning.symbol.toLowerCase()}.com`}
-                          alt={`${earning.symbol} logo`}
-                          width={48}
-                          height={48}
-                          className="object-contain"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none'
-                          }}
-                        />
-                        <Building2 className="absolute h-6 w-6 text-gray-400" />
-                      </div>
-
-                      {/* Company Details */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-2">
-                          <Link href={`/stocks?search=${earning.symbol}`}>
-                            <h3 className="font-semibold text-lg hover:text-primary transition-colors cursor-pointer">
-                              {earning.symbol}
-                            </h3>
-                          </Link>
-                          {getDateBadge(earning.date)}
-                          {getTimeBadge(earning.time)}
-                          {hasAlert(earning.symbol) && (
-                            <Badge variant="outline" className="text-green-600 border-green-600">
-                              <Bell className="h-3 w-3 mr-1" />
-                              Alert Set
-                            </Badge>
-                          )}
-                        </div>
-
-                        {earning.year && earning.quarter && (
-                          <p className="text-sm text-muted-foreground mb-3">
-                            Q{earning.quarter} {earning.year} Earnings Report
-                          </p>
-                        )}
-
-                        {/* Financial Data */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          {/* EPS Data */}
-                          {earning.epsEstimate !== undefined && earning.epsEstimate !== null && (
-                            <div className="space-y-1">
-                              <p className="text-xs text-muted-foreground">Earnings Per Share</p>
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm">Est: <strong>${earning.epsEstimate.toFixed(2)}</strong></span>
-                                {earning.epsActual !== undefined && earning.epsActual !== null && (
-                                  <span className="text-sm">Act: <strong>${earning.epsActual.toFixed(2)}</strong></span>
-                                )}
-                              </div>
-                              {getEPSComparison(earning)}
-                            </div>
-                          )}
-
-                          {/* Revenue Data */}
-                          {earning.revenueEstimate !== undefined && earning.revenueEstimate !== null && (
-                            <div className="space-y-1">
-                              <p className="text-xs text-muted-foreground">Revenue</p>
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm">Est: <strong>${(earning.revenueEstimate / 1000000).toFixed(2)}M</strong></span>
-                                {earning.revenueActual !== undefined && earning.revenueActual !== null && (
-                                  <span className="text-sm">Act: <strong>${(earning.revenueActual / 1000000).toFixed(2)}M</strong></span>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right Side - Action Buttons */}
-                    <div className="flex flex-col gap-2">
-                      {!hasAlert(earning.symbol) && (
-                        <div className="flex gap-1">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => createAlert(earning, '1')}
-                            className="text-xs px-2"
-                          >
-                            <Bell className="h-3 w-3 mr-1" />
-                            1d
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => createAlert(earning, '5')}
-                            className="text-xs px-2"
-                          >
-                            <Bell className="h-3 w-3 mr-1" />
-                            5d
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => createAlert(earning, '7')}
-                            className="text-xs px-2"
-                          >
-                            <Bell className="h-3 w-3 mr-1" />
-                            7d
-                          </Button>
-                        </div>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => fetchDetailedAnalysis(earning)}
-                        disabled={isLoadingHistorical}
-                        className="text-xs px-2 hover:bg-blue-50 hover:text-blue-700"
-                      >
-                        <Eye className="h-3 w-3 mr-1" />
-                        Details
-                      </Button>
-                    </div>
+        {/* Loading State */}
+        {loading && (
+          <div className="p-4 space-y-4">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <Skeleton className="h-5 w-20" />
+                    <Skeleton className="h-4 w-16" />
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <div className="flex justify-between">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-20" />
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
+        )}
 
-          {/* Pagination */}
-          {pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                Page {pagination.page} of {pagination.totalPages}
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={pagination.page <= 1}
-                  onClick={() => fetchEarnings(pagination.page - 1)}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={pagination.page >= pagination.totalPages}
-                  onClick={() => fetchEarnings(pagination.page + 1)}
-                >
-                  Next
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          )}        </>
-      )}
-
-      {/* Historical Earnings Data with AI Anomaly Detection */}
-      {showHistorical && (
-        <Card className="mt-6">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Brain className="h-5 w-5 text-purple-600" />
-                <CardTitle>Historical Earnings - {selectedEarning?.symbol}</CardTitle>
-                <Badge variant="outline" className="text-xs">
-                  <Brain className="h-3 w-3 mr-1" />
-                  AI Enhanced
-                </Badge>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowHistorical(false)}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {isLoadingHistorical ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <Skeleton key={i} className="h-20 w-full" />
-                ))}
-              </div>
-            ) : historicalData.length === 0 ? (
-              <div className="text-center py-8">
-                <BarChart3 className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
-                <h3 className="text-lg font-semibold mb-2">No Historical Data</h3>
-                <p className="text-muted-foreground">
-                  No historical earnings data available for {selectedEarning?.symbol}
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 gap-4">
-                  {historicalData.map((earning, index) => (
-                    <Card key={index} className={`transition-colors ${
-                      earning.anomalyDetected 
-                        ? 'border-orange-200 bg-orange-50/50 dark:border-orange-800 dark:bg-orange-950/20' 
-                        : 'border-muted'
-                    }`}>
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between">
-                          <div className="space-y-3 flex-1">
-                            <div className="flex items-center gap-2">
-                              <h3 className="font-semibold text-lg">{earning.symbol}</h3>
-                              <Badge variant="outline">
-                                Q{earning.quarter} {earning.year}
+        {/* Earnings List */}
+        {!loading && (
+          <ScrollArea className="h-[calc(100vh-200px)]">
+            <div className="p-4 space-y-4">
+              {earnings.length === 0 ? (
+                <div className="text-center py-12">
+                  <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No Earnings Found</h3>
+                  <p className="text-gray-600">No earnings scheduled for the selected period.</p>
+                </div>
+              ) : (
+                earnings.map((earning, index) => (
+                  <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer">
+                    <Sheet open={isMobileDetailOpen} onOpenChange={setIsMobileDetailOpen}>
+                      <SheetTrigger asChild>
+                        <div onClick={() => handleEarningSelect(earning)}>
+                          <CardHeader className="pb-3">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                                  <Building2 className="h-5 w-5 text-blue-600" />
+                                </div>
+                                <div>
+                                  <h3 className="font-semibold text-gray-900">{earning.symbol}</h3>
+                                  <p className="text-sm text-gray-600">{earning.companyName || 'Company'}</p>
+                                </div>
+                              </div>
+                              <Badge className={cn("text-xs font-medium", getDateBadgeColor(earning.date))}>
+                                {format(parseISO(earning.date), 'MMM dd')}
                               </Badge>
-                              {earning.anomalyDetected && (
-                                <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-200 dark:bg-orange-900 dark:text-orange-100">
-                                  <AlertCircle className="h-3 w-3 mr-1" />
-                                  AI Anomaly
-                                </Badge>
-                              )}
-                              <span className="text-sm text-muted-foreground">
-                                {format(new Date(earning.date), 'MMM dd, yyyy')}
-                              </span>
                             </div>
-
-                            {/* AI Anomaly Reason */}
-                            {earning.anomalyDetected && earning.anomalyReason && (
-                              <div className="bg-orange-100 dark:bg-orange-900/30 p-3 rounded-md">
-                                <div className="flex items-start gap-2">
-                                  <Brain className="h-4 w-4 text-orange-600 mt-0.5 flex-shrink-0" />
-                                  <div>
-                                    <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                                      AI Detected Anomaly
-                                    </p>
-                                    <p className="text-sm text-orange-700 dark:text-orange-300 mt-1">
-                                      {earning.anomalyReason}
-                                    </p>
-                                  </div>
-                                </div>
+                          </CardHeader>
+                          <CardContent className="pt-0">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <p className="text-xs text-gray-600 mb-1">EPS Estimate</p>
+                                <p className="font-semibold">{formatCurrency(earning.epsEstimate)}</p>
                               </div>
-                            )}
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {/* EPS Data */}
-                              <div className="space-y-2">
-                                <p className="text-sm font-medium text-muted-foreground">Earnings Per Share</p>
-                                <div className="flex items-center gap-4">
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">Estimate</p>
-                                    <p className="text-sm font-semibold">
-                                      ${earning.epsEstimate?.toFixed(2) || 'N/A'}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">Actual</p>
-                                    <p className="text-sm font-semibold">
-                                      ${earning.epsActual?.toFixed(2) || 'N/A'}
-                                    </p>
-                                  </div>
-                                  {earning.epsEstimate && earning.epsActual && earning.surprisePercent !== undefined && (
-                                    <div>
-                                      <p className="text-xs text-muted-foreground">Surprise</p>
-                                      <p className={`text-sm font-semibold ${
-                                        earning.surprisePercent > 0 ? 'text-green-600' : 'text-red-600'
-                                      }`}>
-                                        {earning.surprisePercent > 0 ? '+' : ''}{earning.surprisePercent.toFixed(1)}%
-                                      </p>
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-
-                              {/* Revenue Data */}
-                              <div className="space-y-2">
-                                <p className="text-sm font-medium text-muted-foreground">Revenue</p>
-                                <div className="flex items-center gap-4">
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">Estimate</p>
-                                    <p className="text-sm font-semibold">
-                                      {earning.revenueEstimate ? `$${(earning.revenueEstimate / 1000000).toFixed(2)}M` : 'N/A'}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">Actual</p>
-                                    <p className="text-sm font-semibold">
-                                      {earning.revenueActual ? `$${(earning.revenueActual / 1000000).toFixed(2)}M` : 'N/A'}
-                                    </p>
-                                  </div>
+                              <div>
+                                <p className="text-xs text-gray-600 mb-1">Time</p>
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-3 w-3 text-gray-400" />
+                                  <span className="text-sm">{getTimeLabel(earning.time || '')}</span>
                                 </div>
                               </div>
                             </div>
+                          </CardContent>
+                        </div>
+                      </SheetTrigger>
+                      
+                      <SheetContent className="w-full p-0">
+                        <SheetHeader className="p-6 border-b">
+                          <SheetTitle>Earnings Analysis</SheetTitle>
+                        </SheetHeader>
+                        {selectedEarning && (
+                          <DetailPanel 
+                            earning={selectedEarning} 
+                            onClose={handleCloseMobileDetail}
+                          />
+                        )}
+                      </SheetContent>
+                    </Sheet>
+                  </Card>
+                ))
+              )}
+            </div>
+          </ScrollArea>
+        )}
+      </div>
 
-                            {/* Additional Metrics */}
-                            {(earning.peRatio || earning.analystRating || earning.dividendYield) && (
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t">
-                                {earning.peRatio && (
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">P/E Ratio</p>
-                                    <p className="text-sm font-semibold">{earning.peRatio.toFixed(2)}</p>
-                                  </div>
-                                )}
-                                {earning.analystRating && (
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">Analyst Rating</p>
-                                    <p className="text-sm font-semibold">{earning.analystRating}</p>
-                                  </div>
-                                )}
-                                {earning.dividendYield && (
-                                  <div>
-                                    <p className="text-xs text-muted-foreground">Dividend Yield</p>
-                                    <p className="text-sm font-semibold">{earning.dividendYield.toFixed(2)}%</p>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
+      {/* Desktop View */}
+      <div className="hidden lg:block">
+        <div className="flex h-screen">
+          {/* Main Panel */}
+          <div className="flex-1 flex flex-col">
+            {/* Header */}
+            <div className="p-6 bg-white border-b">
+              <div className="flex items-center justify-between mb-6">
+                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                  <Calendar className="h-8 w-8 text-blue-600" />
+                  Earnings Calendar
+                </h1>
+                <Button onClick={fetchEarnings} variant="outline" disabled={loading}>
+                  <RefreshCw className={cn("h-4 w-4 mr-2", loading && "animate-spin")} />
+                  Refresh
+                </Button>
+              </div>
+              
+              {/* Search and Filters */}
+              <div className="flex gap-4">
+                <div className="relative flex-1 max-w-md">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search stocks (e.g., AAPL, MSFT.US)"
+                    value={searchSymbol}
+                    onChange={(e) => setSearchSymbol(e.target.value)}
+                    className="pl-10"
+                  />
+                  {isSearching && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                    </div>
+                  )}
+                  
+                  {/* Search Results Dropdown */}
+                  {searchResults.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-20 mt-1">
+                      <ScrollArea className="max-h-60">
+                        {searchResults.map((result, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleSelectFromSearch(result)}
+                            className="w-full px-4 py-2 text-left hover:bg-gray-50 border-b last:border-b-0 flex items-center justify-between"
+                          >
+                            <div>
+                              <span className="font-medium">{result.symbol}</span>
+                              <span className="text-gray-600 ml-2 text-sm">{result.description}</span>
+                            </div>
+                            <span className="text-xs text-gray-400">{result.type}</span>
+                          </button>
+                        ))}
+                      </ScrollArea>
+                    </div>
+                  )}
+                </div>
+                
+                <Select value={timeFilter} onValueChange={(value: TimeFilter) => setTimeFilter(value)}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="24h">Next 24 Hours</SelectItem>
+                    <SelectItem value="7d">Next 7 Days</SelectItem>
+                    <SelectItem value="30d">Next 30 Days</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <Select value={selectedExchange} onValueChange={setSelectedExchange}>
+                  <SelectTrigger className="w-48">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {EXCHANGES.map((exchange) => (
+                      <SelectItem key={exchange.value} value={exchange.value}>
+                        {exchange.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Error State */}
+            {error && (
+              <div className="p-4 bg-red-50 border-l-4 border-red-400">
+                <div className="flex">
+                  <AlertCircle className="h-5 w-5 text-red-400" />
+                  <div className="ml-3">
+                    <p className="text-sm text-red-700">{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Main Content */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {[...Array(9)].map((_, i) => (
+                    <Card key={i}>
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <Skeleton className="h-5 w-20" />
+                          <Skeleton className="h-4 w-16" />
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <Skeleton className="h-4 w-full mb-2" />
+                        <div className="flex justify-between">
+                          <Skeleton className="h-4 w-24" />
+                          <Skeleton className="h-4 w-20" />
                         </div>
                       </CardContent>
                     </Card>
                   ))}
                 </div>
-
-                {/* Historical Data Info */}
-                <div className="text-center mt-4 p-4 bg-muted/50 rounded-md">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <Brain className="h-4 w-4 text-purple-600" />
-                    <p className="text-sm font-medium">AI-Powered Anomaly Detection</p>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Historical earnings analyzed using Groq AI to detect unusual patterns, 
-                    extreme surprises, and market anomalies for better investment insights.
+              ) : earnings.length === 0 ? (
+                <div className="text-center py-20">
+                  <Calendar className="h-16 w-16 text-gray-400 mx-auto mb-6" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No Earnings Found</h3>
+                  <p className="text-gray-600 max-w-md mx-auto">
+                    No earnings scheduled for the selected period. Try adjusting your filters or search criteria.
                   </p>
                 </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {earnings.map((earning, index) => (
+                    <Card key={index} className="hover:shadow-lg transition-all duration-200 cursor-pointer border-2 hover:border-blue-200">
+                      <div onClick={() => setSelectedEarning(earning)}>
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
+                                {earning.symbol.slice(0, 2)}
+                              </div>
+                              <div>
+                                <h3 className="font-bold text-gray-900">{earning.symbol}</h3>
+                                <p className="text-sm text-gray-600">{earning.companyName || 'Company'}</p>
+                              </div>
+                            </div>
+                            <Badge className={cn("text-xs font-medium", getDateBadgeColor(earning.date))}>
+                              {format(parseISO(earning.date), 'MMM dd')}
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <div className="grid grid-cols-2 gap-4 mb-3">
+                            <div>
+                              <p className="text-xs text-gray-600 mb-1">EPS Estimate</p>
+                              <p className="font-semibold text-green-600">{formatCurrency(earning.epsEstimate)}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-600 mb-1">Revenue Est.</p>
+                              <p className="font-semibold text-blue-600">{formatCurrency(earning.revenueEstimate)}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-3 w-3 text-gray-400" />
+                              <span className="text-sm text-gray-600">{getTimeLabel(earning.time || '')}</span>
+                            </div>
+                            <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                              <BarChart3 className="h-4 w-4 mr-1" />
+                              Analyze
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Side Panel for Desktop */}
+          {selectedEarning && (
+            <div className="w-1/3 border-l bg-white">
+              <DetailPanel 
+                earning={selectedEarning} 
+                onClose={() => setSelectedEarning(null)}
+              />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
