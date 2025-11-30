@@ -29,7 +29,7 @@ import {
   Settings,
   DollarSign
 } from 'lucide-react'
-import { format, parseISO, isSameDay, isToday, isTomorrow, isPast } from 'date-fns'
+import { format, parseISO, isSameDay, isToday, isTomorrow, isPast, startOfWeek, addDays } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { DetailPanel } from './detail-panel'
 import Image from 'next/image'
@@ -157,6 +157,48 @@ export function EarningsCalendar() {
 
   const hasAlert = (symbol: string) => {
     return alerts.some(a => a.symbol === symbol && a.type === 'earnings')
+  }
+
+  // Calendar utility functions
+  const getDaysOfWeek = () => {
+    const startOfWeek = new Date()
+    const daysArray = []
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(startOfWeek)
+      day.setDate(startOfWeek.getDate() + i)
+      daysArray.push(day)
+    }
+    return daysArray
+  }
+
+  const getEarningsForDay = (date: Date) => {
+    const targetDate = format(date, 'yyyy-MM-dd')
+    return earnings.filter(earning => earning.date === targetDate)
+  }
+
+  const getTotalCompanies = () => {
+    return earnings.length
+  }
+
+  const getPreMarketCount = () => {
+    return earnings.filter(e => e.time?.toLowerCase() === 'bmo').length
+  }
+
+  const getAfterMarketCount = () => {
+    return earnings.filter(e => e.time?.toLowerCase() === 'amc').length
+  }
+
+  const getAlertsCount = () => {
+    return alerts.length
+  }
+
+  const getTimeLabel = (time: string) => {
+    switch (time?.toLowerCase()) {
+      case 'bmo': return 'Pre-Market'
+      case 'amc': return 'After Market'
+      case 'dmt': return 'During Market'
+      default: return time || 'TBD'
+    }
   }
 
   // Stock search functionality
@@ -433,13 +475,36 @@ export function EarningsCalendar() {
     }
   }
 
-  const getTimeLabel = (time: string) => {
-    switch (time?.toLowerCase()) {
-      case 'bmo': return 'Pre-Market'
-      case 'amc': return 'After Market'
-      case 'dmt': return 'During Market'
-      default: return time || 'TBD'
+  const getDaysOfWeek = () => {
+    const startOfWeek = new Date()
+    const daysArray = []
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(startOfWeek)
+      day.setDate(startOfWeek.getDate() + i)
+      daysArray.push(day)
     }
+    return daysArray
+  }
+
+  const getEarningsForDay = (date: Date) => {
+    const targetDate = format(date, 'yyyy-MM-dd')
+    return earnings.filter(earning => earning.date === targetDate)
+  }
+
+  const getTotalCompanies = () => {
+    return earnings.length
+  }
+
+  const getPreMarketCount = () => {
+    return earnings.filter(e => e.time?.toLowerCase() === 'bmo').length
+  }
+
+  const getAfterMarketCount = () => {
+    return earnings.filter(e => e.time?.toLowerCase() === 'amc').length
+  }
+
+  const getAlertsCount = () => {
+    return alerts.length
   }
 
   const getDateBadgeColor = (date: string) => {
