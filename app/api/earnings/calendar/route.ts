@@ -8,6 +8,50 @@ const TIME_FILTERS = {
   '30d': 30
 }
 
+// Helper function to get exchange information for symbols
+async function getSymbolExchanges(symbols: string[]): Promise<{[key: string]: string}> {
+  const apiKey = process.env.FINNHUB_API_KEY
+  if (!apiKey) return {}
+  
+  try {
+    const exchangeMap: {[key: string]: string} = {}
+    
+    // Batch process symbols to avoid rate limits
+    const batchSize = 10
+    for (let i = 0; i < symbols.length; i += batchSize) {
+      const batch = symbols.slice(i, i + batchSize)
+      const promises = batch.map(async (symbol) => {
+        try {
+          const response = await fetch(
+            `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${apiKey}`,
+            { next: { revalidate: 86400 } } // Cache for 24 hours
+          )
+          if (response.ok) {
+            const data = await response.json()
+            const exchange = data.exchange
+            if (exchange) {
+              exchangeMap[symbol] = exchange
+            }
+          }
+        } catch (error) {
+          console.error(`Error fetching exchange for ${symbol}:`, error)
+        }
+      })
+      
+      await Promise.all(promises)
+      // Small delay between batches
+      if (i + batchSize < symbols.length) {
+        await new Promise(resolve => setTimeout(resolve, 200))
+      }
+    }
+    
+    return exchangeMap
+  } catch (error) {
+    console.error('Error fetching symbol exchanges:', error)
+    return {}
+  }
+}
+
 /**
  * Enhanced Earnings Calendar API with time filters and pagination
  * Fetches upcoming earnings dates from Finnhub
@@ -19,6 +63,7 @@ export async function GET(request: NextRequest) {
     const timeFilter = searchParams.get('timeFilter') || '24h' // Default to 24 hours
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '20')
+    const exchange = searchParams.get('exchange') // Add exchange parameter
     
     // Custom date range support (legacy)
     let from = searchParams.get('from')
@@ -138,15 +183,28 @@ export async function GET(request: NextRequest) {
       quarter: item.quarter ?? null,
     }))
 
+    // Filter by exchange if specified
+    let filteredEarnings = allEarnings
+    if (exchange && exchange !== 'all') {
+      // Get exchange data for symbols to filter properly
+      const symbols = allEarnings.map((e: any) => e.symbol).slice(0, 50) // Limit for API calls
+      const exchangeMap = await getSymbolExchanges(symbols)
+      
+      filteredEarnings = allEarnings.filter((earning: any) => {
+        const symbolExchange = exchangeMap[earning.symbol]
+        return symbolExchange === exchange
+      })
+    }
+
     // Sort by date
-    allEarnings.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    filteredEarnings.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
     // Apply pagination
-    const total = allEarnings.length
+    const total = filteredEarnings.length
     const totalPages = Math.ceil(total / limit)
     const startIndex = (page - 1) * limit
     const endIndex = startIndex + limit
-    const earnings = allEarnings.slice(startIndex, endIndex)
+    const earnings = filteredEarnings.slice(startIndex, endIndex)
 
     return NextResponse.json({
       success: true,

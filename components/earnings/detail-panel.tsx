@@ -277,7 +277,7 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
           )}
 
           {/* Technical Analysis and Financials */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-6">
             <Card className={cn("p-6", theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200')}>
               <h3 className={cn("text-lg font-semibold mb-4 flex items-center gap-2",
                 theme === 'dark' ? 'text-white' : 'text-gray-900')}>
@@ -285,7 +285,7 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
                 Technical Chart
               </h3>
               
-              <div className="h-80 rounded-lg overflow-hidden">
+              <div className="h-96 rounded-lg overflow-hidden">
                 <ValidatedStockChart 
                   symbol={earning.symbol}
                   userPlan="premium"
@@ -301,7 +301,7 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
                 Financial Metrics
               </h3>
               
-              <div className="h-80 rounded-lg overflow-hidden">
+              <div className="h-96 rounded-lg overflow-hidden">
                 <StockFinancials 
                   props={earning.symbol}
                 />

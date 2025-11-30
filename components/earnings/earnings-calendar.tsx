@@ -32,7 +32,6 @@ import {
 import { format, parseISO, isSameDay, isToday, isTomorrow, isPast } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { DetailPanel } from './detail-panel'
-import { ValidatedStockChart } from '@/components/tradingview/validated-stock-chart'
 import Image from 'next/image'
 
 interface EarningsItem {
@@ -102,19 +101,30 @@ export function EarningsCalendar() {
   // Alert management
   const createAlert = async (earning: EarningsItem, daysAhead: number) => {
     try {
-      const response = await fetch('/api/alerts/create', {
+      const response = await fetch('/api/earnings/alerts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           symbol: earning.symbol,
-          date: earning.date,
-          daysAhead,
-          type: 'earnings'
+          companyName: earning.companyName || earning.symbol,
+          earningsDate: earning.date,
+          alertType: daysAhead.toString(),
+          emailNotification: true,
+          inAppNotification: true,
+          quarter: earning.quarter,
+          year: earning.year
         })
       })
       
       if (response.ok) {
-        const newAlert = await response.json()
+        const result = await response.json()
+        const newAlert: AlertData = {
+          symbol: earning.symbol,
+          date: earning.date,
+          daysAhead,
+          type: 'earnings',
+          enabled: true
+        }
         setAlerts(prev => [...prev, newAlert])
         console.log(`Alert created for ${earning.symbol}`)
       }
@@ -125,14 +135,18 @@ export function EarningsCalendar() {
 
   const removeAlert = async (symbol: string) => {
     try {
-      const alertToRemove = alerts.find(a => a.symbol === symbol && a.type === 'earnings')
-      if (!alertToRemove) return
-      
-      const response = await fetch(`/api/alerts/${alertToRemove.symbol}`, {
-        method: 'DELETE'
-      })
-      
-      if (response.ok) {
+      // Find all alerts for this symbol
+      const userAlerts = await fetch('/api/earnings/alerts')
+      if (userAlerts.ok) {
+        const alertsData = await userAlerts.json()
+        const symbolAlerts = alertsData.alerts?.filter((a: any) => a.symbol === symbol) || []
+        
+        // Delete all alerts for this symbol
+        const deletePromises = symbolAlerts.map((alert: any) => 
+          fetch(`/api/earnings/alerts?id=${alert._id}`, { method: 'DELETE' })
+        )
+        
+        await Promise.all(deletePromises)
         setAlerts(prev => prev.filter(a => !(a.symbol === symbol && a.type === 'earnings')))
         console.log(`Alert removed for ${symbol}`)
       }
@@ -251,6 +265,10 @@ export function EarningsCalendar() {
       if (searchSymbol) {
         params.append('symbol', searchSymbol.toUpperCase())
       }
+      
+      if (selectedExchange && selectedExchange !== 'all') {
+        params.append('exchange', selectedExchange)
+      }
 
       const response = await fetch(`/api/earnings/calendar?${params}`)
       
@@ -309,7 +327,27 @@ export function EarningsCalendar() {
 
   useEffect(() => {
     fetchEarnings(1)
+    loadExistingAlerts()
   }, [timeFilter, selectedExchange, searchSymbol])
+
+  const loadExistingAlerts = async () => {
+    try {
+      const response = await fetch('/api/earnings/alerts')
+      if (response.ok) {
+        const data = await response.json()
+        const formattedAlerts = data.alerts?.map((alert: any) => ({
+          symbol: alert.symbol,
+          date: alert.earningsDate,
+          daysAhead: parseInt(alert.alertType.replace('earnings_', '').replace('days', '').replace('day', '')) || 1,
+          type: 'earnings' as const,
+          enabled: alert.isActive
+        })) || []
+        setAlerts(formattedAlerts)
+      }
+    } catch (error) {
+      console.error('Error loading alerts:', error)
+    }
+  }
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -938,13 +976,7 @@ export function EarningsCalendar() {
                           )}
                         </div>
                         
-                        {/* TradingView Chart */}
-                        <div className="mt-4">
-                          <ValidatedStockChart 
-                            symbol={earning.symbol}
-                            key={`${earning.symbol}-${theme}`}
-                          />
-                        </div>
+
                       </CardContent>
                     </Card>
                   ))}
