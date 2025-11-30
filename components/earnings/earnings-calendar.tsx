@@ -435,34 +435,6 @@ export function EarningsCalendar() {
     }
   }
 
-  const getDaysOfWeek = () => {
-    const startOfWeek = new Date()
-    const daysArray = []
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(startOfWeek)
-      day.setDate(startOfWeek.getDate() + i)
-      daysArray.push(day)
-    }
-    return daysArray
-  }
-
-  const getEarningsForDay = (date: Date) => {
-    const targetDate = format(date, 'yyyy-MM-dd')
-    return earnings.filter(earning => earning.date === targetDate)
-  }
-
-  const getTotalCompanies = () => {
-    return earnings.length
-  }
-
-  const getPreMarketCount = () => {
-    return earnings.filter(e => e.time?.toLowerCase() === 'bmo').length
-  }
-
-  const getAfterMarketCount = () => {
-    return earnings.filter(e => e.time?.toLowerCase() === 'amc').length
-  }
-
   const getDateBadgeColor = (date: string) => {
     const earningDate = parseISO(date)
     if (isToday(earningDate)) return 'bg-blue-100 text-blue-800 border-blue-200'
