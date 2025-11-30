@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -9,6 +10,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { 
   RefreshCw, 
   AlertCircle, 
@@ -22,11 +25,14 @@ import {
   Building2,
   BarChart3,
   Brain,
-  Menu
+  Menu,
+  Plus,
+  Settings
 } from 'lucide-react'
 import { format, parseISO, isSameDay, isToday, isTomorrow, isPast } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { DetailPanel } from './detail-panel'
+import Image from 'next/image'
 
 interface EarningsItem {
   date: string
@@ -40,20 +46,37 @@ interface EarningsItem {
   time?: string
   year?: number
   quarter?: number
+  peRatio?: number
+  analystRating?: string
+  marketCap?: number
+}
+
+interface AlertData {
+  symbol: string
+  date: string
+  daysAhead: number
+  type: 'earnings'
+  enabled: boolean
+}
+
+interface PaginationInfo {
+  page: number
+  limit: number
+  total: number
+  totalPages: number
 }
 
 type TimeFilter = '24h' | '7d' | '30d'
 
-const EXCHANGES = [
-  { value: 'all', label: 'All Exchanges' },
-  { value: 'US', label: 'US Markets' },
-  { value: 'TO', label: 'Toronto (TSX)' },
-  { value: 'L', label: 'London (LSE)' },
-  { value: 'HK', label: 'Hong Kong' },
-  { value: 'T', label: 'Tokyo' },
+const US_EXCHANGES = [
+  { value: 'all', label: 'All US Markets' },
+  { value: 'NYSE', label: 'New York Stock Exchange' },
+  { value: 'NASDAQ', label: 'NASDAQ' },
+  { value: 'AMEX', label: 'NYSE American' },
 ]
 
 export function EarningsCalendar() {
+  const { theme } = useTheme()
   const [earnings, setEarnings] = useState<EarningsItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -64,6 +87,49 @@ export function EarningsCalendar() {
   const [isMobileDetailOpen, setIsMobileDetailOpen] = useState(false)
   const [searchResults, setSearchResults] = useState<any[]>([])
   const [isSearching, setIsSearching] = useState(false)
+  const [alerts, setAlerts] = useState<AlertData[]>([])
+  const [showAlertDialog, setShowAlertDialog] = useState(false)
+  const [selectedAlertEarning, setSelectedAlertEarning] = useState<EarningsItem | null>(null)
+  const [pagination, setPagination] = useState<PaginationInfo>({
+    page: 1,
+    limit: 12,
+    total: 0,
+    totalPages: 0
+  })
+
+  // Alert management
+  const createAlert = useCallback(async (earning: EarningsItem, daysAhead: number) => {
+    try {
+      const response = await fetch('/api/earnings/alerts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          symbol: earning.symbol,
+          date: earning.date,
+          daysAhead,
+          type: 'earnings'
+        })
+      })
+      
+      if (response.ok) {
+        const newAlert: AlertData = {
+          symbol: earning.symbol,
+          date: earning.date,
+          daysAhead,
+          type: 'earnings',
+          enabled: true
+        }
+        setAlerts(prev => [...prev, newAlert])
+      }
+    } catch (error) {
+      console.error('Error creating alert:', error)
+    }
+  }, [])
+
+  const handleAlertClick = (earning: EarningsItem) => {
+    setSelectedAlertEarning(earning)
+    setShowAlertDialog(true)
+  }
 
   // Stock search functionality
   const searchStocks = useCallback(async (query: string) => {
@@ -86,14 +152,51 @@ export function EarningsCalendar() {
     }
   }, [])
 
-  // Fetch earnings data with filtering
-  const fetchEarnings = useCallback(async () => {
+  // Fetch additional stock data (P/E ratio, analyst rating)
+  const fetchStockDetails = useCallback(async (symbols: string[]) => {
+    try {
+      const promises = symbols.map(async (symbol) => {
+        try {
+          const [profileResponse, quoteResponse] = await Promise.all([
+            fetch(`/api/stocks/profile?symbol=${symbol}`),
+            fetch(`/api/stocks/quote?symbol=${symbol}`)
+          ])
+          
+          const profile = profileResponse.ok ? await profileResponse.json() : null
+          const quote = quoteResponse.ok ? await quoteResponse.json() : null
+          
+          return {
+            symbol,
+            peRatio: quote?.pe || null,
+            analystRating: profile?.finnhubIndustryClassification || null,
+            marketCap: profile?.marketCapitalization || null
+          }
+        } catch {
+          return { symbol, peRatio: null, analystRating: null, marketCap: null }
+        }
+      })
+      
+      const results = await Promise.all(promises)
+      return results.reduce((acc, item) => {
+        acc[item.symbol] = item
+        return acc
+      }, {} as Record<string, any>)
+    } catch (error) {
+      console.error('Error fetching stock details:', error)
+      return {}
+    }
+  }, [])
+
+  // Fetch earnings data with pagination and filtering
+  const fetchEarnings = useCallback(async (page = 1) => {
     try {
       setLoading(true)
       setError(null)
 
       const params = new URLSearchParams({
-        timeFilter
+        timeFilter,
+        page: page.toString(),
+        limit: pagination.limit.toString()
       })
 
       if (searchSymbol) {
@@ -114,16 +217,34 @@ export function EarningsCalendar() {
 
       let filteredEarnings = data.earnings || []
       
-      // Filter by exchange if selected
+      // Filter by US exchanges only
       if (selectedExchange !== 'all') {
-        filteredEarnings = filteredEarnings.filter((earning: EarningsItem) => 
-          earning.symbol.includes('.') ? 
-            earning.symbol.split('.')[1] === selectedExchange :
-            selectedExchange === 'US' // US stocks typically don't have exchange suffix
-        )
+        filteredEarnings = filteredEarnings.filter((earning: EarningsItem) => {
+          // Most US stocks don't have exchange suffix, but some might
+          const symbol = earning.symbol.toUpperCase()
+          return !symbol.includes('.') || symbol.includes('.US')
+        })
       }
 
-      setEarnings(filteredEarnings)
+      // Fetch additional stock details for P/E ratios and analyst ratings
+      const symbols = filteredEarnings.map((e: EarningsItem) => e.symbol.split('.')[0])
+      const stockDetails = await fetchStockDetails(symbols)
+      
+      // Merge stock details with earnings data
+      const enrichedEarnings = filteredEarnings.map((earning: EarningsItem) => ({
+        ...earning,
+        peRatio: stockDetails[earning.symbol]?.peRatio,
+        analystRating: stockDetails[earning.symbol]?.analystRating,
+        marketCap: stockDetails[earning.symbol]?.marketCap
+      }))
+
+      setEarnings(enrichedEarnings)
+      setPagination({
+        page,
+        limit: pagination.limit,
+        total: data.pagination?.total || enrichedEarnings.length,
+        totalPages: data.pagination?.totalPages || Math.ceil(enrichedEarnings.length / pagination.limit)
+      })
     } catch (error) {
       console.error('Error fetching earnings:', error)
       setError(error instanceof Error ? error.message : 'An error occurred')
@@ -131,11 +252,11 @@ export function EarningsCalendar() {
     } finally {
       setLoading(false)
     }
-  }, [searchSymbol, timeFilter, selectedExchange])
+  }, [searchSymbol, timeFilter, selectedExchange, pagination.limit, fetchStockDetails])
 
   useEffect(() => {
-    fetchEarnings()
-  }, [fetchEarnings])
+    fetchEarnings(1)
+  }, [timeFilter, selectedExchange, searchSymbol])
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -146,6 +267,11 @@ export function EarningsCalendar() {
 
     return () => clearTimeout(debounceTimer)
   }, [searchSymbol, searchStocks])
+
+  const handlePageChange = (page: number) => {
+    setPagination(prev => ({ ...prev, page }))
+    fetchEarnings(page)
+  }
 
   const handleEarningSelect = (earning: EarningsItem) => {
     setSelectedEarning(earning)
@@ -160,6 +286,64 @@ export function EarningsCalendar() {
   const handleSelectFromSearch = (result: any) => {
     setSearchSymbol(result.symbol)
     setSearchResults([])
+  }
+
+  const formatCurrency = (value: number | undefined | null) => {
+    if (!value) return 'N/A'
+    if (Math.abs(value) < 1) {
+      return `$${value.toFixed(3)}`
+    }
+    return `$${value.toFixed(2)}`
+  }
+
+  const formatLargeCurrency = (value: number | undefined | null) => {
+    if (!value) return 'N/A'
+    if (Math.abs(value) >= 1e9) {
+      return `$${(value / 1e9).toFixed(1)}B`
+    }
+    if (Math.abs(value) >= 1e6) {
+      return `$${(value / 1e6).toFixed(1)}M`
+    }
+    if (Math.abs(value) >= 1e3) {
+      return `$${(value / 1e3).toFixed(1)}K`
+    }
+    return `$${value.toFixed(2)}`
+  }
+
+  const getStockLogo = (symbol: string) => {
+    const cleanSymbol = symbol.split('.')[0].toLowerCase()
+    return `https://logo.clearbit.com/${cleanSymbol}.com`
+  }
+
+  const formatEarningsTime = (time: string, date: string) => {
+    const earningDate = parseISO(date)
+    const timeLabel = getTimeLabel(time || '')
+    const dateStr = format(earningDate, 'MMM dd')
+    
+    if (isToday(earningDate)) {
+      return `Today ${timeLabel}`
+    }
+    if (isTomorrow(earningDate)) {
+      return `Tomorrow ${timeLabel}`
+    }
+    return `${dateStr} ${timeLabel}`
+  }
+
+  const formatMarketCap = (value: number | undefined | null) => {
+    if (!value) return 'N/A'
+    if (value >= 1e12) return `$${(value / 1e12).toFixed(1)}T`
+    if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`
+    if (value >= 1e6) return `$${(value / 1e6).toFixed(1)}M`
+    return `$${value.toFixed(0)}`
+  }
+
+  const getAnalystRatingColor = (rating: string) => {
+    if (!rating) return 'text-gray-500'
+    const r = rating.toLowerCase()
+    if (r.includes('buy') || r.includes('strong buy')) return 'text-green-600'
+    if (r.includes('hold')) return 'text-yellow-600'
+    if (r.includes('sell')) return 'text-red-600'
+    return 'text-gray-600'
   }
 
   const getTimeLabel = (time: string) => {
@@ -179,35 +363,32 @@ export function EarningsCalendar() {
     return 'bg-orange-100 text-orange-800 border-orange-200'
   }
 
-  const formatCurrency = (value: number | undefined | null) => {
-    if (!value) return 'N/A'
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(value)
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={cn("min-h-screen transition-colors duration-200", 
+      theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50')}>      
       {/* Mobile View */}
       <div className="lg:hidden">
-        <div className="p-4 bg-white border-b sticky top-0 z-10">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <Calendar className="h-6 w-6 text-blue-600" />
-            Earnings Calendar
-          </h1>
+        <div className={cn("p-3 sm:p-4 border-b sticky top-0 z-10 backdrop-blur-lg",
+          theme === 'dark' ? 'bg-gray-900/95 border-gray-800' : 'bg-white/95 border-gray-200')}>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className={cn("text-xl sm:text-2xl font-bold flex items-center gap-2",
+              theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+              <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+              Earnings Calendar
+            </h1>
+            <ThemeToggle className="shrink-0" />
+          </div>
           
           {/* Search and Filters */}
           <div className="space-y-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
-                placeholder="Search stocks (e.g., AAPL, MSFT.US)"
+                placeholder="Search stocks (e.g., AAPL, MSFT)"
                 value={searchSymbol}
                 onChange={(e) => setSearchSymbol(e.target.value)}
-                className="pl-10"
+                className={cn("pl-10 text-sm",
+                  theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : '')}
               />
               {isSearching && (
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -217,19 +398,23 @@ export function EarningsCalendar() {
               
               {/* Search Results Dropdown */}
               {searchResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-20 mt-1">
+                <div className={cn("absolute top-full left-0 right-0 border rounded-lg shadow-lg z-20 mt-1",
+                  theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200')}>
                   <ScrollArea className="max-h-60">
                     {searchResults.map((result, index) => (
                       <button
                         key={index}
                         onClick={() => handleSelectFromSearch(result)}
-                        className="w-full px-4 py-2 text-left hover:bg-gray-50 border-b last:border-b-0 flex items-center justify-between"
+                        className={cn("w-full px-4 py-2 text-left hover:bg-opacity-50 border-b last:border-b-0 flex items-center justify-between text-sm",
+                          theme === 'dark' ? 'hover:bg-gray-700 border-gray-700 text-white' : 'hover:bg-gray-50 border-gray-200')}
                       >
                         <div>
                           <span className="font-medium">{result.symbol}</span>
-                          <span className="text-gray-600 ml-2 text-sm">{result.description}</span>
+                          <span className={cn("ml-2 text-xs", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                            {result.description?.slice(0, 30)}...
+                          </span>
                         </div>
-                        <span className="text-xs text-gray-400">{result.type}</span>
+                        <span className={cn("text-xs", theme === 'dark' ? 'text-gray-500' : 'text-gray-400')}>{result.type}</span>
                       </button>
                     ))}
                   </ScrollArea>
@@ -249,20 +434,18 @@ export function EarningsCalendar() {
                 </SelectContent>
               </Select>
               
-              <Select value={selectedExchange} onValueChange={setSelectedExchange}>
-                <SelectTrigger className="flex-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {EXCHANGES.map((exchange) => (
-                    <SelectItem key={exchange.value} value={exchange.value}>
-                      {exchange.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              
-              <Button onClick={fetchEarnings} variant="outline" size="icon" disabled={loading}>
+                <Select value={selectedExchange} onValueChange={setSelectedExchange}>
+                  <SelectTrigger className="flex-1">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {US_EXCHANGES.map((exchange) => (
+                      <SelectItem key={exchange.value} value={exchange.value}>
+                        {exchange.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>              <Button onClick={() => fetchEarnings(1)} variant="outline" size="icon" disabled={loading}>
                 <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
               </Button>
             </div>
@@ -311,44 +494,94 @@ export function EarningsCalendar() {
               {earnings.length === 0 ? (
                 <div className="text-center py-12">
                   <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No Earnings Found</h3>
-                  <p className="text-gray-600">No earnings scheduled for the selected period.</p>
+                  <h3 className={cn("text-lg font-semibold mb-2", theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+                    No Earnings Found
+                  </h3>
+                  <p className={cn("text-sm", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                    No earnings scheduled for the selected period.
+                  </p>
                 </div>
               ) : (
                 earnings.map((earning, index) => (
-                  <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer">
+                  <Card key={index} className={cn("hover:shadow-md transition-shadow cursor-pointer border",
+                    theme === 'dark' ? 'bg-gray-800 border-gray-700 hover:shadow-gray-900/50' : 'bg-white border-gray-200')}>
                     <Sheet open={isMobileDetailOpen} onOpenChange={setIsMobileDetailOpen}>
                       <SheetTrigger asChild>
                         <div onClick={() => handleEarningSelect(earning)}>
                           <CardHeader className="pb-3">
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
-                                  <Building2 className="h-5 w-5 text-blue-600" />
+                              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                                  <Image
+                                    src={getStockLogo(earning.symbol)}
+                                    alt={earning.symbol}
+                                    width={32}
+                                    height={32}
+                                    className="rounded-lg"
+                                    onError={(e) => {
+                                      e.currentTarget.style.display = 'none'
+                                    }}
+                                  />
+                                  <Building2 className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 absolute inset-0 m-auto" />
                                 </div>
-                                <div>
-                                  <h3 className="font-semibold text-gray-900">{earning.symbol}</h3>
-                                  <p className="text-sm text-gray-600">{earning.companyName || 'Company'}</p>
+                                <div className="min-w-0 flex-1">
+                                  <h3 className={cn("font-semibold text-sm sm:text-base truncate", 
+                                    theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+                                    {earning.symbol}
+                                  </h3>
+                                  <p className={cn("text-xs sm:text-sm truncate", 
+                                    theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                                    {earning.companyName || 'Company'}
+                                  </p>
                                 </div>
                               </div>
-                              <Badge className={cn("text-xs font-medium", getDateBadgeColor(earning.date))}>
-                                {format(parseISO(earning.date), 'MMM dd')}
-                              </Badge>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <Badge className={cn("text-xs font-medium px-2 py-1", getDateBadgeColor(earning.date))}>
+                                  {format(parseISO(earning.date), 'MMM dd')}
+                                </Badge>
+                                <Button
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    handleAlertClick(earning)
+                                  }}
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0"
+                                >
+                                  <Bell className="h-4 w-4 text-blue-600" />
+                                </Button>
+                              </div>
                             </div>
                           </CardHeader>
                           <CardContent className="pt-0">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-2 sm:gap-4">
                               <div>
-                                <p className="text-xs text-gray-600 mb-1">EPS Estimate</p>
-                                <p className="font-semibold">{formatCurrency(earning.epsEstimate)}</p>
+                                <p className={cn("text-xs mb-1", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>EPS Est.</p>
+                                <p className={cn("font-semibold text-sm", theme === 'dark' ? 'text-green-400' : 'text-green-600')}>
+                                  {formatCurrency(earning.epsEstimate)}
+                                </p>
                               </div>
                               <div>
-                                <p className="text-xs text-gray-600 mb-1">Time</p>
-                                <div className="flex items-center gap-1">
-                                  <Clock className="h-3 w-3 text-gray-400" />
-                                  <span className="text-sm">{getTimeLabel(earning.time || '')}</span>
-                                </div>
+                                <p className={cn("text-xs mb-1", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>P/E Ratio</p>
+                                <p className={cn("font-semibold text-sm", theme === 'dark' ? 'text-blue-400' : 'text-blue-600')}>
+                                  {earning.peRatio ? earning.peRatio.toFixed(1) : 'N/A'}
+                                </p>
                               </div>
+                            </div>
+                            <div className="mt-2 flex items-center justify-between">
+                              <div className="flex items-center gap-1">
+                                <Clock className="h-3 w-3 text-gray-400" />
+                                <span className={cn("text-xs", theme === 'dark' ? 'text-gray-300' : 'text-gray-600')}>
+                                  {formatEarningsTime(earning.time || '', earning.date)}
+                                </span>
+                              </div>
+                              {earning.analystRating && (
+                                <span className={cn("text-xs font-medium px-2 py-1 rounded-full", 
+                                  getAnalystRatingColor(earning.analystRating),
+                                  theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100')}>
+                                  {earning.analystRating}
+                                </span>
+                              )}
                             </div>
                           </CardContent>
                         </div>
@@ -380,16 +613,20 @@ export function EarningsCalendar() {
           {/* Main Panel */}
           <div className="flex-1 flex flex-col">
             {/* Header */}
-            <div className="p-6 bg-white border-b">
+            <div className={cn("p-6 border-b", theme === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200')}>
               <div className="flex items-center justify-between mb-6">
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <h1 className={cn("text-3xl font-bold flex items-center gap-3", 
+                  theme === 'dark' ? 'text-white' : 'text-gray-900')}>
                   <Calendar className="h-8 w-8 text-blue-600" />
                   Earnings Calendar
                 </h1>
-                <Button onClick={fetchEarnings} variant="outline" disabled={loading}>
-                  <RefreshCw className={cn("h-4 w-4 mr-2", loading && "animate-spin")} />
-                  Refresh
-                </Button>
+                <div className="flex items-center gap-3">
+                  <ThemeToggle />
+                  <Button onClick={() => fetchEarnings(1)} variant="outline" disabled={loading}>
+                    <RefreshCw className={cn("h-4 w-4 mr-2", loading && "animate-spin")} />
+                    Refresh
+                  </Button>
+                </div>
               </div>
               
               {/* Search and Filters */}
@@ -397,10 +634,10 @@ export function EarningsCalendar() {
                 <div className="relative flex-1 max-w-md">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                   <Input
-                    placeholder="Search stocks (e.g., AAPL, MSFT.US)"
+                    placeholder="Search stocks (e.g., AAPL, MSFT)"
                     value={searchSymbol}
                     onChange={(e) => setSearchSymbol(e.target.value)}
-                    className="pl-10"
+                    className={cn("pl-10", theme === 'dark' ? 'bg-gray-800 border-gray-700 text-white' : '')}
                   />
                   {isSearching && (
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -410,19 +647,23 @@ export function EarningsCalendar() {
                   
                   {/* Search Results Dropdown */}
                   {searchResults.length > 0 && (
-                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-20 mt-1">
+                    <div className={cn("absolute top-full left-0 right-0 border rounded-lg shadow-lg z-20 mt-1",
+                      theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200')}>
                       <ScrollArea className="max-h-60">
                         {searchResults.map((result, index) => (
                           <button
                             key={index}
                             onClick={() => handleSelectFromSearch(result)}
-                            className="w-full px-4 py-2 text-left hover:bg-gray-50 border-b last:border-b-0 flex items-center justify-between"
+                            className={cn("w-full px-4 py-2 text-left hover:bg-opacity-50 border-b last:border-b-0 flex items-center justify-between",
+                              theme === 'dark' ? 'hover:bg-gray-700 border-gray-700 text-white' : 'hover:bg-gray-50 border-gray-200')}
                           >
                             <div>
                               <span className="font-medium">{result.symbol}</span>
-                              <span className="text-gray-600 ml-2 text-sm">{result.description}</span>
+                              <span className={cn("ml-2 text-sm", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                                {result.description}
+                              </span>
                             </div>
-                            <span className="text-xs text-gray-400">{result.type}</span>
+                            <span className={cn("text-xs", theme === 'dark' ? 'text-gray-500' : 'text-gray-400')}>{result.type}</span>
                           </button>
                         ))}
                       </ScrollArea>
@@ -446,7 +687,7 @@ export function EarningsCalendar() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {EXCHANGES.map((exchange) => (
+                    {US_EXCHANGES.map((exchange) => (
                       <SelectItem key={exchange.value} value={exchange.value}>
                         {exchange.label}
                       </SelectItem>
@@ -551,7 +792,7 @@ export function EarningsCalendar() {
 
           {/* Side Panel for Desktop */}
           {selectedEarning && (
-            <div className="w-1/3 border-l bg-white">
+            <div className={cn("w-1/3 border-l", theme === 'dark' ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200')}>
               <DetailPanel 
                 earning={selectedEarning} 
                 onClose={() => setSelectedEarning(null)}
@@ -560,6 +801,40 @@ export function EarningsCalendar() {
           )}
         </div>
       </div>
+
+      {/* Alert Dialog */}
+      <Dialog open={showAlertDialog} onOpenChange={setShowAlertDialog}>
+        <DialogContent className={cn(theme === 'dark' ? 'bg-gray-800 border-gray-700' : '')}>
+          <DialogHeader>
+            <DialogTitle className={cn(theme === 'dark' ? 'text-white' : '')}>
+              Set Earnings Alert for {selectedAlertEarning?.symbol}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className={cn("text-sm", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+              Choose when you'd like to be notified before the earnings announcement:
+            </p>
+            <div className="grid grid-cols-3 gap-3">
+              {[1, 5, 7].map((days) => (
+                <Button
+                  key={days}
+                  onClick={() => {
+                    if (selectedAlertEarning) {
+                      createAlert(selectedAlertEarning, days)
+                      setShowAlertDialog(false)
+                    }
+                  }}
+                  variant="outline"
+                  className="flex flex-col gap-1"
+                >
+                  <Bell className="h-4 w-4" />
+                  <span>{days} day{days > 1 ? 's' : ''}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

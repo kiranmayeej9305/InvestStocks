@@ -2,11 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import { format, isAfter } from 'date-fns';
+import { useTheme } from 'next-themes';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { X, Building2, TrendingUp, TrendingDown, AlertCircle, Calendar, DollarSign, BarChart3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ValidatedStockChart } from '@/components/tradingview/validated-stock-chart';
+import { StockFinancials } from '@/components/tradingview/stock-financials';
+import Image from 'next/image';
 
 interface DetailPanelProps {
   earning: any;
@@ -24,6 +28,7 @@ interface AnalysisData {
 }
 
 export function DetailPanel({ earning, onClose }: DetailPanelProps) {
+  const { theme } = useTheme()
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
   const [loading, setLoading] = useState(false);
   const [historicalData, setHistoricalData] = useState<any[]>([]);
@@ -82,31 +87,61 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
 
   const formatCurrency = (value: number | undefined) => {
     if (!value) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(value);
+    if (Math.abs(value) < 1) {
+      return `$${value.toFixed(3)}`;
+    }
+    return `$${value.toFixed(2)}`;
   };
 
-  const formatPercent = (value: number | undefined) => {
+  const formatLargeCurrency = (value: number | undefined) => {
     if (!value) return 'N/A';
-    return `${value > 0 ? '+' : ''}${value.toFixed(2)}%`;
+    if (Math.abs(value) >= 1e9) {
+      return `$${(value / 1e9).toFixed(1)}B`;
+    }
+    if (Math.abs(value) >= 1e6) {
+      return `$${(value / 1e6).toFixed(1)}M`;
+    }
+    if (Math.abs(value) >= 1e3) {
+      return `$${(value / 1e3).toFixed(1)}K`;
+    }
+    return `$${value.toFixed(2)}`;
+  };
+
+  const getStockLogo = (symbol: string) => {
+    const cleanSymbol = symbol.split('.')[0].toLowerCase();
+    return `https://logo.clearbit.com/${cleanSymbol}.com`;
   };
 
   if (!earning) return null;
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className={cn("flex flex-col h-full transition-colors duration-200", 
+      theme === 'dark' ? 'bg-gray-900' : 'bg-white')}>
       {/* Header */}
-      <div className="p-4 lg:p-6 border-b bg-gradient-to-r from-blue-50 to-indigo-50">
+      <div className={cn("p-4 lg:p-6 border-b", 
+        theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-gradient-to-r from-blue-50 to-indigo-50 border-gray-200')}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="relative w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
-              <Building2 className="h-6 w-6 text-gray-400" />
+              <Image
+                src={getStockLogo(earning.symbol)}
+                alt={earning.symbol}
+                width={48}
+                height={48}
+                className="rounded-xl"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+              <Building2 className="h-6 w-6 text-gray-400 absolute inset-0 m-auto" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">{earning.symbol}</h2>
-              <p className="text-sm text-gray-600">{format(new Date(earning.date), 'MMM dd, yyyy')}</p>
+              <h2 className={cn("text-xl font-bold", theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+                {earning.symbol}
+              </h2>
+              <p className={cn("text-sm", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                {format(new Date(earning.date), 'MMM dd, yyyy')}
+              </p>
             </div>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose} className="shrink-0">
@@ -132,36 +167,46 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
 
         {/* Key Metrics */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="bg-white rounded-lg p-3 shadow-sm border">
+          <div className={cn("rounded-lg p-3 shadow-sm border", 
+            theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200')}>
             <div className="flex items-center gap-2 mb-1">
               <Calendar className="h-4 w-4 text-blue-500" />
-              <span className="text-xs font-medium text-gray-600">Time</span>
+              <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>Time</span>
             </div>
-            <p className="text-sm font-semibold">{earning.time || 'BMO'}</p>
+            <p className={cn("text-sm font-semibold", theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+              {earning.time || 'BMO'}
+            </p>
           </div>
           
-          <div className="bg-white rounded-lg p-3 shadow-sm border">
+          <div className={cn("rounded-lg p-3 shadow-sm border", 
+            theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200')}>
             <div className="flex items-center gap-2 mb-1">
               <DollarSign className="h-4 w-4 text-green-500" />
-              <span className="text-xs font-medium text-gray-600">EPS Est.</span>
+              <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>EPS Est.</span>
             </div>
-            <p className="text-sm font-semibold">{formatCurrency(earning.epsEstimate)}</p>
+            <p className={cn("text-sm font-semibold", theme === 'dark' ? 'text-green-400' : 'text-green-600')}>
+              {formatCurrency(earning.epsEstimate)}
+            </p>
           </div>
 
-          <div className="bg-white rounded-lg p-3 shadow-sm border">
+          <div className={cn("rounded-lg p-3 shadow-sm border", 
+            theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200')}>
             <div className="flex items-center gap-2 mb-1">
               <BarChart3 className="h-4 w-4 text-purple-500" />
-              <span className="text-xs font-medium text-gray-600">Revenue Est.</span>
+              <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>Revenue Est.</span>
             </div>
-            <p className="text-sm font-semibold">{formatCurrency(earning.revenueEstimate)}</p>
+            <p className={cn("text-sm font-semibold", theme === 'dark' ? 'text-purple-400' : 'text-purple-600')}>
+              {formatLargeCurrency(earning.revenueEstimate)}
+            </p>
           </div>
 
-          <div className="bg-white rounded-lg p-3 shadow-sm border">
+          <div className={cn("rounded-lg p-3 shadow-sm border", 
+            theme === 'dark' ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200')}>
             <div className="flex items-center gap-2 mb-1">
               <TrendingUp className="h-4 w-4 text-orange-500" />
-              <span className="text-xs font-medium text-gray-600">Price Target</span>
+              <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>Price Target</span>
             </div>
-            <p className="text-sm font-semibold">
+            <p className={cn("text-sm font-semibold", theme === 'dark' ? 'text-orange-400' : 'text-orange-600')}>
               {analysis?.price_target ? formatCurrency(analysis.price_target) : 'N/A'}
             </p>
           </div>
@@ -231,57 +276,38 @@ export function DetailPanel({ earning, onClose }: DetailPanelProps) {
             </Card>
           )}
 
-          {/* Historical Performance */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-purple-500" />
-              Historical Performance
-            </h3>
-            
-            {/* Placeholder for chart */}
-            <div className="bg-gray-50 rounded-lg p-8 text-center">
-              <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-600 text-sm">Historical earnings chart will be displayed here</p>
-              <p className="text-gray-500 text-xs mt-1">Data visualization coming soon</p>
-            </div>
-
-            {/* Historical Data Table */}
-            <div className="mt-6">
-              <h4 className="text-md font-medium mb-3">Recent Earnings History</h4>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left py-2">Quarter</th>
-                      <th className="text-right py-2">EPS Actual</th>
-                      <th className="text-right py-2">EPS Est.</th>
-                      <th className="text-right py-2">Surprise %</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b">
-                      <td className="py-2 text-gray-600">Q3 2023</td>
-                      <td className="py-2 text-right font-medium">$2.45</td>
-                      <td className="py-2 text-right text-gray-600">$2.40</td>
-                      <td className="py-2 text-right text-green-600">+2.1%</td>
-                    </tr>
-                    <tr className="border-b">
-                      <td className="py-2 text-gray-600">Q2 2023</td>
-                      <td className="py-2 text-right font-medium">$2.12</td>
-                      <td className="py-2 text-right text-gray-600">$2.20</td>
-                      <td className="py-2 text-right text-red-600">-3.6%</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2 text-gray-600">Q1 2023</td>
-                      <td className="py-2 text-right font-medium">$1.98</td>
-                      <td className="py-2 text-right text-gray-600">$1.95</td>
-                      <td className="py-2 text-right text-green-600">+1.5%</td>
-                    </tr>
-                  </tbody>
-                </table>
+          {/* Technical Analysis and Financials */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card className={cn("p-6", theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200')}>
+              <h3 className={cn("text-lg font-semibold mb-4 flex items-center gap-2",
+                theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+                <BarChart3 className="h-5 w-5 text-purple-500" />
+                Technical Chart
+              </h3>
+              
+              <div className="h-80 rounded-lg overflow-hidden">
+                <ValidatedStockChart 
+                  symbol={earning.symbol}
+                  userPlan="premium"
+                  userEmail="user@example.com"
+                />
               </div>
-            </div>
-          </Card>
+            </Card>
+
+            <Card className={cn("p-6", theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200')}>
+              <h3 className={cn("text-lg font-semibold mb-4 flex items-center gap-2",
+                theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+                <TrendingUp className="h-5 w-5 text-green-500" />
+                Financial Metrics
+              </h3>
+              
+              <div className="h-80 rounded-lg overflow-hidden">
+                <StockFinancials 
+                  props={earning.symbol}
+                />
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
