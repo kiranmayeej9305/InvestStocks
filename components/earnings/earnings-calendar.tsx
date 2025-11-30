@@ -160,11 +160,11 @@ export function EarningsCalendar() {
 
   // Calendar utility functions
   const getDaysOfWeek = () => {
-    const startOfWeek = new Date()
+    const tomorrow = new Date('2025-11-30') // Start from tomorrow
     const daysArray = []
     for (let i = 0; i < 7; i++) {
-      const day = new Date(startOfWeek)
-      day.setDate(startOfWeek.getDate() + i)
+      const day = new Date(tomorrow)
+      day.setDate(tomorrow.getDate() + i)
       daysArray.push(day)
     }
     return daysArray
@@ -587,10 +587,10 @@ export function EarningsCalendar() {
                     <Sheet open={isMobileDetailOpen} onOpenChange={setIsMobileDetailOpen}>
                       <SheetTrigger asChild>
                         <div onClick={() => handleEarningSelect(earning)}>
-                          <CardHeader className="pb-3">
+                          <CardContent className="p-3">
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                                <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                              <div className="flex items-center gap-3 min-w-0">
+                                <div className="relative w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
                                   <Image
                                     src={getStockLogo(earning.symbol)}
                                     alt={earning.symbol}
@@ -601,67 +601,64 @@ export function EarningsCalendar() {
                                       e.currentTarget.style.display = 'none'
                                     }}
                                   />
-                                  <Building2 className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 absolute inset-0 m-auto" />
+                                  <Building2 className="h-4 w-4 text-blue-600 absolute inset-0 m-auto" />
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                  <h3 className={cn("font-semibold text-sm sm:text-base truncate", 
+                                  <h3 className={cn("font-semibold text-base truncate", 
                                     theme === 'dark' ? 'text-white' : 'text-gray-900')}>
                                     {earning.symbol}
                                   </h3>
-                                  <p className={cn("text-xs sm:text-sm truncate", 
-                                    theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
-                                    {earning.companyName || 'Company'}
-                                  </p>
+                                  <div className="flex items-center gap-2">
+                                    <Clock className="h-3 w-3 text-blue-500" />
+                                    <span className={cn("text-sm", 
+                                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                                      {formatEarningsTime(earning.time)}
+                                    </span>
+                                    <Badge className={cn("text-xs font-medium px-2 py-1", getDateBadgeColor(earning.date))}>
+                                      {format(parseISO(earning.date), 'MMM dd')}
+                                    </Badge>
+                                  </div>
                                 </div>
                               </div>
                               <div className="flex items-center gap-2 shrink-0">
-                                <Badge className={cn("text-xs font-medium px-2 py-1", getDateBadgeColor(earning.date))}>
-                                  {format(parseISO(earning.date), 'MMM dd')}
-                                </Badge>
+                                {hasAlert(earning.symbol) ? (
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      removeAlert(earning.symbol)
+                                    }}
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0 text-red-500 hover:text-red-600"
+                                  >
+                                    <Bell className="h-4 w-4" />
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setSelectedAlertEarning(earning)
+                                      setShowAlertDialog(true)
+                                    }}
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0 text-blue-500 hover:text-blue-600"
+                                  >
+                                    <Plus className="h-4 w-4" />
+                                  </Button>
+                                )}
                                 <Button
                                   onClick={(e) => {
                                     e.stopPropagation()
-                                    setSelectedAlertEarning(earning)
-                                    setShowAlertDialog(true)
+                                    setSelectedEarning(earning)
                                   }}
                                   variant="ghost"
                                   size="sm"
-                                  className="h-8 w-8 p-0"
+                                  className="h-8 w-8 p-0 text-green-500 hover:text-green-600"
                                 >
-                                  <Bell className="h-4 w-4 text-blue-600" />
+                                  <BarChart3 className="h-4 w-4" />
                                 </Button>
                               </div>
-                            </div>
-                          </CardHeader>
-                          <CardContent className="pt-0">
-                            <div className="grid grid-cols-2 gap-2 sm:gap-4">
-                              <div>
-                                <p className={cn("text-xs mb-1", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>EPS Est.</p>
-                                <p className={cn("font-semibold text-sm", theme === 'dark' ? 'text-green-400' : 'text-green-600')}>
-                                  {formatCurrency(earning.epsEstimate)}
-                                </p>
-                              </div>
-                              <div>
-                                <p className={cn("text-xs mb-1", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>P/E Ratio</p>
-                                <p className={cn("font-semibold text-sm", theme === 'dark' ? 'text-blue-400' : 'text-blue-600')}>
-                                  {earning.peRatio ? earning.peRatio.toFixed(1) : 'N/A'}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="mt-2 flex items-center justify-between">
-                              <div className="flex items-center gap-1">
-                                <Clock className="h-3 w-3 text-gray-400" />
-                                <span className={cn("text-xs", theme === 'dark' ? 'text-gray-300' : 'text-gray-600')}>
-                                  {formatEarningsTime(earning.time)}
-                                </span>
-                              </div>
-                              {earning.analystRating && (
-                                <span className={cn("text-xs font-medium px-2 py-1 rounded-full", 
-                                  getAnalystRatingColor(earning.analystRating),
-                                  theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100')}>
-                                  {earning.analystRating}
-                                </span>
-                              )}
                             </div>
                           </CardContent>
                         </div>
