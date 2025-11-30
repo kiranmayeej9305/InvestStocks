@@ -11,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { ThemeToggle } from '@/components/theme-toggle'
 import { 
   RefreshCw, 
   AlertCircle, 
@@ -27,11 +26,13 @@ import {
   Brain,
   Menu,
   Plus,
-  Settings
+  Settings,
+  DollarSign
 } from 'lucide-react'
 import { format, parseISO, isSameDay, isToday, isTomorrow, isPast } from 'date-fns'
 import { cn } from '@/lib/utils'
 import { DetailPanel } from './detail-panel'
+import { ValidatedStockChart } from '@/components/tradingview/validated-stock-chart'
 import Image from 'next/image'
 
 interface EarningsItem {
@@ -96,11 +97,12 @@ export function EarningsCalendar() {
     total: 0,
     totalPages: 0
   })
+  const [historicalData, setHistoricalData] = useState<{[key: string]: any[]}>({})
 
   // Alert management
-  const createAlert = useCallback(async (earning: EarningsItem, daysAhead: number) => {
+  const createAlert = async (earning: EarningsItem, daysAhead: number) => {
     try {
-      const response = await fetch('/api/earnings/alerts', {
+      const response = await fetch('/api/alerts/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -112,23 +114,35 @@ export function EarningsCalendar() {
       })
       
       if (response.ok) {
-        const newAlert: AlertData = {
-          symbol: earning.symbol,
-          date: earning.date,
-          daysAhead,
-          type: 'earnings',
-          enabled: true
-        }
+        const newAlert = await response.json()
         setAlerts(prev => [...prev, newAlert])
+        console.log(`Alert created for ${earning.symbol}`)
       }
     } catch (error) {
       console.error('Error creating alert:', error)
     }
-  }, [])
+  }
 
-  const handleAlertClick = (earning: EarningsItem) => {
-    setSelectedAlertEarning(earning)
-    setShowAlertDialog(true)
+  const removeAlert = async (symbol: string) => {
+    try {
+      const alertToRemove = alerts.find(a => a.symbol === symbol && a.type === 'earnings')
+      if (!alertToRemove) return
+      
+      const response = await fetch(`/api/alerts/${alertToRemove.symbol}`, {
+        method: 'DELETE'
+      })
+      
+      if (response.ok) {
+        setAlerts(prev => prev.filter(a => !(a.symbol === symbol && a.type === 'earnings')))
+        console.log(`Alert removed for ${symbol}`)
+      }
+    } catch (error) {
+      console.error('Error removing alert:', error)
+    }
+  }
+
+  const hasAlert = (symbol: string) => {
+    return alerts.some(a => a.symbol === symbol && a.type === 'earnings')
   }
 
   // Stock search functionality
@@ -187,6 +201,41 @@ export function EarningsCalendar() {
     }
   }, [])
 
+  const fetchHistoricalEarnings = useCallback(async (symbols: string[]) => {
+    if (symbols.length === 0) return {}
+    
+    try {
+      const results: {[key: string]: any[]} = {}
+      
+      // Fetch historical data for each symbol
+      const promises = symbols.map(async (symbol) => {
+        try {
+          const response = await fetch(`/api/earnings/historical?symbol=${symbol}&limit=8`)
+          if (response.ok) {
+            const data = await response.json()
+            return { symbol, data: data.earnings || [] }
+          }
+          return { symbol, data: [] }
+        } catch (error) {
+          console.error(`Error fetching historical earnings for ${symbol}:`, error)
+          return { symbol, data: [] }
+        }
+      })
+      
+      const allResults = await Promise.all(promises)
+      allResults.forEach(result => {
+        if (result.symbol) {
+          results[result.symbol] = result.data
+        }
+      })
+      
+      return results
+    } catch (error) {
+      console.error('Error fetching historical earnings:', error)
+      return {}
+    }
+  }, [])
+
   // Fetch earnings data with pagination and filtering
   const fetchEarnings = useCallback(async (page = 1) => {
     try {
@@ -229,6 +278,10 @@ export function EarningsCalendar() {
       // Fetch additional stock details for P/E ratios and analyst ratings
       const symbols = filteredEarnings.map((e: EarningsItem) => e.symbol.split('.')[0])
       const stockDetails = await fetchStockDetails(symbols)
+      const historicalEarnings = await fetchHistoricalEarnings(symbols)
+      
+      // Update historical data state
+      setHistoricalData(historicalEarnings)
       
       // Merge stock details with earnings data
       const enrichedEarnings = filteredEarnings.map((earning: EarningsItem) => ({
@@ -315,20 +368,6 @@ export function EarningsCalendar() {
     return `https://logo.clearbit.com/${cleanSymbol}.com`
   }
 
-  const formatEarningsTime = (time: string, date: string) => {
-    const earningDate = parseISO(date)
-    const timeLabel = getTimeLabel(time || '')
-    const dateStr = format(earningDate, 'MMM dd')
-    
-    if (isToday(earningDate)) {
-      return `Today ${timeLabel}`
-    }
-    if (isTomorrow(earningDate)) {
-      return `Tomorrow ${timeLabel}`
-    }
-    return `${dateStr} ${timeLabel}`
-  }
-
   const formatMarketCap = (value: number | undefined | null) => {
     if (!value) return 'N/A'
     if (value >= 1e12) return `$${(value / 1e12).toFixed(1)}T`
@@ -346,9 +385,19 @@ export function EarningsCalendar() {
     return 'text-gray-600'
   }
 
+  const formatEarningsTime = (time?: string) => {
+    if (!time) return 'TBD'
+    switch (time.toLowerCase()) {
+      case 'bmo': return 'Before Market Open'
+      case 'amc': return 'After Market Close'
+      case 'dmt': return 'During Market Hours'
+      default: return time
+    }
+  }
+
   const getTimeLabel = (time: string) => {
-    switch (time) {
-      case 'bmo': return 'Before Market'
+    switch (time?.toLowerCase()) {
+      case 'bmo': return 'Pre-Market'
       case 'amc': return 'After Market'
       case 'dmt': return 'During Market'
       default: return time || 'TBD'
@@ -376,7 +425,6 @@ export function EarningsCalendar() {
               <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
               Earnings Calendar
             </h1>
-            <ThemeToggle className="shrink-0" />
           </div>
           
           {/* Search and Filters */}
@@ -542,7 +590,8 @@ export function EarningsCalendar() {
                                 <Button
                                   onClick={(e) => {
                                     e.stopPropagation()
-                                    handleAlertClick(earning)
+                                    setSelectedAlertEarning(earning)
+                                    setShowAlertDialog(true)
                                   }}
                                   variant="ghost"
                                   size="sm"
@@ -572,7 +621,7 @@ export function EarningsCalendar() {
                               <div className="flex items-center gap-1">
                                 <Clock className="h-3 w-3 text-gray-400" />
                                 <span className={cn("text-xs", theme === 'dark' ? 'text-gray-300' : 'text-gray-600')}>
-                                  {formatEarningsTime(earning.time || '', earning.date)}
+                                  {formatEarningsTime(earning.time)}
                                 </span>
                               </div>
                               {earning.analystRating && (
@@ -621,7 +670,6 @@ export function EarningsCalendar() {
                   Earnings Calendar
                 </h1>
                 <div className="flex items-center gap-3">
-                  <ThemeToggle />
                   <Button onClick={() => fetchEarnings(1)} variant="outline" disabled={loading}>
                     <RefreshCw className={cn("h-4 w-4 mr-2", loading && "animate-spin")} />
                     Refresh
@@ -740,49 +788,164 @@ export function EarningsCalendar() {
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="space-y-6">
                   {earnings.map((earning, index) => (
-                    <Card key={index} className="hover:shadow-lg transition-all duration-200 cursor-pointer border-2 hover:border-blue-200">
-                      <div onClick={() => setSelectedEarning(earning)}>
-                        <CardHeader className="pb-3">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold">
-                                {earning.symbol.slice(0, 2)}
+                    <Card key={index} className="hover:shadow-lg transition-all duration-200 border-2 hover:border-blue-200">
+                      {/* Company Header */}
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className="relative w-16 h-16 rounded-xl bg-white shadow-md border border-gray-200 flex items-center justify-center overflow-hidden">
+                              <Image
+                                src={getStockLogo(earning.symbol)}
+                                alt={earning.symbol}
+                                width={64}
+                                height={64}
+                                className="rounded-xl object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none'
+                                  const fallback = e.currentTarget.nextElementSibling as HTMLElement
+                                  if (fallback) fallback.style.display = 'block'
+                                }}
+                              />
+                              <Building2 className="h-8 w-8 text-gray-400 hidden" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-1">
+                                <h3 className={cn("text-xl font-bold", theme === 'dark' ? 'text-white' : 'text-gray-900')}>
+                                  {earning.symbol}
+                                </h3>
+                                <Badge className={cn("text-xs font-medium", getDateBadgeColor(earning.date))}>
+                                  {format(parseISO(earning.date), 'MMM dd')}
+                                </Badge>
                               </div>
-                              <div>
-                                <h3 className="font-bold text-gray-900">{earning.symbol}</h3>
-                                <p className="text-sm text-gray-600">{earning.companyName || 'Company'}</p>
+                              <p className={cn("text-sm mb-2", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                                {earning.companyName || 'Company Name'}
+                              </p>
+                              <div className="flex items-center gap-4 text-sm">
+                                <div className="flex items-center gap-1">
+                                  <Clock className="h-4 w-4 text-blue-500" />
+                                  <span className={cn("font-medium", theme === 'dark' ? 'text-blue-400' : 'text-blue-600')}>
+                                    {formatEarningsTime(earning.time)}
+                                  </span>
+                                </div>
+                                {earning.peRatio && (
+                                  <div className={cn("text-xs px-2 py-1 rounded-full", 
+                                    theme === 'dark' ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-700'
+                                  )}>
+                                    P/E: {earning.peRatio.toFixed(1)}
+                                  </div>
+                                )}
+                                {earning.analystRating && (
+                                  <Badge className={cn("text-xs", getAnalystRatingColor(earning.analystRating))}>
+                                    {earning.analystRating}
+                                  </Badge>
+                                )}
                               </div>
                             </div>
-                            <Badge className={cn("text-xs font-medium", getDateBadgeColor(earning.date))}>
-                              {format(parseISO(earning.date), 'MMM dd')}
-                            </Badge>
                           </div>
-                        </CardHeader>
-                        <CardContent className="pt-0">
-                          <div className="grid grid-cols-2 gap-4 mb-3">
-                            <div>
-                              <p className="text-xs text-gray-600 mb-1">EPS Estimate</p>
-                              <p className="font-semibold text-green-600">{formatCurrency(earning.epsEstimate)}</p>
-                            </div>
-                            <div>
-                              <p className="text-xs text-gray-600 mb-1">Revenue Est.</p>
-                              <p className="font-semibold text-blue-600">{formatCurrency(earning.revenueEstimate)}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-3 w-3 text-gray-400" />
-                              <span className="text-sm text-gray-600">{getTimeLabel(earning.time || '')}</span>
-                            </div>
-                            <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                          <div className="flex items-center gap-2">
+                            {hasAlert(earning.symbol) ? (
+                              <Button 
+                                onClick={() => removeAlert(earning.symbol)}
+                                variant="outline" 
+                                size="sm"
+                                className="text-red-600 border-red-200 hover:bg-red-50"
+                              >
+                                <Bell className="h-4 w-4 mr-1" />
+                                Remove Alert
+                              </Button>
+                            ) : (
+                              <Button 
+                                onClick={() => {
+                                  setSelectedAlertEarning(earning)
+                                  setShowAlertDialog(true)
+                                }}
+                                variant="outline" 
+                                size="sm"
+                                className="text-blue-600 border-blue-200 hover:bg-blue-50"
+                              >
+                                <Plus className="h-4 w-4 mr-1" />
+                                Add Alert
+                              </Button>
+                            )}
+                            <Button 
+                              onClick={() => setSelectedEarning(earning)}
+                              variant="outline" 
+                              size="sm"
+                              className="text-green-600 border-green-200 hover:bg-green-50"
+                            >
                               <BarChart3 className="h-4 w-4 mr-1" />
                               Analyze
                             </Button>
                           </div>
-                        </CardContent>
-                      </div>
+                        </div>
+                      </CardHeader>
+                      
+                      {/* Financial Metrics */}
+                      <CardContent className="pt-0">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                          <div className={cn("rounded-lg p-3 border", 
+                            theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-green-50 border-green-200'
+                          )}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <DollarSign className="h-4 w-4 text-green-500" />
+                              <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-700')}>EPS Est.</span>
+                            </div>
+                            <p className={cn("text-sm font-bold", theme === 'dark' ? 'text-green-400' : 'text-green-700')}>
+                              {formatCurrency(earning.epsEstimate)}
+                            </p>
+                          </div>
+                          
+                          <div className={cn("rounded-lg p-3 border", 
+                            theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-blue-50 border-blue-200'
+                          )}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <TrendingUp className="h-4 w-4 text-blue-500" />
+                              <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-700')}>Revenue Est.</span>
+                            </div>
+                            <p className={cn("text-sm font-bold", theme === 'dark' ? 'text-blue-400' : 'text-blue-700')}>
+                              {formatLargeCurrency(earning.revenueEstimate)}
+                            </p>
+                          </div>
+                          
+                          {earning.epsActual && (
+                            <div className={cn("rounded-lg p-3 border", 
+                              theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-purple-50 border-purple-200'
+                            )}>
+                              <div className="flex items-center gap-2 mb-1">
+                                <DollarSign className="h-4 w-4 text-purple-500" />
+                                <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-700')}>EPS Actual</span>
+                              </div>
+                              <p className={cn("text-sm font-bold", theme === 'dark' ? 'text-purple-400' : 'text-purple-700')}>
+                                {formatCurrency(earning.epsActual)}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {earning.marketCap && (
+                            <div className={cn("rounded-lg p-3 border", 
+                              theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-orange-50 border-orange-200'
+                            )}>
+                              <div className="flex items-center gap-2 mb-1">
+                                <Building2 className="h-4 w-4 text-orange-500" />
+                                <span className={cn("text-xs font-medium", theme === 'dark' ? 'text-gray-400' : 'text-gray-700')}>Market Cap</span>
+                              </div>
+                              <p className={cn("text-sm font-bold", theme === 'dark' ? 'text-orange-400' : 'text-orange-700')}>
+                                {formatLargeCurrency(earning.marketCap)}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* TradingView Chart */}
+                        <div className="mt-4">
+                          <ValidatedStockChart 
+                            symbol={earning.symbol}
+                            key={`${earning.symbol}-${theme}`}
+                          />
+                        </div>
+                      </CardContent>
                     </Card>
                   ))}
                 </div>
