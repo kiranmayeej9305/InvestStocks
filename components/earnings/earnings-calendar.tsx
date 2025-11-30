@@ -96,7 +96,6 @@ export function EarningsCalendar() {
     total: 0,
     totalPages: 0
   })
-  const [historicalData, setHistoricalData] = useState<{[key: string]: any[]}>({})
 
   // Alert management
   const createAlert = async (earning: EarningsItem, daysAhead: number) => {
@@ -257,41 +256,6 @@ export function EarningsCalendar() {
     }
   }, [])
 
-  const fetchHistoricalEarnings = useCallback(async (symbols: string[]) => {
-    if (symbols.length === 0) return {}
-    
-    try {
-      const results: {[key: string]: any[]} = {}
-      
-      // Fetch historical data for each symbol
-      const promises = symbols.map(async (symbol) => {
-        try {
-          const response = await fetch(`/api/earnings/historical?symbol=${symbol}&limit=8`)
-          if (response.ok) {
-            const data = await response.json()
-            return { symbol, data: data.earnings || [] }
-          }
-          return { symbol, data: [] }
-        } catch (error) {
-          console.error(`Error fetching historical earnings for ${symbol}:`, error)
-          return { symbol, data: [] }
-        }
-      })
-      
-      const allResults = await Promise.all(promises)
-      allResults.forEach(result => {
-        if (result.symbol) {
-          results[result.symbol] = result.data
-        }
-      })
-      
-      return results
-    } catch (error) {
-      console.error('Error fetching historical earnings:', error)
-      return {}
-    }
-  }, [])
-
   // Fetch earnings data with pagination and filtering
   const fetchEarnings = useCallback(async (page = 1) => {
     try {
@@ -338,10 +302,6 @@ export function EarningsCalendar() {
       // Fetch additional stock details for P/E ratios and analyst ratings
       const symbols = filteredEarnings.map((e: EarningsItem) => e.symbol.split('.')[0])
       const stockDetails = await fetchStockDetails(symbols)
-      const historicalEarnings = await fetchHistoricalEarnings(symbols)
-      
-      // Update historical data state
-      setHistoricalData(historicalEarnings)
       
       // Merge stock details with earnings data
       const enrichedEarnings = filteredEarnings.map((earning: EarningsItem) => ({
